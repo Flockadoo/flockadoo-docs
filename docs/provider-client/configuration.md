@@ -13,12 +13,13 @@ Prefer **`inferoute-client setup`** to change engine, model, or API key — see 
   - **session_queue_wait_seconds** — How long a same-session follow-up waits for a free slot instead of **503** (default **90**).
   - **request_timeout_seconds** — HTTP read/write timeout. Must cover the session queue wait plus inference (default **240**).
 - **provider** — Connection to the Inferoute platform.
-  - **api_key** — Provider API key for **this cluster** (from **My Clusters** → **Settings**). Required. The client refuses to start if this is empty or still `your_api_key_here`.
+  - **api_key** — Provider API key for **this cluster** (from **Clusters** → the cluster → **Settings** → **Client API key**). Required. The client refuses to start if this is empty or still `your_api_key_here`.
   - **url** — Inferoute platform URL. The install script sets `https://core.inferoute.com`. Do not point this at localhost unless you are developing against a local platform.
   - **provider_type** — `vllm` or `llama_cpp`. vLLM Metal uses `vllm`. llama.cpp uses `llama_cpp`.
   - **engine** — Local program: `vllm`, `vllm-metal`, or `llama_cpp`. Change this with `inferoute-client setup`.
   - **engine_bin** — Absolute path to the engine binary when it is not on `PATH` (typical for llama.cpp on Windows).
   - **model** — Catalog alias the client auto-starts (for example `Qwen/Qwen2.5-7B-Instruct`).
+  - **task** — `chat` or `embedding`, written by setup from the catalog. Empty means chat. llama.cpp serves `/v1/embeddings` only when this is `embedding` (auto-start then passes `--embeddings`). vLLM detects embedding models itself. Re-run setup instead of editing this by hand.
   - **auto_start** — When **true**, start the engine if **llm_url** is down, using the serve flags already in this file. Setup turns this on when it can find the binary on a single-node machine. On a multi-node master or worker, setup leaves this off. Existing configs without this field stay off. A process already bound on **llm_url** is not restarted.
   - **llm_url** — Local LLM API URL. For example, `http://127.0.0.1:8000` for vLLM and vLLM Metal, or `http://127.0.0.1:8081` for llama.cpp.
   - **gguf_file** — llama.cpp filename from the catalog, for example `qwen2.5-7b-instruct-q4_k_m.gguf`. Setup writes this.
@@ -26,7 +27,7 @@ Prefer **`inferoute-client setup`** to change engine, model, or API key — see 
   - **hf_hub_cache** — (vLLM, optional) HuggingFace hub cache directory. Default: `~/.cache/huggingface/hub`. The client uses this to find weights for the model vLLM is serving.
   - **model_path** — (vLLM, optional) Flat directory override when you use `hf download --local-dir` instead of the hub cache layout.
   - **hf_repo** — (optional) HuggingFace id when it differs from **model**. Setup writes this from the catalog.
-  - **tool_call_parser**, **max_model_len**, **rope_type**, **rope_base_context_len** — (optional) Catalog serve flags copied by setup so auto-start can rebuild the same engine command offline. Every catalog row has a `max_model_len`, so setup always writes it. Missing `tool_call_parser` means start **without** tool calling. Changing these by hand does not update a running engine — stop it and re-run setup. See [Approved model builds](approved-models.md).
+  - **tool_call_parser**, **reasoning_parser**, **max_model_len**, **rope_type**, **rope_base_context_len** — Catalog serve flags copied by setup so auto-start can rebuild the same engine command offline. Every catalog row has a `max_model_len`, so setup always writes it. Missing `tool_call_parser` means start **without** tool calling. `reasoning_parser` is set on models that think before they answer: vLLM and vLLM Metal then pass `--reasoning-parser`, and llama.cpp passes `--jinja` so thinking comes back apart from the answer. If you start the engine yourself, use the command setup prints. An engine started without that flag will not pass the reasoning check, and Inferoute will not send those requests here. Changing these by hand does not update a running engine. Stop it, re-run setup, and start the engine again. See [Approved model builds](approved-models.md).
 - **logging**
   - **level** — `debug`, `info`, `warn`, `error`.
   - **log_dir** — Directory for log files (default: `~/.local/state/inferoute/log`).

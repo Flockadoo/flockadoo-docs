@@ -8,7 +8,7 @@ You need an Inferoute account with a verified email. Multi-node workers run on *
 
 The owner sees one contact method on your request. It defaults to your account email.
 
-1. Open **Account Settings**.
+1. Open **Account settings** from the account menu.
 2. Stay on **Profile**.
 3. Under **How a cluster owner can reach you**, add Telegram and Discord if you want.
 4. Choose **Preferred contact**. Telegram and Discord stay off until that handle is filled in.
@@ -19,7 +19,7 @@ This is not a second login. Inferoute still emails your account address.
 ## Ask to join
 
 1. Open the cluster link the owner sent you, or go to **Explore** → **GPU clusters** and open a card.
-2. The list is only multi-node clusters. It is not **My Clusters** under **Inference** (those are clusters you own or already joined).
+2. The list is only multi-node clusters. It is not **Clusters** → **All clusters** (those are clusters you own or already joined).
 3. On the cluster page, read the model, OS, engine, GPU on the master, vLLM version, VRAM minimum, open slots (for example `1/2`), and the owner’s commission. Every machine uses the OS and engine shown on that page. Matching that GPU is what Inferoute tests. A different GPU may work, but we have not tested it. See [GPUs across nodes](multi-node-clusters.md#gpus-across-nodes).
 4. Click **Request invite**. The list itself has no invite button.
 
@@ -77,7 +77,7 @@ Ask the owner for **New code** first. The old code stops working.
 
 ## Start when the owner says
 
-Setup does not start the engine. It prints the command for your machine and saves it. The command uses the full path to the engine, so you do not have to activate a virtual environment first. **Copy vLLM command** on **Nodes** is different: it starts with `vllm`. If the shell says `vllm: command not found`, setup installed it in `~/.venv-vllm`. Activate that folder, or replace `vllm` with `~/.venv-vllm/bin/vllm`.
+Setup does not start the engine. It prints the command for your machine and saves it. The command uses the full path to the engine, so you do not have to activate a virtual environment first. **Copy master command** or **Copy worker command** on **Nodes** is different: it starts with `vllm`. If the shell says `vllm: command not found`, setup installed it in `~/.venv-vllm`. Activate that folder, or replace `vllm` with `~/.venv-vllm/bin/vllm`.
 
 Do not run that command until the owner says the master is up. You have **60 minutes** from then to join. If you are late, the engines stop and the owner starts the master again.
 

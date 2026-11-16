@@ -4,7 +4,7 @@ A monthly spending cap lets you set a dollar limit on how much a single API key 
 
 ## Where to set it
 
-1. Open **Usage** in the dashboard.
+1. Open **Usage** in the dashboard, then the **API keys** tab.
 2. Select the API key you want to limit.
 3. Go to the **Settings** tab.
 4. Turn on **Monthly Price Cap**, enter an amount, and click **Save cap**.
@@ -31,7 +31,7 @@ Because of that, if many requests are sent at the same time right as you approac
 
 **Each key has its own cap.** If you use several API keys, set a cap on each one you want to limit. There is no single account-wide cap in the dashboard today.
 
-**You still need balance in your account.** The monthly cap is an extra limit on top of your wallet. New requests also require at least **$1.00** available; below that you get HTTP **402** `Insufficient funds` even when you are under the cap. You can also turn on a [low balance email](../email-notifications.md) in Account Settings.
+**You still need balance in your account.** The monthly cap is an extra limit on top of your wallet. New requests also require at least **$1.00** available; below that you get HTTP **402** `Insufficient funds` even when you are under the cap. You can also turn on a [low balance email](../email-notifications.md) in **Account settings**.
 
 **Uncapped keys are unchanged.** Keys with the cap turned off behave as before; only keys with the cap enabled are limited.
 

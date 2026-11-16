@@ -16,7 +16,7 @@ If you have not installed the client yet, start with [Installation](../getting-s
 
 ## What the wizard asks
 
-1. **Provider API key or join code** — the prompt label. The key is on **My Clusters** → **Settings**. Required. See [Sign up and create a cluster](../getting-started/signup.md). A **join code** (`join-…`) goes in this same field. Setup then joins that multi-node cluster as a worker and does not ask you to pick an engine or a model. See [Joining a cluster](../provider/joining-a-cluster.md).
+1. **Provider API key or join code** — the prompt label. The key is on **Clusters** → the cluster → **Settings** → **Client API key**. Required. See [Sign up and create a cluster](../getting-started/signup.md). A **join code** (`join-…`) goes in this same field. Setup then joins that multi-node cluster as a worker and does not ask you to pick an engine or a model. See [Joining a cluster](../provider/joining-a-cluster.md).
 2. **Inference engine** — vLLM on Linux, vLLM Metal or llama.cpp on Apple Silicon, or llama.cpp on Windows.
 3. **Install if missing** — if the engine is not on the machine, the wizard offers to install it. On Linux, a GPU with compute capability **10.0** or higher (Blackwell, including RTX 50-series) also downloads FlashInfer kernels during the vLLM install. See [Setup: Linux](setup-linux.md).
 4. **Model** — fetches the approved catalog, **keeps only rows tagged for this engine** (`engines`), scores the rest against this GPU or unified memory, and lists rows that should fit (`runs_well`, `fits`, `tight`). Pick a number from the table. Windows only shows builds that include `llama_cpp`. See [Approved model builds](approved-models.md).
@@ -65,7 +65,7 @@ On Windows, use **Start Menu → Inferoute → Inferoute Client**. See [Setup: W
 
 When `auto_start` is on, later client starts will bring the engine up if `llm_url` is down — they replay the serve flags stored in config and will not spawn a second copy if that port is already in use.
 
-Then set prices on **My Clusters** → **Models**. See [Model pricing](../provider/model-pricing.md).
+Then set prices on **Clusters** → the cluster → **Models**. See [Model pricing](../provider/model-pricing.md).
 
 ## Non-interactive setup
 

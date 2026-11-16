@@ -25,12 +25,12 @@ The master has to be healthy before you can run **Test cluster** on the **Nodes*
 
 ## What you set on the cluster
 
-Open **My Clusters** (under **Inference**), select the cluster, and open **Nodes**.
+Open **Clusters** (under **Operate**), select the cluster, and open **Settings**. These four sit under **Multi-node only**.
 
-- **Intended model** — the catalog model setup installs. Save it before anyone runs setup. The page treats it as a reminder: it does not stop other models the client might register later.
-- **VRAM per node** — the minimum VRAM you expect on every machine. The page uses this, with the model, to say how many nodes you need.
-- **vLLM version** — optional. Setup installs this release on every Linux machine, with its own Python 3.12 through uv, so machines on different Linux releases can join the same cluster. The NVIDIA driver on each machine is the only host requirement. Leave it empty and the master's setup writes the release it installed. Workers then install that release. A machine that already has another release asks before it reinstalls. Workers install the pinned release without that question. A worker that runs setup before the master has reported a release stops and tells you to run the master first. Changing the pin does not reinstall a machine that already finished setup. Run setup again on that machine.
-- **Commission** — your cut of each payout. See [Cluster earnings](cluster-earnings.md).
+- **Intended model** — the catalog model setup installs. Choose **Catalog model** and click **Save model** before anyone runs setup. It is a reminder: it does not stop other models the client might register later.
+- **VRAM per node** — the minimum VRAM you expect on every machine. Click **Save VRAM**. The page uses this, with the model, to say how many nodes you need.
+- **vLLM version** — optional. Click **Save version**. Setup installs this release on every Linux machine, with its own Python 3.12 through uv, so machines on different Linux releases can join the same cluster. The NVIDIA driver on each machine is the only host requirement. Leave it empty and the master's setup writes the release it installed. Workers then install that release. A machine that already has another release asks before it reinstalls. Workers install the pinned release without that question. A worker that runs setup before the master has reported a release stops and tells you to run the master first. Changing the pin does not reinstall a machine that already finished setup. Run setup again on that machine.
+- **Commission** — your cut of each payout. Click **Save commission**. See [Cluster earnings](cluster-earnings.md).
 
 **Explore** → **GPU clusters** lists multi-node clusters as cards. Open a cluster to see the model, the GPU on the master, the vLLM version, the VRAM minimum, open slots (for example `1/2`), and your commission. People request an invite on that page, not on the list. Share the page link so someone can read the requirements before they ask to join.
 
@@ -89,10 +89,10 @@ If setup stops with `inferscaled did not answer`, read `~/.local/state/inferoute
 
 Start the master first. Once it is up, workers have **60 minutes** to join. vLLM waits that long for the last worker. Every machine uses the OS and engine shown on the cluster page. Do this:
 
-1. Deploy the cluster and save the intended model and VRAM per node on **Nodes**. That sets how many machines the model needs.
-2. Copy the cluster link from **Nodes** and send it to the people you want. They can also find it under **Explore** → **GPU clusters**.
+1. Deploy the cluster and save the intended model and VRAM per node on **Settings**. That sets how many machines the model needs.
+2. Click **Public link** on **Nodes** and send that page to the people you want. They can also find it under **Explore** → **GPU clusters**.
 3. They open that page and click **Request invite**. You accept on **Nodes**. They run setup with the join code.
-4. Setup does not start the engine. It prints the command for that machine. The command uses the full path to the engine, so you do not have to activate a virtual environment first. **Copy vLLM command** on **Nodes** is different: it starts with `vllm`. If the shell says `vllm: command not found`, setup installed it in `~/.venv-vllm`. Activate that folder, or replace `vllm` with `~/.venv-vllm/bin/vllm`.
+4. Setup does not start the engine. It prints the command for that machine. The command uses the full path to the engine, so you do not have to activate a virtual environment first. **Copy master command** or **Copy worker command** on **Nodes** is different: it starts with `vllm`. If the shell says `vllm: command not found`, setup installed it in `~/.venv-vllm`. Activate that folder, or replace `vllm` with `~/.venv-vllm/bin/vllm`.
 5. Run the command on the **master** first. Wait until it is up and waiting for the other machines.
 6. Each worker then runs the command setup printed for them. They have **60 minutes** from when the master is up.
 7. Then each person starts the client (`inferoute-client`). If the engine is not running, the client prints the command again. It does not start the engine for you.

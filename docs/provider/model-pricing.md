@@ -6,13 +6,14 @@ For example, if **inferoute-cluster1** and **inferoute-cluster2** both serve `Qw
 
 ## Where to edit prices
 
-1. Open **My Clusters** in the dashboard.
+1. Open **Clusters** (under **Operate**).
 2. Select a cluster (for example **inferoute-cluster1**).
 3. Open the **Models** tab.
-4. Edit **Input / 1M** and **Output / 1M**.
-5. Click **Save** on that row.
+4. Click **Edit price**.
+5. Set **Input** and **Output**. Both are dollars per 1 million tokens.
+6. Click **Save price**.
 
-New models start at the market-average price. You can change a model's price once it shows **Verified**, whether or not it shows **Serving** right now. A model that shows **Not verified** keeps the market-average price and can't be repriced.
+New models start at the market-average price. You can change a model's price once it shows **Verified**, whether or not it shows **Serving** right now. A model that shows **Not verified** stays on the market average, shows **Locked**, and can't be repriced.
 
 | Verification | Serving | Gets traffic | Can reprice |
 |---|---|---|---|
@@ -22,7 +23,7 @@ New models start at the market-average price. You can change a model's price onc
 
 Each model has a maximum price. Saving above it returns an error that states the maximum. Prices are in $/1M with up to 2 decimals.
 
-**Apply market averages to all** fills only the rows you can edit. It does not save automatically. If your prices differ a lot from the market average, you may see a confirmation before saving a single row.
+If the new price is more than 100% away from the current market average, the dialog **Price far from the market average** asks you to confirm. Click **Save price** to keep the number, or **Cancel** to leave it.
 
 ## Pricing is per cluster, not global
 
@@ -30,7 +31,7 @@ Each model has a maximum price. Saving above it returns an error that states the
 |-------------|--------|
 | Change prices on **inferoute-cluster1** | Only that cluster’s listed prices change |
 | Same model name on **inferoute-cluster2** | Unchanged unless you edit that cluster too |
-| **Models & Prices** (account-wide tab) | Read-only overview across clusters — not where you edit |
+| **Models & prices** (the tab on **Clusters**) | Read-only overview across clusters — not where you edit |
 
 Use the cluster **Models** tab when you want different prices per machine, region, or GPU tier. Set the same numbers on each cluster if you want uniform pricing everywhere.
 
@@ -38,10 +39,10 @@ Use the cluster **Models** tab when you want different prices per machine, regio
 
 All editable prices in the cluster **Models** tab are **per 1 million tokens** ($/1M):
 
-- **Input / 1M** — prompt / input tokens  
-- **Output / 1M** — completion / output tokens  
+- **Input** — prompt / input tokens
+- **Output** — completion / output tokens
 
-That matches how **Models & Prices** displays prices elsewhere in the dashboard.
+The page header says **Per 1M tokens.** **Models & prices** on **Clusters** uses the same units.
 
 ## Deploy wizard
 

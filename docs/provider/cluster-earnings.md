@@ -2,21 +2,21 @@
 
 Buyers pay for inference. After Inferoute’s fee, the rest is the cluster payout. A **single-node** cluster credits that whole payout to you.
 
-A **multi-node** cluster can split it. You set a **commission** on the **Nodes** tab. That percent comes off first. What remains is split evenly across the **master** (you) and every worker marked **In the cluster**.
+A **multi-node** cluster can split it. You set a **commission** on **Settings**. That percent comes off first. What remains is split evenly across the **master** (you) and every worker who has finished setup.
 
 ## Set the commission
 
-1. Open **My Clusters** under **Inference**.
+1. Open **Clusters** (under **Operate**).
 2. Select the multi-node cluster.
-3. Open **Nodes**.
-4. Under **Commission**, enter a percent from 0 to 100.
-5. Click **Save commission**.
+3. Open **Settings**.
+4. Under **Multi-node only**, find **Commission**.
+5. Set a percent from 0 to 100 and click **Save commission**.
 
 People see this percent on the cluster page (**Explore** → **GPU clusters**, then the cluster) before they request an invite.
 
-If you never save a commission, or no worker is **In the cluster** yet, you keep the whole payout.
+If you never save a commission, or no worker has finished setup yet, you keep the whole payout.
 
-Machines marked **Waiting to join** are not in the split. Only workers marked **In the cluster** are.
+A machine marked **Waiting to join** is not in the split. It joins the split once that chip is gone and the row shows **Healthy** or **Unhealthy**.
 
 ## Example
 
@@ -29,20 +29,22 @@ For example, a payout of **$100** on **inferoute-cluster1**, with commission **1
 | You, total | $40 |
 | Each worker | $30 |
 
-The Nodes page states the same rule: at 10% with two workers, you get the 10% plus one third of what remains.
+**Nodes** states the same rule: at 10% with two workers, you get the 10% plus one third of what remains. Change the percent on **Settings**. **Nodes** shows the split.
 
 At **100%** you keep the payout and workers get nothing. At **0%** the whole payout is split evenly, with no commission taken off first.
 
 ## Where it shows up
 
-The share is added to each person’s balance. Open **My Clusters**, then the **Earnings** tab. **Your balance** is that account balance (the same number **Withdraw** uses). **Earned today** on that page is income from clusters you **own**, and it is the cluster total before the split. A worker who does not own a cluster will not see their join income in **Earned today** there. It is still in **Your balance**.
+The share is added to each person’s balance. Open **Clusters**, then the **Earnings** tab. **Balance** is that account balance. **Payout settings** opens **Account settings** → **Payouts**. Payouts are not live yet, so nothing on that page is saved. **Earned today** on the **Balance** card is income from clusters you **own**, and it is the cluster total before the split. A worker who does not own a cluster will not see their join income in **Earned today** there. It is still in **Balance**. The chart on that page does include a worker’s own share.
 
-Open the cluster from **My Clusters** for the per-cluster **Earnings** tab:
+The period control is **7D** (last 7 days), **30D** (last 30 days), or **1Y** (last 12 months).
 
-| Who is looking | **Earned today** and **Total earnings** on that cluster |
+Open the cluster for its own **Earnings** tab. The period control there is **7D**, **30D**, or **90D** (last 13 weeks).
+
+| Who is looking | What **Earned** shows |
 | --- | --- |
-| You (the owner) | The cluster total, before commission and the worker split |
-| A worker | That person’s share only |
+| You (the owner) | The cluster payout after the platform fee, before commission and the worker split. The heading is **Earned**. |
+| A worker | That person’s share only. The heading is **Your share**. |
 
 A worker does not get their own cluster, a provider API key, or the **Nodes** and **Settings** tabs. They can open **Earnings**, **GPUs**, and **Models**. **Models** is read-only for them.
 

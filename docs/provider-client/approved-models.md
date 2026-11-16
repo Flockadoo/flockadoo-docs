@@ -71,6 +71,7 @@ curl -s https://core.inferoute.com/api/models/approved-builds | jq .
 | `engines` | Client runtimes allowed to serve this build: `vllm`, `vllm-metal`, `llama_cpp` |
 | `gguf_file` | llama.cpp filename, for example `qwen2.5-7b-instruct-q4_k_m.gguf`. Present on `llama_cpp` rows |
 | `tool_call_parser` | (vLLM optional) Parser name for auto tool calling, for example `hermes`. **Omit** (null) when the model does not support tools — setup and auto-start then start the engine **without** `--enable-auto-tool-choice` |
+| `reasoning_parser` | (optional) Set on models that think before they answer. vLLM and vLLM Metal start with `--reasoning-parser` and that name. llama.cpp starts with `--jinja`, which splits thinking from the answer. **Omit** (null) on models that do not reason |
 | `max_model_len` | Set on every row. The minimum context length every provider of this model must serve. Verification fails when the live engine serves less, and Inferoute checks "request is too long" errors against it |
 | `rope_type` | (vLLM optional) RoPE scaling type when YaRN is required, for example `yarn` |
 | `rope_base_context_len` | (vLLM optional) Base context used to compute the YaRN factor |
@@ -92,8 +93,8 @@ Windows clients fetch `?service_type=llama_cpp`. That response includes `gguf_fi
 
 | Engine | How `max_model_len` is applied | Tools / RoPE |
 |--------|--------------------------------|--------------|
-| **vLLM / vLLM Metal** | `--max-model-len N` | `--enable-auto-tool-choice --tool-call-parser …` when `tool_call_parser` is set; YaRN `--hf-overrides` when `rope_type` is set |
-| **llama.cpp** | `-c N` | `--jinja` when `tool_call_parser` is set. RoPE fields are ignored |
+| **vLLM / vLLM Metal** | `--max-model-len N` | `--enable-auto-tool-choice --tool-call-parser …` when `tool_call_parser` is set; `--reasoning-parser …` when `reasoning_parser` is set; YaRN `--hf-overrides` when `rope_type` is set |
+| **llama.cpp** | `-c N` | `--jinja` when `tool_call_parser` or `reasoning_parser` is set. RoPE fields are ignored |
 
 Default product target for extended models is **128k** (`131072`). Ops can set a higher value per alias when VRAM allows.
 

@@ -6,8 +6,8 @@ You need at least **$1.00** available in your wallet. Requests below that return
 
 ## Create a consumer API key
 
-1. Switch the dashboard to **Consumer** in the sidebar.
-2. Open **Usage**.
+1. Switch the top bar to **Consumer**.
+2. Open **Usage**, then the **API keys** tab. The sidebar item **API keys** opens that tab.
 3. Click **Create API key**.
 
 The full key is shown **once**. Store it somewhere safe.

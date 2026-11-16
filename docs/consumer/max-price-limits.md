@@ -6,10 +6,10 @@ You control how much you are willing to pay per request by setting **max input**
 
 Your **profile default** (**Default max price**) is the max price applied to new API keys unless you choose otherwise.
 
-These controls live on **Account Settings** and only show when the dashboard role is **Consumer**. Switch to **Consumer** in the sidebar if you do not see them.
+These controls live on **Account settings** and only show when the dashboard role is **Consumer**. Switch to **Consumer** in the top bar if you do not see them.
 
-1. Open **Account Settings** from the user menu.
-2. Stay on the **Profile** tab.
+1. Open **Account settings** from the account menu.
+2. Open **Profile**.
 3. Set **max input price** and **max output price** (shown as **per 1M tokens**).
 4. Click **Save**.
 
@@ -19,7 +19,7 @@ For example, you might set **$0.50** input and **$1.00** output per 1M tokens as
 
 Each API key can have its own max price. This is useful when one app needs cheaper models and another needs higher-quality routing.
 
-1. Open **Usage** and select an API key.
+1. Open **Usage**, then the **API keys** tab, and select an API key.
 2. Go to the **Settings** tab.
 3. Under **Max price per request**, edit **max input price** and **max output price**, then click **Save pricing**.
 

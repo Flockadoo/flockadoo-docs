@@ -5,9 +5,9 @@ Create an Inferoute account, deploy a provider cluster, and copy the **provider 
 ## Sign up
 
 1. Open [www.inferoute.com](https://www.inferoute.com).
-2. Click **Sign-up**.
-3. Enter your email, or continue with **Google** or **GitHub**.
-4. Open the **Complete your signup** email and choose a password (at least **8** characters). You land in the dashboard.
+2. Click **Connect your GPUs** (on a phone, **Connect GPUs**).
+3. On **Sign Up**, enter your email and click **Continue**, or choose **GOOGLE** or **GITHUB**.
+4. Open the **Complete your Inferoute signup** email. The link expires in **24 hours**. On **Choose a password**, set a password of at least **8** characters and click **Sign up**. You land in the dashboard.
 
 ## Choose Provider
 
@@ -17,59 +17,57 @@ On first login you see **Welcome Onboard!** and **Please, choose your role:**
 - **Consumer** — call models as a buyer
 - **I want both** — if you will do both
 
-Choose **Provider** (or **I want both**). You can switch between **Provider** and **Consumer** later in the dashboard sidebar.
+Choose **Provider** (or **I want both**). Switch between **Provider** and **Consumer** later with the control in the top bar.
+
+Two-factor authentication, sessions, and password changes live under **Account settings** → **Sign-in & security**. A login lasts **24 hours**. See [Sign-in and security](../account-security.md).
 
 ## Deploy a cluster
 
-1. Open **My Clusters** under **Inference**.
-2. Click **Deploy a Cluster**.
+1. Open **Clusters** (under **Operate**).
+2. Click **Deploy a cluster**.
 
-The wizard has three steps. The first step is titled **Check Compatibility**.
+The wizard has two steps.
 
-### 1. Check Compatibility
+### 1. Check compatibility
 
-Confirm your machine matches [Software and hardware requirements](requirements.md).
-
-Then set **Cluster type**:
+Set **Cluster type**:
 
 - **Single node** — one machine.
 - **Multi-node** — this key is the master. Share the cluster page so workers can request an invite. When the slots are filled, start the master first. Workers then have 60 minutes to join. See [Multi-node clusters](../provider/multi-node-clusters.md).
 
-If you pick **Multi-node**, those machines share a private network. Only create or join one with people you intend to share GPUs with. Read [Multi-node networking](../provider/multi-node-networking.md) before you generate a key or accept a join.
+If you pick **Multi-node**, those machines share a private network. Only create or join one with people you intend to share GPUs with. Read [Multi-node networking](../provider/multi-node-networking.md) before you create a key or accept a join.
 
-### 2. Software
-
-The engine depends on your operating system. You do not install it in this step.
+Then set **Operating system**. The page lists what that machine needs. You do not install the engine in this step. Setup installs it later if it is missing.
 
 - **Linux:** vLLM. You need an NVIDIA GPU.
 - **macOS:** vLLM Metal. Apple Silicon only. Intel Macs are not supported. The client [setup wizard](../provider-client/setup.md) on a Mac also offers llama.cpp. See [Setup: macOS](../provider-client/setup-mac.md).
 - **Windows:** llama.cpp. It does not serve every catalog model. Encoder and embedding models such as `baai/bge-m3` stay off Windows.
 
-Skip any vendor install links. The client [setup wizard](../provider-client/setup.md) installs the engine after you run the install command.
+Click **Next step**.
 
-### 3. Client (cluster name and API key)
+### 2. Create a key and install the client
 
 1. Set **Cluster name**. For example, `inferoute-cluster1`.
-2. Set **API key label** (defaults to `{cluster name} API key`).
-3. Click **generate API key**.
-4. Pick **Linux**, **macOS**, or **Windows** for the install command.
+2. Set **Key name**. It defaults to `{cluster name} API key`.
+3. Click **Create key**.
+4. Click **Copy**. The page says the key is shown once.
 
-The full key is shown **once**. Copy it before you leave the page. Store it somewhere safe; you will paste it into the install command next.
-
-The wizard shows an install command with your key filled in. You can copy that, or follow [Installation](installation.md) and substitute the key yourself.
+The install command is filled in. Copy it, or follow [Installation](installation.md) and substitute the key yourself. Click **Done, go to clusters** when you are finished.
 
 You set model prices **after** the client is running, on the cluster **Models** tab — see [Model pricing](../provider/model-pricing.md). Native Windows uses **llama.cpp**, not vLLM.
+
+On a multi-node cluster, run that command on the master first. Then set the intended model and minimum VRAM on the cluster **Settings** tab, and add workers from **Nodes**.
 
 ## Copy the key later from Settings
 
 If you already have a cluster and need the key again:
 
-1. Open **My Clusters** and select the cluster (for example **inferoute-cluster1**).
-2. Open the **Settings** tab.
+1. Open **Clusters** and select the cluster (for example **inferoute-cluster1**).
+2. Open **Settings**.
 
-You can **Create API Key** if the cluster has none, or **Re-Generate Key** for an existing key. Re-generating immediately invalidates the old secret — update the client config before you expect inference to work.
+Under **Client API key**, click **Create a key** if the cluster has none, or **Replace key** for an existing key. Replacing the key stops the old secret immediately. Copy the new secret from **Copy the new key** and restart the client before you expect inference to work.
 
-The full secret is only shown when you create or re-generate it. Settings otherwise shows a masked suffix.
+The full secret is only shown when you create or replace it. Settings otherwise shows a masked suffix.
 
 More on keys, pause, and delete: [Deleting and managing clusters](../provider/deleting-clusters.md). To add workers and split earnings, see [Inviting nodes](../provider/inviting-nodes.md) and [Cluster earnings](../provider/cluster-earnings.md).
 

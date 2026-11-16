@@ -22,7 +22,7 @@ Only members of this cluster. Other Inferoute clusters cannot see you. Buyers do
 
     On a multi-node cluster, vLLM listens on **8000** and llama.cpp listens on **8081**. Leave `--port` alone. Those two, plus a few other ports in the table below, are how the machines find each other. Pick a different port and the engine stays home on this machine.
 
-Setup and **Copy vLLM command** already use those ports. Change them and the other machines walk right past you. These are not the droids you are looking for. 
+Setup and **Copy master command** already use those ports. Change them and the other machines walk right past you. These are not the droids you are looking for. 
 
 
 | Traffic | Why it is open |

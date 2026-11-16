@@ -4,12 +4,12 @@ You invite workers to a multi-node cluster you own. They ask to join. You accept
 
 ## Create the cluster
 
-1. Open **My Clusters** under **Inference**.
-2. Click **Deploy a Cluster**.
-3. On **Check Compatibility**, set **Cluster type** to **Multi-node**.
-4. Finish the wizard and copy the provider API key. That key is the **master**. It is shown once.
+1. Open **Clusters** (under **Operate**).
+2. Click **Deploy a cluster**.
+3. On **Check compatibility**, set **Cluster type** to **Multi-node**.
+4. Click **Next step**, create the key, and copy it. That key is the **master**. It is shown once.
 
-Run `inferoute-client setup` on your machine with that key. The prompt is **Provider API key or join code**. Setup sees a multi-node cluster and installs this machine as the master. It uses the **intended model** you saved on **Nodes**. If no model is saved, setup stops with `cluster … has no model set. Choose one in the dashboard, then re-run setup`.
+Run `inferoute-client setup` on your machine with that key. The prompt is **Provider API key or join code**. Setup sees a multi-node cluster and installs this machine as the master. It uses the **intended model** you saved on **Settings**. If no model is saved, setup stops with `cluster … has no model set. Choose one in the dashboard, then re-run setup`.
 
 Setup downloads **inferscale** and may ask for your password (`inferscale needs root to create inferscale0`). It prints the vLLM command and does not start the engine. See [How the machines connect](multi-node-clusters.md#how-the-machines-connect).
 
@@ -34,11 +34,11 @@ They can **Cancel request** while it is still pending. Then it disappears from *
 
 ## After they join
 
-**Nodes** lists each machine: role (**Master** or **Worker**), whether they are in the cluster, and health. A worker shows up there after setup uses the code. Before that, they stay under **Invited**.
+**Nodes** lists each machine: role (**MASTER** or **WORKER**), health (**Healthy**, **Unhealthy**, or **Waiting to join**). A worker shows up there after setup uses the code. Before that, they stay under **Invited**.
 
 The join code works **once**. After setup uses it, that code cannot be used again.
 
-When enough machines are in, start the master first. Once it is up, tell the workers. They have **60 minutes** to join. See [Start the master first](multi-node-clusters.md#start-the-master-first). Copy the cluster link on **Nodes** and send that page before they request an invite, so they can read the model, the GPU on the master, and the VRAM first. Same GPU on every machine is what Inferoute tests. See [GPUs across nodes](multi-node-clusters.md#gpus-across-nodes).
+When enough machines are in, start the master first. Once it is up, tell the workers. They have **60 minutes** to join. See [Start the master first](multi-node-clusters.md#start-the-master-first). Click **Public link** on **Nodes** and send that page before they request an invite, so they can read the model, the GPU on the master, and the VRAM first. Same GPU on every machine is what Inferoute tests. See [GPUs across nodes](multi-node-clusters.md#gpus-across-nodes).
 
 **Invited** lists people you accepted who have not finished setup. It shows the same contact as the request. It does not show the code.
 
