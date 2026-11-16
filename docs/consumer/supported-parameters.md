@@ -34,7 +34,7 @@ If you force a tool call (`"required"` or a named function), the tool's `paramet
 
 Some models think before they answer: Qwen3, DeepSeek-R1, gpt-oss, and Gemma 4. Their thinking arrives apart from the answer, in its own field. Inferoute passes the provider's engine output through unchanged, so the field's name depends on the engine: `reasoning` from vLLM, `reasoning_content` from llama.cpp. Neither is part of OpenAI's schema; treat both as optional provider extensions.
 
-If you only want the answer, read `content` as usual; the thinking is not in it.
+If you only want the answer, read `content` as usual; the thinking is not in it. Inferoute serves a reasoning model only from providers whose engine was checked to send the thinking apart from the answer. While that check is still running for every provider of the model, the request returns **503**; if every provider failed it, **400** `capability_unavailable`.
 
 To show the thinking, read whichever field is present. In a stream:
 
@@ -56,7 +56,7 @@ thinking = getattr(delta, "reasoning", None) or getattr(delta, "reasoning_conten
 
 Thinking is generated output. It starts a stream, keeps it inside the time limits below, counts toward the output limit, and is billed as output.
 
-`reasoning_effort` is `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. `none` turns thinking off. Any other value turns it on for a model that only thinks when asked (Gemma 4). How much the other levels change the answer depends on the model. Any other value, or `reasoning_effort` on `/v1/completions`, returns **400**.
+`reasoning_effort` is `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. `none` turns thinking off. Any other value turns it on for a model that only thinks when asked (Gemma 4). How much the other levels change the answer depends on the model. A level other than `none` on a model that does not reason returns **400** `capability_unavailable`. Any other value, or `reasoning_effort` on `/v1/completions`, returns **400**.
 
 ## Embeddings
 
