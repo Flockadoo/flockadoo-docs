@@ -32,7 +32,27 @@ If you force a tool call (`"required"` or a named function), the tool's `paramet
 
 ### Reasoning models
 
-Some models think before they answer: Qwen3, DeepSeek-R1, gpt-oss, and Gemma 4. Their thinking arrives apart from the answer, in the streamed `delta` and in the non-streamed `message`. The field depends on the provider's engine: `reasoning` from vLLM, `reasoning_content` from llama.cpp, so read both.
+Some models think before they answer: Qwen3, DeepSeek-R1, gpt-oss, and Gemma 4. Their thinking arrives apart from the answer, in its own field. Inferoute passes the provider's engine output through unchanged, so the field's name depends on the engine: `reasoning` from vLLM, `reasoning_content` from llama.cpp. Neither is part of OpenAI's schema; treat both as optional provider extensions.
+
+If you only want the answer, read `content` as usual; the thinking is not in it.
+
+To show the thinking, read whichever field is present. In a stream:
+
+```javascript
+const thinking = delta.reasoning ?? delta.reasoning_content;
+```
+
+In a response that is not streamed, read the same fields from `message`:
+
+```javascript
+const thinking = message.reasoning ?? message.reasoning_content;
+```
+
+With the OpenAI Python SDK the fields are extra attributes:
+
+```python
+thinking = getattr(delta, "reasoning", None) or getattr(delta, "reasoning_content", None)
+```
 
 Thinking is generated output. It starts a stream, keeps it inside the time limits below, counts toward the output limit, and is billed as output.
 
