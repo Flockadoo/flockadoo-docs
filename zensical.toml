@@ -7,7 +7,7 @@ site_dir = "site"
 repo_url = "https://github.com/Inferoute/inferoute-docs"
 repo_name = "inferoute-docs"
 edit_uri = "edit/main/docs/"
-copyright = "&copy; 2026 Inferoute"
+copyright = "&copy; 2026 Inferoute (Pty) Ltd · <a href=\"https://inferoute.com/terms\">Terms</a> · <a href=\"https://inferoute.com/privacy\">Privacy</a>"
 extra_css = ["stylesheets/inferoute.css"]
 
 nav = [
