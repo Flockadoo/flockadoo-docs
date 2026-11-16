@@ -4,7 +4,7 @@ Inferoute accepts an OpenAI-shaped request and forwards the parameters both vLLM
 
 ## Chat and completions
 
-You can send `model`, `messages` or `prompt`, `stream`, `max_tokens`, `max_completion_tokens`, `temperature`, `top_p`, `top_k`, `min_p`, `stop`, `seed`, `frequency_penalty`, `presence_penalty`, `repetition_penalty`, `tools`, `tool_choice`, `response_format`, `logprobs`, `top_logprobs`, and `stream_options`. Chat requests can also send `reasoning_effort` (see [Reasoning models](#reasoning-models)).
+You can send `model`, `messages` or `prompt`, `stream`, `max_tokens`, `max_completion_tokens`, `temperature`, `top_p`, `top_k`, `min_p`, `stop`, `seed`, `frequency_penalty`, `presence_penalty`, `tools`, `tool_choice`, `response_format`, `logprobs`, `top_logprobs`, and `stream_options`. Chat requests can also send `reasoning_effort` (see [Reasoning models](#reasoning-models)).
 
 `n` and `best_of` may be `1`. Any larger value returns **400**. Inferoute bills one completion.
 
