@@ -335,7 +335,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/model_pricing.Prices"
+                                "$ref": "#/components/schemas/pricing.Prices"
                             }
                         }
                     },
@@ -941,40 +941,8 @@
                     "model_prices": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/model_pricing.ModelPricing"
+                            "$ref": "#/components/schemas/pricing.ModelPricing"
                         }
-                    }
-                }
-            },
-            "model_pricing.ModelPricing": {
-                "type": "object",
-                "properties": {
-                    "avg_input_price": {
-                        "type": "number"
-                    },
-                    "avg_output_price": {
-                        "type": "number"
-                    },
-                    "model_name": {
-                        "type": "string"
-                    },
-                    "sample_size": {
-                        "type": "integer"
-                    }
-                }
-            },
-            "model_pricing.Prices": {
-                "type": "object",
-                "required": [
-                    "input_price_per_1m",
-                    "output_price_per_1m"
-                ],
-                "properties": {
-                    "input_price_per_1m": {
-                        "type": "integer"
-                    },
-                    "output_price_per_1m": {
-                        "type": "integer"
                     }
                 }
             },
@@ -1044,6 +1012,10 @@
                     "provider_count": {
                         "description": "ProviderCount and ServingProviderCount are distinct providers configured for this model,\nand those that can take traffic now. Filled by the public catalog list.",
                         "type": "integer"
+                    },
+                    "reasoning_parser": {
+                        "description": "ReasoningParser is vLLM's --reasoning-parser for a model that thinks\nbefore it answers. The client starts the engine with it.",
+                        "type": "string"
                     },
                     "recommended_concurrency": {
                         "description": "RecommendedConcurrency is how many requests this model should handle\nat once on a typical GPU. NULL means the client uses its engine default.",
@@ -1196,6 +1168,38 @@
                     },
                     "user": {
                         "type": "string"
+                    }
+                }
+            },
+            "pricing.ModelPricing": {
+                "type": "object",
+                "properties": {
+                    "avg_input_price": {
+                        "type": "number"
+                    },
+                    "avg_output_price": {
+                        "type": "number"
+                    },
+                    "model_name": {
+                        "type": "string"
+                    },
+                    "sample_size": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "pricing.Prices": {
+                "type": "object",
+                "required": [
+                    "input_price_per_1m",
+                    "output_price_per_1m"
+                ],
+                "properties": {
+                    "input_price_per_1m": {
+                        "type": "integer"
+                    },
+                    "output_price_per_1m": {
+                        "type": "integer"
                     }
                 }
             },
