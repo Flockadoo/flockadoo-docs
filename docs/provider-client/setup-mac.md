@@ -11,7 +11,7 @@ Use this guide when you run the provider client natively on a Mac with Apple Sil
    curl -fsSL https://raw.githubusercontent.com/inferoute/inferoute-client/main/scripts/install.sh | bash
    ```
 
-The [setup wizard](setup.md) offers **vLLM Metal** or **llama.cpp**. It installs the one you pick if it is missing, and shows which models fit this Mac. vLLM Metal serves on `http://127.0.0.1:8000`. llama.cpp installs into `~/.local/share/inferoute/llama.cpp` and serves on `http://127.0.0.1:8081`. Re-run anytime:
+The [setup wizard](setup.md) offers **vLLM Metal** or **llama.cpp**. It installs the one you pick if it is missing, offers to replace a vLLM Metal release older than **0.30.0** (see [Supported engine versions](setup.md#supported-engine-versions)), and shows which models fit this Mac. vLLM Metal serves on `http://127.0.0.1:8000`. llama.cpp installs into `~/.local/share/inferoute/llama.cpp` and serves on `http://127.0.0.1:8081`. Re-run anytime:
 
 ```bash
 inferoute-client setup

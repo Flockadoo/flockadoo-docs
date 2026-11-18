@@ -39,6 +39,7 @@ curl -s https://core.inferoute.com/api/models/approved-builds | jq .
       "max_model_len": 131072,
       "rope_type": "yarn",
       "rope_base_context_len": 32768,
+      "rope_theta": 1000000,
       "kv_cache_bytes_per_token": 57344,
       "engines": ["vllm", "vllm-metal"]
     },
@@ -52,8 +53,6 @@ curl -s https://core.inferoute.com/api/models/approved-builds | jq .
       "is_active": true,
       "tool_call_parser": "openai",
       "max_model_len": 131072,
-      "rope_type": "yarn",
-      "rope_base_context_len": 4096,
       "kv_cache_bytes_per_token": 24576,
       "engines": ["vllm", "vllm-metal"]
     }
@@ -72,8 +71,9 @@ curl -s https://core.inferoute.com/api/models/approved-builds | jq .
 | `gguf_file` | llama.cpp filename, for example `qwen2.5-7b-instruct-q4_k_m.gguf`. Present on `llama_cpp` rows |
 | `tool_call_parser` | (vLLM optional) Parser name for auto tool calling, for example `hermes`. **Omit** (null) when the model does not support tools — setup and auto-start then start the engine **without** `--enable-auto-tool-choice` |
 | `max_model_len` | Set on every row. The minimum context length every provider of this model must serve. Verification fails when the live engine serves less, and Inferoute checks "request is too long" errors against it |
-| `rope_type` | (vLLM optional) RoPE scaling type when YaRN is required, for example `yarn` |
-| `rope_base_context_len` | (vLLM optional) Base context used to compute the YaRN factor |
+| `rope_type` | (vLLM optional) `yarn` when `max_model_len` is longer than the model's own context. Set with `rope_base_context_len` and `rope_theta`, or not at all. For example, Qwen2.5 7B reaches 32768 tokens by itself and uses YaRN for 131072. A model that already reaches `max_model_len`, such as gpt-oss-20b, has no RoPE fields |
+| `rope_base_context_len` | (vLLM optional) The model's own context. The YaRN factor is `max_model_len / rope_base_context_len` |
+| `rope_theta` | (vLLM optional) The model's `rope_theta`, from its `config.json`. vLLM needs it in the YaRN override |
 | `kv_cache_bytes_per_token` | (vLLM optional) The model's exact KV cache cost per token, used by the local fit check |
 
 **`engines` tells you which client can run the row.** It is not the same as `service_type`.
@@ -92,7 +92,7 @@ Windows clients fetch `?service_type=llama_cpp`. That response includes `gguf_fi
 
 | Engine | How `max_model_len` is applied | Tools / RoPE |
 |--------|--------------------------------|--------------|
-| **vLLM / vLLM Metal** | `--max-model-len N` | `--enable-auto-tool-choice --tool-call-parser …` when `tool_call_parser` is set; YaRN `--hf-overrides` when `rope_type` is set |
+| **vLLM / vLLM Metal** | `--max-model-len N` | `--enable-auto-tool-choice --tool-call-parser …` when `tool_call_parser` is set; YaRN when `rope_type` is set: `--hf-overrides` with one `rope_parameters` value that includes `rope_theta`, and `VLLM_ALLOW_LONG_MAX_MODEL_LEN=1`. Needs vLLM 0.30.0 or newer |
 | **llama.cpp** | `-c N` | `--jinja` when `tool_call_parser` is set. RoPE fields are ignored |
 
 Default product target for extended models is **128k** (`131072`). Ops can set a higher value per alias when VRAM allows.
@@ -126,7 +126,7 @@ If you start the engine yourself, keep the settings in this table. Changing them
 | Served model id | The id in `GET /v1/models` must be the catalog `alias`. For example, `Qwen/Qwen2.5-7B-Instruct`. | The `--alias` you pass must be the catalog `alias`. |
 | Weights | Serve `hf_repo` at `hf_ref`. A different repo, revision, quant, or finetune fails. | Serve the catalog `gguf_file`. A different file fails. |
 | Context | `--max-model-len` must be **at least** the catalog `max_model_len`. A higher value is fine. A lower value fails. | `-c` must be **at least** the catalog `max_model_len`. A higher value is fine. A lower value fails. |
-| YaRN | When the row sets `rope_type` and `rope_base_context_len`, keep the `--hf-overrides` from setup. Without them the engine does not reach that context, and verification fails. | RoPE fields are ignored. |
+| YaRN | When the row sets `rope_type`, keep the `--hf-overrides` from setup exactly as printed. It replaces the model's RoPE settings, so it must carry `rope_theta`. Without it the engine does not reach that context, and verification fails. | RoPE fields are ignored. |
 
 These flags do not change verification on their own:
 
