@@ -1024,6 +1024,10 @@
                     "rope_base_context_len": {
                         "type": "integer"
                     },
+                    "rope_theta": {
+                        "description": "RopeTheta is the model's rope_theta. With rope_type and\nrope_base_context_len it makes the client's complete vLLM YaRN override.",
+                        "type": "number"
+                    },
                     "rope_type": {
                         "type": "string"
                     },
