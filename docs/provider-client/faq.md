@@ -58,7 +58,16 @@ The worker GPU is not the same model as the master's. Setup prints the two names
 
 ### Setup wants to reinstall vLLM
 
-The cluster owner set a **vLLM version** on **Nodes**, and this machine has a different release. Pipeline parallel needs the same vLLM on every machine. Say yes and setup removes `~/.venv-vllm` and installs the pinned release. That takes several minutes. Say no and setup leaves the old release in place. The cluster may not start. A worker install does not ask. `--yes` also accepts the reinstall.
+There are two reasons.
+
+- **The release is older than 0.30.0.** Setup prints **Inferoute needs vLLM 0.30.0 or newer**. Say yes and setup installs the current release. Say no and setup leaves the old release in place, turns **auto_start** off, and the client does not serve through it. See [Supported engine versions](setup.md#supported-engine-versions).
+- **The cluster pins another release.** The cluster owner set a **vLLM version** on **Nodes**, and this machine has a different release. Pipeline parallel needs the same vLLM on every machine. Say yes and setup removes `~/.venv-vllm` and installs the pinned release. Say no and setup leaves the old release in place. The cluster may not start.
+
+A reinstall takes several minutes. A worker install does not ask. `--yes` also accepts the reinstall.
+
+### "older than Inferoute supports (vLLM 0.30.0 or newer)"
+
+The vLLM or vLLM Metal that is running is older than 0.30.0. Until it is upgraded, the client offers no models to Inferoute and refuses requests that reach it, so you earn nothing from this machine. Stop the engine and run `inferoute-client setup`; it installs the current release. vLLM before 0.30 handles the long-context (YaRN) settings differently and would serve some models past their limit with wrong output.
 
 ### vLLM crashes at startup with "Could not find nvcc"
 

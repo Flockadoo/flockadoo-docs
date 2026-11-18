@@ -47,11 +47,17 @@ On a multi-node cluster those ports are fixed. vLLM must stay on **8000** and ll
 
 vLLM and vLLM Metal set **provider_type** to `vllm`. llama.cpp sets it to `llama_cpp`. Change engine with the wizard, not by editing YAML.
 
+## Supported engine versions
+
+vLLM and vLLM Metal need release **0.30.0** or newer. Setup reads the release that is installed. If it is older, setup says **Inferoute needs vLLM 0.30.0 or newer** and asks to reinstall the current release. `--yes` accepts. If you say no, setup turns **auto_start** off and the client does not serve through that release.
+
+If you start an older vLLM yourself, the client prints a warning when it starts, offers no models to Inferoute, and refuses requests until you upgrade. Run `inferoute-client setup` to install a supported release. llama.cpp has no minimum.
+
 First-run model download and load can take a long time. Setup waits up to **2 hours**. If the engine is still fetching weights, check `engine.log` under the [log directory](configuration.md#log-files) and re-run setup or start the client after it is up.
 
 On a multi-node cluster, that **2 hour** wait is the download. It is not the peer wait. The owner starts the master first. Once it is up, workers have **60 minutes** to join. If a worker is late, the engines stop. Start the master again, then the workers. See [Multi-node clusters](../provider/multi-node-clusters.md).
 
-On a multi-node master or worker, setup leaves **auto_start** off. It prints the vLLM command and does not start the engine. A worker with no vLLM binary gets the install without an extra question. If the cluster has a **vLLM version** on **Nodes**, setup installs that release. A machine that already has a different release is asked before it is replaced. The wizard also downloads **inferscale** and may ask for your password (`inferscale needs root to create inferscale0`).
+On a multi-node master or worker, setup leaves **auto_start** off. It prints the vLLM command and does not start the engine. A worker with no vLLM binary gets the install without an extra question. If the cluster has a **vLLM version** on **Nodes**, setup installs that release. It must be 0.30.0 or newer; setup stops on an older pin. A machine that already has a different release is asked before it is replaced. The wizard also downloads **inferscale** and may ask for your password (`inferscale needs root to create inferscale0`).
 
 ## After the wizard
 
