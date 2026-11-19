@@ -52,7 +52,7 @@ An embedding model gets no chat checks. The tab says **Chat checks do not apply 
 The **Model** panel shows the model the cluster serves now:
 
 - **Verified** means the model is an approved build and its weights header matched. Your own price applies only after this. See [Model pricing](model-pricing.md).
-- **Tool parser** and **Reasoning parser** come from the approved build. A model without a tool parser cannot take tool requests, so **Tool calling** shows **Not for this model**.
+- **Tool parser** and **Reasoning parser** come from the approved build. A model without a tool parser cannot take tool requests, so **Tool calling** and **Forced tool choice** show **Not for this model**.
 
 Other models your client has registered on the cluster are listed below, with whether each is verified.
 
