@@ -20,7 +20,7 @@ If **auto_start** is on (the wizard turns this on when it finds the engine binar
 1. The engine starts.
 2. The performance benchmark runs (vLLM only). This is the only phase where the client does not take requests.
 3. You are online. The provider can receive ordinary inference requests.
-4. Capability checks run in the background, only when the GPU is idle. Each one is tool calling, forced tool calling, JSON output, JSON schema, or logprobs.
+4. Capability checks run in the background, only when the GPU is idle. Each one is tool calling, forced tool calling, JSON output, JSON schema, logprobs, or (for a model that thinks) reasoning.
 
 A busy GPU can take hours to finish the checks. That is fine. Ordinary requests keep flowing.
 
@@ -43,6 +43,8 @@ Each check uses one request slot while it runs, and checks never run at the same
 !!! info
 
     Your provider stays online and can earn from ordinary inference requests while capability checks run. These checks determine whether you can also receive requests requiring additional features.
+
+The results also appear on the cluster page in the dashboard. See [Engine checks](../provider/cluster-checks.md).
 
 ## Health monitoring
 

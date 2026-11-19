@@ -35,6 +35,7 @@ nav = [
     { "Inviting nodes" = "provider/inviting-nodes.md" },
     { "Joining a cluster" = "provider/joining-a-cluster.md" },
     { "Cluster earnings" = "provider/cluster-earnings.md" },
+    { "Engine checks" = "provider/cluster-checks.md" },
   ] },
   { "Provider client" = [
     { "Introduction" = "provider-client/introduction.md" },
