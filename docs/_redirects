@@ -17,3 +17,19 @@
 /introduction/*                   /provider-client/:splat                  301
 /api-reference                    /api/                                    301
 /api-reference/*                  /api/                                    301
+
+# The pages renamed in the Flockadoo rebrand, for links to their old slugs.
+/provider/multi-node-clusters     /provider/team-flocks/                   301
+/provider/multi-node-clusters/    /provider/team-flocks/                   301
+/provider/joining-a-cluster       /provider/joining-a-flock/               301
+/provider/joining-a-cluster/      /provider/joining-a-flock/               301
+/provider/cluster-checks          /provider/flock-checks/                  301
+/provider/cluster-checks/         /provider/flock-checks/                  301
+/provider/cluster-earnings        /provider/flock-earnings/                301
+/provider/cluster-earnings/       /provider/flock-earnings/                301
+/provider/cluster-location        /provider/flock-location/                301
+/provider/cluster-location/       /provider/flock-location/                301
+/provider/deleting-clusters       /provider/deleting-flocks/               301
+/provider/deleting-clusters/      /provider/deleting-flocks/               301
+/consumer/own-clusters            /consumer/own-flocks/                    301
+/consumer/own-clusters/           /consumer/own-flocks/                    301

@@ -7,3 +7,6 @@ scripts/names-allow.txt	.
 
 # A provider's own Tailscale, beside Winglink.
 docs/provider-client/faq.md	your own tailnet
+
+# The redirects from the renamed pages' old slugs.
+docs/_redirects	^/(provider|consumer)/[a-z-]+/? +/(provider|consumer)/
