@@ -1,6 +1,6 @@
 # Cluster earnings
 
-Buyers pay for inference. After Inferoute’s fee, the rest is the cluster payout. A **single-node** cluster credits that whole payout to you.
+Buyers pay for inference. After Flockadoo’s fee, the rest is the cluster payout. A **single-node** cluster credits that whole payout to you.
 
 A **multi-node** cluster can split it. You set a **commission** on the **Nodes** tab. That percent comes off first. What remains is split evenly across the **master** (you) and every worker marked **In the cluster**.
 
@@ -20,7 +20,7 @@ Machines marked **Waiting to join** are not in the split. Only workers marked **
 
 ## Example
 
-For example, a payout of **$100** on **inferoute-cluster1**, with commission **10%** and **two** active workers:
+For example, a payout of **$100** on **flockadoo-cluster1**, with commission **10%** and **two** active workers:
 
 | Who | Share |
 | --- | --- |

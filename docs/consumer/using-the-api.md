@@ -1,6 +1,6 @@
 # Using the API
 
-Inferoute exposes an **OpenAI-compatible API** at `https://core.inferoute.com`. Use a **consumer API key** from **Usage** — not a provider cluster key.
+Flockadoo exposes an **OpenAI-compatible API** at `https://core.flockadoo.ai`. Use a **consumer API key** from **Usage** — not a provider cluster key.
 
 You need at least **$1.00** available in your wallet. Requests below that return **402**.
 
@@ -17,7 +17,7 @@ You can also set a custom [max price](max-price-limits.md) on the key when you c
 ## First request
 
 ```bash
-curl https://core.inferoute.com/v1/chat/completions \
+curl https://core.flockadoo.ai/v1/chat/completions \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -37,7 +37,7 @@ With the OpenAI Python SDK:
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://core.inferoute.com/v1",
+    base_url="https://core.flockadoo.ai/v1",
     api_key="YOUR_API_KEY",
 )
 
@@ -56,15 +56,15 @@ Also supported:
 
 Send one of `messages`, `prompt`, or `input`. Do not send more than one.
 
-Fields you send, other than `inferoute`, are forwarded to the engine. That includes `tools`, `tool_choice`, `response_format`, `temperature`, `seed`, and the rest of the OpenAI body. If you omit `max_tokens`, Inferoute sets it to **16384**.
+Fields you send, other than `flockadoo`, are forwarded to the engine. That includes `tools`, `tool_choice`, `response_format`, `temperature`, `seed`, and the rest of the OpenAI body. If you omit `max_tokens`, Flockadoo sets it to **16384**.
 
 `tools` only works on a model that supports tool calling. If you name a model that does not, the request returns **400**.
 
-You can omit `model`, or send `"model": "auto"`, and Inferoute picks a model for you. See [Automatic model selection](automatic-model-selection.md).
+You can omit `model`, or send `"model": "auto"`, and Flockadoo picks a model for you. See [Automatic model selection](automatic-model-selection.md).
 
 ## Routing options
 
-Add an `inferoute` object to choose providers without changing the payload the model sees. Inferoute strips it before forwarding. See [Request routing options](request-routing-options.md).
+Add an `flockadoo` object to choose providers without changing the payload the model sees. Flockadoo strips it before forwarding. See [Request routing options](request-routing-options.md).
 
 ## Streaming
 

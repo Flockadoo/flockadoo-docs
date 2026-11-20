@@ -8,9 +8,9 @@
 2. [Sign up and create a cluster](../getting-started/signup.md) to copy a provider API key.
 3. [Install the client](../getting-started/installation.md). The [setup wizard](setup.md) installs the LLM engine and an approved model — you do not need the engine already running.
 
-### What is the Inferoute Provider Client?
+### What is the Flockadoo Provider Client?
 
-A lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or llama.cpp). It monitors GPU resources, reports health to Inferoute, and handles inference requests by forwarding them to that engine.
+A lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or llama.cpp). It monitors GPU resources, reports health to Flockadoo, and handles inference requests by forwarding them to that engine.
 
 ### What platforms are supported?
 
@@ -20,11 +20,11 @@ A lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or
 
 ### How do I configure the client?
 
-Prefer **`inferoute-client setup`**. It writes engine, model, and API key into the YAML config. Server and logging stay in that file — see [Configuration](configuration.md). The connection to Inferoute is opened at startup — it is not a config section.
+Prefer **`flockadoo setup`**. It writes engine, model, and API key into the YAML config. Server and logging stay in that file — see [Configuration](configuration.md). The connection to Flockadoo is opened at startup — it is not a config section.
 
 ### How do I update the client?
 
-Stop the client, run `inferoute-client update`, then start it again. The console tells you when a newer release exists. If it says **Update required**, Inferoute is no longer accepting that release. See [Updating the client](updating.md).
+Stop the client, run `flockadoo update`, then start it again. The console tells you when a newer release exists. If it says **Update required**, Flockadoo is no longer accepting that release. See [Updating the client](updating.md).
 
 ### Can I earn while capability checks run?
 
@@ -43,7 +43,7 @@ They run again when the deployment changes: model, engine, engine version, weigh
 Stop the engine if it is already running, then re-run the [setup wizard](setup.md):
 
 ```bash
-inferoute-client setup
+flockadoo setup
 ```
 
 Auto-start only replays `config.yaml`. It does not notice that the catalog row changed, and it will not restart a process that is already listening.
@@ -54,20 +54,20 @@ Yes. Use the same flags the wizard printed. If the catalog row has no `tool_call
 
 ### Setup says this machine's GPU differs from the master
 
-The worker GPU is not the same model as the master's. Setup prints the two names and continues. Inferoute tests clusters where every machine has the same GPU. Mixing can work, and it can also leave vLLM stuck during startup. Use the same GPU when you can. See [GPUs across nodes](../provider/multi-node-clusters.md#gpus-across-nodes).
+The worker GPU is not the same model as the master's. Setup prints the two names and continues. Flockadoo tests clusters where every machine has the same GPU. Mixing can work, and it can also leave vLLM stuck during startup. Use the same GPU when you can. See [GPUs across nodes](../provider/multi-node-clusters.md#gpus-across-nodes).
 
 ### Setup wants to reinstall vLLM
 
 There are two reasons.
 
-- **The release is older than 0.30.0.** Setup prints **Inferoute needs vLLM 0.30.0 or newer**. Say yes and setup installs the current release. Say no and setup leaves the old release in place, turns **auto_start** off, and the client does not serve through it. See [Supported engine versions](setup.md#supported-engine-versions).
+- **The release is older than 0.30.0.** Setup prints **Flockadoo needs vLLM 0.30.0 or newer**. Say yes and setup installs the current release. Say no and setup leaves the old release in place, turns **auto_start** off, and the client does not serve through it. See [Supported engine versions](setup.md#supported-engine-versions).
 - **The cluster pins another release.** The cluster owner set a **vLLM version** on **Nodes**, and this machine has a different release. Pipeline parallel needs the same vLLM on every machine. Say yes and setup removes `~/.venv-vllm` and installs the pinned release. Say no and setup leaves the old release in place. The cluster may not start.
 
 A reinstall takes several minutes. A worker install does not ask. `--yes` also accepts the reinstall.
 
-### "older than Inferoute supports (vLLM 0.30.0 or newer)"
+### "older than Flockadoo supports (vLLM 0.30.0 or newer)"
 
-The vLLM or vLLM Metal that is running is older than 0.30.0. Until it is upgraded, the client offers no models to Inferoute and refuses requests that reach it, so you earn nothing from this machine. Stop the engine and run `inferoute-client setup`; it installs the current release. vLLM before 0.30 handles the long-context (YaRN) settings differently and would serve some models past their limit with wrong output.
+The vLLM or vLLM Metal that is running is older than 0.30.0. Until it is upgraded, the client offers no models to Flockadoo and refuses requests that reach it, so you earn nothing from this machine. Stop the engine and run `flockadoo setup`; it installs the current release. vLLM before 0.30 handles the long-context (YaRN) settings differently and would serve some models past their limit with wrong output.
 
 ### vLLM crashes at startup with "Could not find nvcc"
 
@@ -91,46 +91,46 @@ A machine with the CUDA toolkit installed can compile the sampler instead, so sk
 
 On a multi-node cluster, one crashed machine leaves the others waiting. The master often logs `No available shared memory broadcast block found in 60 seconds` while a worker is still compiling, or stuck waiting for that machine. That line is the wait. The worker crash is the failure. Stop vLLM on every machine, then start the master, then the workers. See [Multi-node clusters](../provider/multi-node-clusters.md).
 
-### Why inferscale and not Tailscale?
+### Why winglink and not Tailscale?
 
 Tailscale gives every machine an address from one fixed range, `100.64.0.0/10`. That range is built into the program. If setup used Tailscale for the cluster network, it would collide with a Tailscale network you already run on the same machine: the same addresses, the same network device, the same routes.
 
-So Inferoute ships **inferscale**, its own version of Tailscale. It uses a different range, `198.18.0.0/15`, and its own network device, `inferscale0`. Your Tailscale keeps working and the two stay out of each other's way. For example, a machine can stay on your own tailnet at `100.x.x.x` and join **inferoute-cluster1** at `198.18.x.x`.
+So Flockadoo ships **winglink**, its own version of Tailscale. It uses a different range, `198.18.0.0/15`, and its own network device, `winglink0`. Your Tailscale keeps working and the two stay out of each other's way. For example, a machine can stay on your own tailnet at `100.x.x.x` and join **flockadoo-cluster1** at `198.18.x.x`.
 
 You do not install it yourself. Setup downloads and starts it. See [How the machines connect](../provider/multi-node-clusters.md#how-the-machines-connect).
 
-### Setup asks for my password (`inferscale0`)
+### Setup asks for my password (`winglink0`)
 
-Multi-node setup joins a private network. It prints `inferscale needs root to create inferscale0` and runs `sudo`. Enter your password. If the machine has no `sudo`, setup stops with `inferscale needs root to create inferscale0, and sudo is not installed`. This step runs on Linux only. See [How the machines connect](../provider/multi-node-clusters.md#how-the-machines-connect).
+Multi-node setup joins a private network. It prints `winglink needs root to create winglink0` and runs `sudo`. Enter your password. If the machine has no `sudo`, setup stops with `winglink needs root to create winglink0, and sudo is not installed`. This step runs on Linux only. See [How the machines connect](../provider/multi-node-clusters.md#how-the-machines-connect).
 
 ### "one-shot key was rejected" or "one-shot key was already used"
 
 This machine is not on the private network, and the one-shot network key is gone.
 
-On the **master**, run `inferoute-client setup` again. Setup requests a new key.
+On the **master**, run `flockadoo setup` again. Setup requests a new key.
 
 On a **worker**, the join code was spent. Ask the owner for a **New code**. Then run:
 
 ```bash
-inferoute-client setup --api-key "join-…"
+flockadoo setup --api-key "join-…"
 ```
 
-`inferoute-client setup` alone prints `This machine is already in the cluster.` and will not ask for the new code.
+`flockadoo setup` alone prints `This machine is already in the cluster.` and will not ask for the new code.
 
 ### Can I move a machine to another cluster?
 
-Yes. Run `inferoute-client setup --api-key "…"` with the new cluster's join code or provider API key. Setup logs the machine out of the old private network before it joins the new one. You do not need to clean anything up by hand.
+Yes. Run `flockadoo setup --api-key "…"` with the new cluster's join code or provider API key. Setup logs the machine out of the old private network before it joins the new one. You do not need to clean anything up by hand.
 
 If the machine still shows the old address after setup, log out yourself and run setup again:
 
 ```bash
-sudo /usr/local/libexec/inferoute/inferscale logout
-inferoute-client setup --api-key "…"
+sudo /usr/local/libexec/flockadoo/winglink logout
+flockadoo setup --api-key "…"
 ```
 
 ### "the owner removed this machine from the cluster"
 
-The owner clicked **Remove** on **Nodes**. Run `inferoute-client setup` and paste a new join code. See [Joining a cluster](../provider/joining-a-cluster.md).
+The owner clicked **Remove** on **Nodes**. Run `flockadoo setup` and paste a new join code. See [Joining a cluster](../provider/joining-a-cluster.md).
 
 ### How do I delete a cluster from my account?
 
@@ -144,7 +144,7 @@ Yes. New models are detected on each health check (every **3 minutes**). The cli
 
 ### How does model pricing work?
 
-Pricing is **per cluster**, not account-wide. A new model starts at the market-average price. You can change it once the model shows **Verified**, whether or not it shows **Serving**. A model that shows **Not verified** keeps the market-average price. For example, **inferoute-cluster1** and **inferoute-cluster2** can charge different prices for the same model name.
+Pricing is **per cluster**, not account-wide. A new model starts at the market-average price. You can change it once the model shows **Verified**, whether or not it shows **Serving**. A model that shows **Not verified** keeps the market-average price. For example, **flockadoo-cluster1** and **flockadoo-cluster2** can charge different prices for the same model name.
 
 The client advertises at most 5 approved models. Each model has a maximum price.
 
@@ -152,7 +152,7 @@ See [Model pricing](../provider/model-pricing.md) for editing prices in the dash
 
 ### Can I change model pricing after registration?
 
-Yes, once the model shows **Verified**. Open **My Clusters** → select a cluster → **Models** tab. You can also call `PATCH /api/provider/models/{model_id}/pricing` on `https://core.inferoute.com` with that cluster’s provider API key. Prices are $/1M with up to 2 decimals. See [Model pricing](../provider/model-pricing.md).
+Yes, once the model shows **Verified**. Open **My Clusters** → select a cluster → **Models** tab. You can also call `PATCH /api/provider/models/{model_id}/pricing` on `https://core.flockadoo.ai` with that cluster’s provider API key. Prices are $/1M with up to 2 decimals. See [Model pricing](../provider/model-pricing.md).
 
 Changing prices on one cluster does not change another. See [Model pricing](../provider/model-pricing.md).
 
@@ -164,7 +164,7 @@ See [Approved model builds](approved-models.md). Call **GET** `/api/models/appro
 
 ### Do I set a public URL?
 
-No. On startup the client opens an outbound connection to Inferoute. Inferoute sends inference requests back over that connection. You do not install another program or open inbound ports.
+No. On startup the client opens an outbound connection to Flockadoo. Flockadoo sends inference requests back over that connection. You do not install another program or open inbound ports.
 
 ### What if the connection drops?
 
@@ -194,9 +194,9 @@ Every **3 minutes**, and also when the client becomes busy or free. It exposes *
 
 - GPU info (type, driver, CUDA, memory, utilization where available).
 - Available models from the local LLM server.
-- Whether the client is connected to Inferoute.
+- Whether the client is connected to Flockadoo.
 
-Cluster **country** is not part of the health payload. Inferoute resolves it from your connection. See [Cluster location](../provider/cluster-location.md).
+Cluster **country** is not part of the health payload. Flockadoo resolves it from your connection. See [Cluster location](../provider/cluster-location.md).
 
 ### How is “GPU busy” determined?
 
@@ -210,8 +210,8 @@ There are two signals. See [How it works](how-it-works.md).
 
 ### How are inference requests handled?
 
-1. The request signature in `X-Request-Id` is validated with Inferoute; missing or invalid requests get **401**.
-2. If every inference slot is full → **503** `{"error":"GPU is busy"}` (Inferoute can try another provider). Same-session follow-ups can wait for the slot instead. The **20%** utilization flag is on the health report.
+1. The request signature in `X-Request-Id` is validated with Flockadoo; missing or invalid requests get **401**.
+2. If every inference slot is full → **503** `{"error":"GPU is busy"}` (Flockadoo can try another provider). Same-session follow-ups can wait for the slot instead. The **20%** utilization flag is on the health report.
 3. Valid requests are proxied to the local LLM server.
 
 ### What endpoints does the client expose for inference?

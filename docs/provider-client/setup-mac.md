@@ -1,6 +1,6 @@
 # Setup: macOS (Apple GPU)
 
-Use this guide when you run the provider client natively on a Mac with Apple Silicon. For example, **inferoute-cluster1** on a MacBook. You need **48 GB** of unified memory to run approved vLLM Metal models (BF16 7B-class). Intel Macs are not supported.
+Use this guide when you run the provider client natively on a Mac with Apple Silicon. For example, **flockadoo-cluster1** on a MacBook. You need **48 GB** of unified memory to run approved vLLM Metal models (BF16 7B-class). Intel Macs are not supported.
 
 ## Quick install (recommended)
 
@@ -8,24 +8,24 @@ Use this guide when you run the provider client natively on a Mac with Apple Sil
 2. Run the install script:
 
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/inferoute/inferoute-client/main/scripts/install.sh | bash
+   curl -fsSL https://raw.githubusercontent.com/flockadoo/flockadoo/main/scripts/install.sh | bash
    ```
 
-The [setup wizard](setup.md) offers **vLLM Metal** or **llama.cpp**. It installs the one you pick if it is missing, offers to replace a vLLM Metal release older than **0.30.0** (see [Supported engine versions](setup.md#supported-engine-versions)), and shows which models fit this Mac. vLLM Metal serves on `http://127.0.0.1:8000`. llama.cpp installs into `~/.local/share/inferoute/llama.cpp` and serves on `http://127.0.0.1:8081`. Re-run anytime:
+The [setup wizard](setup.md) offers **vLLM Metal** or **llama.cpp**. It installs the one you pick if it is missing, offers to replace a vLLM Metal release older than **0.30.0** (see [Supported engine versions](setup.md#supported-engine-versions)), and shows which models fit this Mac. vLLM Metal serves on `http://127.0.0.1:8000`. llama.cpp installs into `~/.local/share/flockadoo/llama.cpp` and serves on `http://127.0.0.1:8081`. Re-run anytime:
 
 ```bash
-inferoute-client setup
+flockadoo setup
 ```
 
-The script places **inferoute-client** in `/usr/local/bin`.
+The script places **flockadoo** in `/usr/local/bin`.
 
 3. Start the client:
 
    ```bash
-   inferoute-client
+   flockadoo
    ```
 
-Default config: `~/.config/inferoute/config.yaml`. Logs: `~/.local/state/inferoute/log`.
+Default config: `~/.config/flockadoo/config.yaml`. Logs: `~/.local/state/flockadoo/log`.
 
 ## Apple GPU monitoring
 
@@ -39,18 +39,18 @@ On Linux with NVIDIA, the health report also marks the GPU busy when utilization
 2. **Clone and build:**
 
    ```bash
-   git clone https://github.com/inferoute/inferoute-client.git
-   cd inferoute-client
-   go build -o inferoute-client ./cmd
+   git clone https://github.com/flockadoo/flockadoo.git
+   cd flockadoo
+   go build -o flockadoo ./cmd
    ```
 
-3. Run **`inferoute-client setup`**, then:
+3. Run **`flockadoo setup`**, then:
 
    ```bash
-   ./inferoute-client --config ~/.config/inferoute/config.yaml
+   ./flockadoo --config ~/.config/flockadoo/config.yaml
    ```
 
-The client opens an outbound connection to Inferoute — no ngrok or open firewall ports required.
+The client opens an outbound connection to Flockadoo — no ngrok or open firewall ports required.
 
 ## Related
 

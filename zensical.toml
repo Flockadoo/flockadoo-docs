@@ -1,14 +1,14 @@
 [project]
-site_name = "Inferoute Docs"
-site_url = "https://docs.inferoute.com/"
-site_description = "Guides for Inferoute providers and API consumers."
+site_name = "Flockadoo Docs"
+site_url = "https://docs.flockadoo.ai/"
+site_description = "Guides for Flockadoo providers and API consumers."
 docs_dir = "docs"
 site_dir = "site"
-repo_url = "https://github.com/Inferoute/inferoute-docs"
-repo_name = "inferoute-docs"
+repo_url = "https://github.com/Flockadoo/flockadoo-docs"
+repo_name = "flockadoo-docs"
 edit_uri = "edit/main/docs/"
-copyright = "&copy; 2026 Inferoute (Pty) Ltd · <a href=\"https://inferoute.com/terms\">Terms</a> · <a href=\"https://inferoute.com/privacy\">Privacy</a>"
-extra_css = ["stylesheets/inferoute.css"]
+copyright = "&copy; 2026 Flockadoo Limited · <a href=\"https://flockadoo.ai/terms\">Terms</a> · <a href=\"https://flockadoo.ai/privacy\">Privacy</a>"
+extra_css = ["stylesheets/flockadoo.css"]
 
 nav = [
   { "Overview" = "index.md" },
@@ -76,7 +76,7 @@ features = [
 ]
 
 [project.theme.icon]
-logo = "inferoute/mark"
+logo = "flockadoo/mark"
 
 [[project.theme.palette]]
 media = "(prefers-color-scheme: light)"
@@ -96,4 +96,4 @@ toggle.name = "Switch to light mode"
 
 [[project.extra.social]]
 icon = "fontawesome/brands/github"
-link = "https://github.com/Inferoute"
+link = "https://github.com/Flockadoo"

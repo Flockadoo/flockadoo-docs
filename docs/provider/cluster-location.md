@@ -16,10 +16,10 @@ If location is not available yet, you see **—** instead of a flag. That usuall
 
 You do **not** configure location in the client or dashboard.
 
-Inferoute detects location automatically from the connection your provider client opens:
+Flockadoo detects location automatically from the connection your provider client opens:
 
-1. Your provider client connects to Inferoute.
-2. Inferoute reads the public IP of that connection.
+1. Your provider client connects to Flockadoo.
+2. Flockadoo reads the public IP of that connection.
 3. The platform resolves that IP to a **country code** and stores it on your cluster.
 
 Location updates when:
@@ -35,4 +35,4 @@ Nothing extra. Keep the provider client running, as described in [How it works](
 
 - [Deleting and managing clusters](deleting-clusters.md)
 - [Cluster location](cluster-location.md)
-- [Provider client: connection](../provider-client/how-it-works.md#connection-to-inferoute)
+- [Provider client: connection](../provider-client/how-it-works.md#connection-to-flockadoo)

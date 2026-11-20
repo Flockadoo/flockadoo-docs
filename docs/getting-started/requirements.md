@@ -1,6 +1,6 @@
 # Software and hardware requirements
 
-The Inferoute Provider Client does **not** run models itself. It sits next to an LLM server and forwards inference requests to it.
+The Flockadoo Provider Client does **not** run models itself. It sits next to an LLM server and forwards inference requests to it.
 
 The [setup wizard](../provider-client/setup.md) installs that LLM server and an approved model. You still need the right hardware (especially an NVIDIA GPU for vLLM and llama.cpp on Windows). If nothing is listening on the configured URL and auto-start is off, the client cannot serve traffic.
 
@@ -28,7 +28,7 @@ Approved builds are BF16 7B-class weights (~14 GB on disk).
 | --- | --- |
 | **System memory** (Linux) | At least **32 GB** of RAM. Loading approved BF16 weights needs host memory in addition to GPU VRAM. |
 | **System memory** (Windows) | **32 GB** of RAM plus a **fixed 64 GB page file**, or **64 GB** of RAM |
-| **NVIDIA GPU** (Linux and Windows) | At least **24 GB** of VRAM (for example RTX 3090, RTX 4090). Install the [NVIDIA driver](https://www.nvidia.com/drivers) so `nvidia-smi` is on `PATH`. The Inferoute install script does not install the driver. |
+| **NVIDIA GPU** (Linux and Windows) | At least **24 GB** of VRAM (for example RTX 3090, RTX 4090). Install the [NVIDIA driver](https://www.nvidia.com/drivers) so `nvidia-smi` is on `PATH`. The Flockadoo install script does not install the driver. |
 | **macOS** | Apple Silicon with at least **48 GB** of unified memory. Intel Macs are not supported. The client reports basic GPU info. Utilization is not reported. A request in flight still marks the client busy. On Linux, the health report also marks the GPU busy above **20%** utilization. See [How it works](../provider-client/how-it-works.md). |
 | **Disk** | **100 GB+** free is a practical starting point for model weights. |
 
@@ -44,13 +44,13 @@ vLLM and Windows llama.cpp expect a CUDA-capable NVIDIA GPU. The wizard will not
 
 Linux multi-node clusters share a private network between the machines in that cluster. See [Multi-node networking](../provider/multi-node-networking.md).
 
-## What the Inferoute client adds
+## What the Flockadoo client adds
 
 Once the LLM server is up, the client:
 
-- Reports health and models to Inferoute
+- Reports health and models to Flockadoo
 - Registers pricing for **your cluster**
 - Proxies inference to your local LLM server
-- Opens an outbound connection so Inferoute can reach you without inbound firewall ports
+- Opens an outbound connection so Flockadoo can reach you without inbound firewall ports
 
 Next: [Sign up and create a cluster](signup.md).

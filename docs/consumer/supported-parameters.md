@@ -1,14 +1,14 @@
 # Supported parameters
 
-Inferoute accepts an OpenAI-shaped request and forwards the parameters both vLLM and llama.cpp can run. A key that is not on the list for that endpoint returns **400**. A parameter that is on the list but not enabled on the provider that can serve the model returns **400** `capability_unavailable` once every provider has been checked, or **503** while checks are still running.
+Flockadoo accepts an OpenAI-shaped request and forwards the parameters both vLLM and llama.cpp can run. A key that is not on the list for that endpoint returns **400**. A parameter that is on the list but not enabled on the provider that can serve the model returns **400** `capability_unavailable` once every provider has been checked, or **503** while checks are still running.
 
 ## Chat and completions
 
 You can send `model`, `messages` or `prompt`, `stream`, `max_tokens`, `max_completion_tokens`, `temperature`, `top_p`, `top_k`, `min_p`, `stop`, `seed`, `frequency_penalty`, `presence_penalty`, `tools`, `tool_choice`, `response_format`, `logprobs`, `top_logprobs`, and `stream_options`. Chat requests can also send `reasoning_effort` (see [Reasoning models](#reasoning-models)).
 
-`n` and `best_of` may be `1`. Any larger value returns **400**. Inferoute bills one completion.
+`n` and `best_of` may be `1`. Any larger value returns **400**. Flockadoo bills one completion.
 
-`inferoute`, `user`, `metadata`, `store`, and `service_tier` are accepted and not forwarded to the engine.
+`flockadoo`, `user`, `metadata`, `store`, and `service_tier` are accepted and not forwarded to the engine.
 
 A parameter sent as `null` is treated as if you left it out. `seed` must be a whole number.
 
@@ -32,9 +32,9 @@ If you force a tool call (`"required"` or a named function), the tool's `paramet
 
 ### Reasoning models
 
-Some models think before they answer: Qwen3, DeepSeek-R1, gpt-oss, and Gemma 4. Their thinking arrives apart from the answer, in its own field. Inferoute passes the provider's engine output through unchanged, so the field's name depends on the engine: `reasoning` from vLLM, `reasoning_content` from llama.cpp. Neither is part of OpenAI's schema; treat both as optional provider extensions.
+Some models think before they answer: Qwen3, DeepSeek-R1, gpt-oss, and Gemma 4. Their thinking arrives apart from the answer, in its own field. Flockadoo passes the provider's engine output through unchanged, so the field's name depends on the engine: `reasoning` from vLLM, `reasoning_content` from llama.cpp. Neither is part of OpenAI's schema; treat both as optional provider extensions.
 
-If you only want the answer, read `content` as usual; the thinking is not in it. Inferoute serves a reasoning model only from providers whose engine was checked to send the thinking apart from the answer. While that check is still running for every provider of the model, the request returns **503**; if every provider failed it, **400** `capability_unavailable`.
+If you only want the answer, read `content` as usual; the thinking is not in it. Flockadoo serves a reasoning model only from providers whose engine was checked to send the thinking apart from the answer. While that check is still running for every provider of the model, the request returns **503**; if every provider failed it, **400** `capability_unavailable`.
 
 To show the thinking, read whichever field is present. In a stream:
 
@@ -74,4 +74,4 @@ If nothing was delivered, you are not billed. After the first generated output i
 
 ## Output length
 
-If you omit both token limits, the platform cap is **16,384** generated tokens. If you set either limit, Inferoute uses the smaller of the values you set, and never more than 16,384. Only `max_tokens` is forwarded.
+If you omit both token limits, the platform cap is **16,384** generated tokens. If you set either limit, Flockadoo uses the smaller of the values you set, and never more than 16,384. Only `max_tokens` is forwarded.

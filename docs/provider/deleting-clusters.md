@@ -12,7 +12,7 @@ Settings replaces the old **Actions** tab. API key management, pause/resume, and
 
 ## API keys
 
-Each cluster has one or more **provider API keys**. The client on your machine uses this key to authenticate with Inferoute.
+Each cluster has one or more **provider API keys**. The client on your machine uses this key to authenticate with Flockadoo.
 
 On Settings you can:
 
@@ -28,7 +28,7 @@ Re-generating or creating a key does **not** delete the cluster. It only rotates
 
 On Settings, under **Pause Inference**:
 
-**Pause Cluster** stops new inference orders from being routed to your cluster. Your provider client can keep running, but Inferoute will not send new work while the cluster is paused.
+**Pause Cluster** stops new inference orders from being routed to your cluster. Your provider client can keep running, but Flockadoo will not send new work while the cluster is paused.
 
 **Resume Cluster** turns routing back on (subject to health and availability checks).
 
@@ -47,7 +47,7 @@ If email notifications for **Cluster paused** are enabled, you can get an email 
 When you confirm deletion:
 
 1. **The cluster is removed from your dashboard** — it no longer appears under **My Clusters**.
-2. **Inference stops** — the cluster is paused, marked unavailable, and health is set to red so Inferoute will not route requests to it.
+2. **Inference stops** — the cluster is paused, marked unavailable, and health is set to red so Flockadoo will not route requests to it.
 3. **All active API keys for that cluster are revoked** — your provider client can no longer authenticate with those keys.
 4. **Historical data is kept** — past earnings and transactions stay in your account history for billing and audit. The cluster no longer appears in the dashboard, but we retain records tied to past payouts.
 5. **A multi-node machine leaves the private network** — deleting the cluster, or leaving it, drops that machine from the network the cluster used. Stop the client on the machine too. See [Multi-node networking](multi-node-networking.md).
@@ -56,7 +56,7 @@ When you confirm deletion:
 
 - It does **not** uninstall the provider client on your machine — stop the service locally if you no longer need it.
 - Stop the client on that machine so it closes its connection and no longer accepts traffic.
-- It does **not** delete your Inferoute user account or other clusters.
+- It does **not** delete your Flockadoo user account or other clusters.
 
 ### After deletion
 

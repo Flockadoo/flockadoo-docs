@@ -4,17 +4,17 @@ On a multi-node cluster, the machines that run one model together share a privat
 
 ## Single-node vs multi-node
 
-A **single-node** cluster is one machine. The engine stays on that machine. Inferoute reaches you over the connection the client opens outbound. Other providers cannot talk to your GPU box.
+A **single-node** cluster is one machine. The engine stays on that machine. Flockadoo reaches you over the connection the client opens outbound. Other providers cannot talk to your GPU box.
 
-A **multi-node** cluster is several machines serving one model. For example, **inferoute-cluster1** across two hosts. Those machines join a private network so they can run that model together.
+A **multi-node** cluster is several machines serving one model. For example, **flockadoo-cluster1** across two hosts. Those machines join a private network so they can run that model together.
 
 ## Who is on that network
 
-Only members of this cluster. Other Inferoute clusters cannot see you. Buyers do not get a path onto it. Inferoute does not use it as a VPN onto your LAN.
+Only members of this cluster. Other Flockadoo clusters cannot see you. Buyers do not get a path onto it. Flockadoo does not use it as a VPN onto your LAN.
 
 !!! warning
 
-    Peers can be other people's machines. Joining or accepting a join is like plugging into a shared private network. Only create or join a multi-node cluster with people you intend to share GPUs with. Inferoute cannot make those peers fully trusted.
+    Peers can be other people's machines. Joining or accepting a join is like plugging into a shared private network. Only create or join a multi-node cluster with people you intend to share GPUs with. Flockadoo cannot make those peers fully trusted.
 
 ## Required engine ports
 
@@ -45,7 +45,7 @@ Everythong else should remain closed.
 
 This is not a host firewall for your public network card.
 
-Inferoute does not scan your machine. It does not give buyers or other clusters a path in. It does not replace `ufw` or iptables on the public interface.
+Flockadoo does not scan your machine. It does not give buyers or other clusters a path in. It does not replace `ufw` or iptables on the public interface.
 
 ## Leave or delete
 

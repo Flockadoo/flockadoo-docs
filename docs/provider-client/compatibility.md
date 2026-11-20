@@ -1,10 +1,10 @@
 # Model compatibility check
 
-Before you install models or start the provider client as a daemon, you can check which **approved Inferoute models** are likely to fit on this machine.
+Before you install models or start the provider client as a daemon, you can check which **approved Flockadoo models** are likely to fit on this machine.
 
-The command detects local hardware and scores each approved build. It does **not** start the provider daemon and does **not** need an API key. **`inferoute-client setup`** uses the same scoring when it asks which model to run.
+The command detects local hardware and scores each approved build. It does **not** start the provider daemon and does **not** need an API key. **`flockadoo setup`** uses the same scoring when it asks which model to run.
 
-It reads the public approved-model catalog from `https://core.inferoute.com` by default. It does not read your provider configuration file unless you explicitly pass a different URL with `--catalog-url`.
+It reads the public approved-model catalog from `https://core.flockadoo.ai` by default. It does not read your provider configuration file unless you explicitly pass a different URL with `--catalog-url`.
 
 On Windows, `compatibility` lists `llama_cpp` builds. On macOS the default is **`vllm-metal`**. Pass `--engine llama_cpp` to score the llama.cpp rows instead. Untagged vLLM rows are not offered on Windows. See [Approved model builds](approved-models.md).
 
@@ -22,27 +22,27 @@ Intel Macs are not supported.
 ## Commands
 
 ```bash
-inferoute-client compatibility
-inferoute-client compatibility --provider-type vllm
-inferoute-client compatibility --engine llama_cpp
-inferoute-client compatibility --json
-inferoute-client compatibility --catalog-url https://core.inferoute.com
-inferoute-client compatibility --offline-catalog ./approved-models.json
+flockadoo compatibility
+flockadoo compatibility --provider-type vllm
+flockadoo compatibility --engine llama_cpp
+flockadoo compatibility --json
+flockadoo compatibility --catalog-url https://core.flockadoo.ai
+flockadoo compatibility --offline-catalog ./approved-models.json
 ```
 
 | Flag | Purpose |
 |------|---------|
 | `--provider-type` | `vllm`, `llama_cpp`, or omit |
 | `--engine` | `vllm`, `vllm-metal`, or `llama_cpp`. Default: inferred from this OS (`vllm` on Linux, `vllm-metal` on macOS, `llama_cpp` on Windows) |
-| `--catalog-url` | Inferoute API base (default `https://core.inferoute.com`) |
+| `--catalog-url` | Flockadoo API base (default `https://core.flockadoo.ai`) |
 | `--offline-catalog` | Local JSON in the same shape as the public catalog |
 | `--json` | Machine-readable output for scripts |
 | `--show-too-large` | Include `too_large` rows (default: on) |
 
-For example, to use another Inferoute API deployment:
+For example, to use another Flockadoo API deployment:
 
 ```bash
-inferoute-client compatibility --catalog-url https://api.example.com
+flockadoo compatibility --catalog-url https://api.example.com
 ```
 
 ## Statuses
@@ -65,7 +65,7 @@ This is a fit check only — it does not estimate tokens/sec.
 
 ### Every model is `unknown`
 
-If every row shows `0 B` and `model size unavailable in catalog`, the API response does not include a positive `min_size_bytes` value. Update the Inferoute API deployment and confirm the approved builds contain measured sizes.
+If every row shows `0 B` and `model size unavailable in catalog`, the API response does not include a positive `min_size_bytes` value. Update the Flockadoo API deployment and confirm the approved builds contain measured sizes.
 
 ### Catalog request fails
 

@@ -1,6 +1,6 @@
 # Engine checks
 
-When the provider client starts your engine, it checks what the engine can do and measures how many requests it can serve at once. Inferoute routes on these results: a request that needs a capability goes only to clusters that passed it.
+When the provider client starts your engine, it checks what the engine can do and measures how many requests it can serve at once. Flockadoo routes on these results: a request that needs a capability goes only to clusters that passed it.
 
 You can see the results on the cluster page:
 
@@ -66,7 +66,7 @@ The client sends 1, 2, 4, 8 and then 16 requests at once. It stops at the first 
 | **In use** | The number of requests the cluster takes at once. |
 | **Did not pass** | The level where the client stopped. |
 
-For example, **inferoute-cluster1** shows **8 requests at once** when 8 held up and 16 did not.
+For example, **flockadoo-cluster1** shows **8 requests at once** when 8 held up and 16 did not.
 
 If even one request at a time failed, nothing was measured. The card then says **Not measured**, and the cluster takes a starting number until a benchmark completes.
 

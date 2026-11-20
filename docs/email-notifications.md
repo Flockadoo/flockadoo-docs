@@ -1,6 +1,6 @@
 # Email notifications
 
-You can choose which emails Inferoute sends you. Preferences live in **Account Settings** and apply to the email on your account.
+You can choose which emails Flockadoo sends you. Preferences live in **Account Settings** and apply to the email on your account.
 
 ## Where to manage them
 

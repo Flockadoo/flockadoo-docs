@@ -1,6 +1,6 @@
 # Provider Client Introduction
 
-The **Inferoute Provider Client** is a lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or llama.cpp). It reports health to Inferoute, registers models and pricing for **your cluster**, and forwards inference requests to that engine.
+The **Flockadoo Provider Client** is a lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or llama.cpp). It reports health to Flockadoo, registers models and pricing for **your cluster**, and forwards inference requests to that engine.
 
 The [setup wizard](setup.md) installs the engine if it is missing, picks an approved model that fits this machine, and writes config. You do not install the engine yourself.
 
@@ -12,14 +12,14 @@ Start here if you have not installed yet:
 
 ## What it does
 
-- Report provider health (GPU, models) to the Inferoute orchestrator
+- Report provider health (GPU, models) to the Flockadoo orchestrator
 - Register models and pricing with the platform
 - Accept inference requests from the orchestrator and proxy them to your local LLM server
-- Open an outbound connection to Inferoute so the platform can send inference requests back to your machine without inbound firewall ports
+- Open an outbound connection to Flockadoo so the platform can send inference requests back to your machine without inbound firewall ports
 
-## How Inferoute reaches your machine
+## How Flockadoo reaches your machine
 
-The client opens an outbound connection to Inferoute when it starts, and reconnects if that connection drops. Inferoute sends inference requests back over that connection.
+The client opens an outbound connection to Flockadoo when it starts, and reconnects if that connection drops. Flockadoo sends inference requests back over that connection.
 
 - You do not install another program.
 - You do not open inbound firewall ports.

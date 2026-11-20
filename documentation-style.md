@@ -1,12 +1,12 @@
 # Documentation style guide
 
-This repo is the source for the [Inferoute documentation](README.md), built with Zensical and published at docs.inferoute.com. Pages are **user guides** — written for people using the dashboard, API, or provider client.
+This repo is the source for the [Flockadoo documentation](README.md), built with Zensical and published at docs.flockadoo.ai. Pages are **user guides** — written for people using the dashboard, API, or provider client.
 
 ## Examples
 
 Use generic, fictional names so examples do not look like someone's private account:
 
-- Clusters: **inferoute-cluster1**, **inferoute-cluster2**
+- Clusters: **flockadoo-cluster1**, **flockadoo-cluster2**
 - Models: real public model IDs are fine (e.g. `Qwen/Qwen2.5-7B-Instruct`)
 - Prefix with **“For example,”** when illustrating a scenario
 
@@ -27,7 +27,7 @@ Do not use real cluster names, emails, or API keys in published docs.
 | `provider/` | Provider dashboard (clusters, pricing, settings) |
 | `provider-client/` | Installing and running the provider client |
 
-Keep implementation details (database tables, microservice names) out of these guides. Technical architecture belongs in **inferoute-node** `documentation/technical.md`.
+Keep implementation details (database tables, microservice names) out of these guides. Technical architecture belongs in **flockadoo-server** `documentation/technical.md`.
 
 ## New pages
 

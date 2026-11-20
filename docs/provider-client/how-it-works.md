@@ -1,17 +1,17 @@
 # How It Works
 
-This page explains what the Provider Client does on your machine and how it talks to Inferoute. For install steps, see [Installation](../getting-started/installation.md). For engine and model selection, see the [setup wizard](setup.md).
+This page explains what the Provider Client does on your machine and how it talks to Flockadoo. For install steps, see [Installation](../getting-started/installation.md). For engine and model selection, see the [setup wizard](setup.md).
 
 ## Overview
 
 The client runs alongside the local LLM engine the wizard installed (vLLM, vLLM Metal, or llama.cpp). It:
 
-1. Reports health (GPU and models) to Inferoute on a schedule.
+1. Reports health (GPU and models) to Flockadoo on a schedule.
 2. Registers models and initial pricing for **your cluster**.
-3. Accepts inference requests from Inferoute and forwards them to your local LLM server.
-4. Opens an outbound connection so Inferoute can reach you without open firewall ports. It reconnects if the connection drops.
+3. Accepts inference requests from Flockadoo and forwards them to your local LLM server.
+4. Opens an outbound connection so Flockadoo can reach you without open firewall ports. It reconnects if the connection drops.
 
-On a multi-node cluster, setup joins this machine to a private network with **inferscale**. The master uses the provider API key. A worker uses a `join-` code. Setup leaves **auto_start** off, prints the vLLM command, and does not start the engine. The master starts first. Workers join within 60 minutes of the master coming up. A worker does not serve HTTP. It joins the master. The cluster stays offline after they join until vLLM finishes loading and the next health report lands. The status page shows **Cluster**, **Nodes**, **Tailnet IP**, and **Peers**. See [Multi-node clusters](../provider/multi-node-clusters.md).
+On a multi-node cluster, setup joins this machine to a private network with **winglink**. The master uses the provider API key. A worker uses a `join-` code. Setup leaves **auto_start** off, prints the vLLM command, and does not start the engine. The master starts first. Workers join within 60 minutes of the master coming up. A worker does not serve HTTP. It joins the master. The cluster stays offline after they join until vLLM finishes loading and the next health report lands. The status page shows **Cluster**, **Nodes**, **Tailnet IP**, and **Peers**. See [Multi-node clusters](../provider/multi-node-clusters.md).
 
 If **auto_start** is on (the wizard turns this on when it finds the engine binary on a single-node machine), the client starts that engine when `llm_url` is down. It uses the serve flags already in `config.yaml` (including whether tool calling is on). It will not start a second copy if the port is already in use, and it will not pull fresh catalog flags at runtime. Re-run [setup](setup.md) after you change model or catalog flags.
 
@@ -48,14 +48,14 @@ The results also appear on the cluster page in the dashboard. See [Engine checks
 
 ## Health monitoring
 
-Every **3 minutes**, the client sends a health report to Inferoute. It also sends one when an inference slot fills or frees, after a **10 second** cooldown so a burst of requests does not flood the platform. The report includes:
+Every **3 minutes**, the client sends a health report to Flockadoo. It also sends one when an inference slot fills or frees, after a **10 second** cooldown so a burst of requests does not flood the platform. The report includes:
 
 - GPU type, memory, and utilization (on Linux and Windows with NVIDIA).
 - Which models your local server exposes.
 - Which engine serves them (vLLM, vLLM Metal, or llama.cpp) and its version, as the running engine reports it.
 - A GPU busy flag. See **When the client is busy** below.
 
-Inferoute detects **cluster country** from the public IP of your connection. You do not send location from the client. See [Cluster location](../provider/cluster-location.md).
+Flockadoo detects **cluster country** from the public IP of your connection. You do not send location from the client. See [Cluster location](../provider/cluster-location.md).
 
 You can also check status locally anytime (these URLs stay on your machine):
 
@@ -73,7 +73,7 @@ The client keeps two busy signals. Each one answers a different question.
 | **New request** (`GET /api/busy`, and **503**) | Every inference slot is taken. The default is **1** slot (`max_concurrent_inference`). NVIDIA utilization is not used. |
 | **Health report** GPU `is_busy` | On NVIDIA, utilization is above **20%**, or an inference slot is full. On macOS, only when a slot is full. |
 
-A different session that arrives while a slot is full gets **503** `{"error":"GPU is busy"}`. Inferoute can try another provider. A follow-up for the same session waits up to **90 seconds** (`session_queue_wait_seconds`) for that slot instead of **503**.
+A different session that arrives while a slot is full gets **503** `{"error":"GPU is busy"}`. Flockadoo can try another provider. A follow-up for the same session waits up to **90 seconds** (`session_queue_wait_seconds`) for that slot instead of **503**.
 
 Utilization above **20%** sets the GPU busy flag in the health report. That update waits for the **3 minute** report. A request already on the machine is rejected when a slot is full. Another program using the GPU can set the flag. After your own request finishes and the slot is free, the next request is accepted while `nvidia-smi` is still high for a moment.
 
@@ -81,7 +81,7 @@ See [Configuration](configuration.md).
 
 ## Model pricing and registration
 
-**At startup**, the client discovers models on your local LLM server, looks up default prices from Inferoute, and registers each model for **that cluster**.
+**At startup**, the client discovers models on your local LLM server, looks up default prices from Flockadoo, and registers each model for **that cluster**.
 
 **Ongoing**, each health cycle checks for new models (for example after you re-run setup with a different approved model). New models are registered automatically — you do not need to restart the client.
 
@@ -93,19 +93,19 @@ The client reads the served model id and finds weights in the HuggingFace hub ca
 
 ## Inference requests
 
-When Inferoute sends a request to your cluster:
+When Flockadoo sends a request to your cluster:
 
 1. **Authentication** — Valid requests include a signed header; missing or invalid requests get **401 Unauthorized**.
-2. **Busy** — If every inference slot is full, and this is not a same-session follow-up, the client responds with **503** `{"error":"GPU is busy"}` so Inferoute can try another provider. Same-session follow-ups can wait for the slot instead.
+2. **Busy** — If every inference slot is full, and this is not a same-session follow-up, the client responds with **503** `{"error":"GPU is busy"}` so Flockadoo can try another provider. Same-session follow-ups can wait for the slot instead.
 3. **Proxy** — Valid requests are forwarded to your local LLM server. The client supports **POST /v1/chat/completions**, **POST /v1/completions**, and **POST /v1/embeddings**.
 
 ## Multi-node clusters
 
-Inference still arrives over the outbound connection to Inferoute. Machines in one multi-node cluster also join a private network so they can run one model together. Other clusters are not on that network. See [Multi-node networking](../provider/multi-node-networking.md).
+Inference still arrives over the outbound connection to Flockadoo. Machines in one multi-node cluster also join a private network so they can run one model together. Other clusters are not on that network. See [Multi-node networking](../provider/multi-node-networking.md).
 
-## Connection to Inferoute
+## Connection to Flockadoo
 
-On startup the client opens an outbound connection to Inferoute. If the connection drops, the client reconnects on its own. You do not configure a public URL.
+On startup the client opens an outbound connection to Flockadoo. If the connection drops, the client reconnects on its own. You do not configure a public URL.
 
 On shutdown, the client closes the connection.
 

@@ -2,7 +2,7 @@
 
 You can ask to join someone else’s multi-node cluster. You do not create that cluster, and you do not get your own provider API key for it. You get a **join code** after the owner accepts. Paste that code into setup. Your machine becomes a **worker**.
 
-You need an Inferoute account with a verified email. Multi-node workers run on **Linux** with an NVIDIA GPU.
+You need a Flockadoo account with a verified email. Multi-node workers run on **Linux** with an NVIDIA GPU.
 
 ## Set how the owner can reach you
 
@@ -14,13 +14,13 @@ The owner sees one contact method on your request. It defaults to your account e
 4. Choose **Preferred contact**. Telegram and Discord stay off until that handle is filled in.
 5. Click **Save contact**.
 
-This is not a second login. Inferoute still emails your account address.
+This is not a second login. Flockadoo still emails your account address.
 
 ## Ask to join
 
 1. Open the cluster link the owner sent you, or go to **Explore** → **GPU clusters** and open a card.
 2. The list is only multi-node clusters. It is not **My Clusters** under **Inference** (those are clusters you own or already joined).
-3. On the cluster page, read the model, OS, engine, GPU on the master, vLLM version, VRAM minimum, open slots (for example `1/2`), and the owner’s commission. Every machine uses the OS and engine shown on that page. Matching that GPU is what Inferoute tests. A different GPU may work, but we have not tested it. See [GPUs across nodes](multi-node-clusters.md#gpus-across-nodes).
+3. On the cluster page, read the model, OS, engine, GPU on the master, vLLM version, VRAM minimum, open slots (for example `1/2`), and the owner’s commission. Every machine uses the OS and engine shown on that page. Matching that GPU is what Flockadoo tests. A different GPU may work, but we have not tested it. See [GPUs across nodes](multi-node-clusters.md#gpus-across-nodes).
 4. Click **Request invite**. The list itself has no invite button.
 
 You and the owner each get an email. The email does not include a join code. On the cluster page the button changes to **Cancel request**.
@@ -50,12 +50,12 @@ After setup has used the code, this cluster shows **In this cluster**. Only the 
 On the worker machine:
 
 ```bash
-inferoute-client setup
+flockadoo setup
 ```
 
 When setup asks **Provider API key or join code**, paste the join code (`join-…`). You can paste it with quotes or a label. Setup keeps the `join-` token.
 
-Setup prints **Joining cluster** and the model name. It does not ask you to pick an engine or a model. It uses the model the owner saved. If vLLM is missing, setup installs it. It then joins the private network. Enter your password when it prints `inferscale needs root to create inferscale0`. See [How the machines connect](multi-node-clusters.md#how-the-machines-connect).
+Setup prints **Joining cluster** and the model name. It does not ask you to pick an engine or a model. It uses the model the owner saved. If vLLM is missing, setup installs it. It then joins the private network. Enter your password when it prints `winglink needs root to create winglink0`. See [How the machines connect](multi-node-clusters.md#how-the-machines-connect).
 
 If the owner has not saved an intended model, setup stops with `cluster … has no model set. Choose one in the dashboard, then re-run setup`.
 
@@ -70,7 +70,7 @@ You need a new code when:
 For those last two, pass the new code yourself. A plain re-run will not ask:
 
 ```bash
-inferoute-client setup --api-key "join-…"
+flockadoo setup --api-key "join-…"
 ```
 
 Ask the owner for **New code** first. The old code stops working.
@@ -86,7 +86,7 @@ On a multi-node cluster, vLLM must listen on **8000** and llama.cpp must listen 
 After the command is running, start the client:
 
 ```bash
-inferoute-client
+flockadoo
 ```
 
 If the engine is not running, the client prints the command again. It does not start the engine for you.

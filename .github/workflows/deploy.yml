@@ -1,6 +1,6 @@
 # Build the docs with Zensical and deploy to Cloudflare Pages.
-# Push to main -> production (docs.inferoute.com). Pull request -> preview URL, posted on the PR.
-# inferoute-node pushes docs/api/openapi.json here when the API spec changes, which runs this too.
+# Push to main -> production (docs.flockadoo.ai). Pull request -> preview URL, posted on the PR.
+# flockadoo-server pushes docs/api/openapi.json here when the API spec changes, which runs this too.
 name: Docs
 
 on:
@@ -45,7 +45,7 @@ jobs:
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           command: >-
             pages deploy site
-            --project-name=inferoute-docs
+            --project-name=flockadoo-docs
             --branch=${{ github.head_ref || github.ref_name }}
             --commit-hash=${{ github.event.pull_request.head.sha || github.sha }}
 

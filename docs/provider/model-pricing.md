@@ -2,12 +2,12 @@
 
 Each **cluster** has its own model list and prices. Changing prices on one cluster does **not** change prices on your other clusters, even when they run the same model name.
 
-For example, if **inferoute-cluster1** and **inferoute-cluster2** both serve `Qwen/Qwen2.5-7B-Instruct`, you can set different input and output prices on each cluster. Buyers see the price for the cluster that actually runs their request.
+For example, if **flockadoo-cluster1** and **flockadoo-cluster2** both serve `Qwen/Qwen2.5-7B-Instruct`, you can set different input and output prices on each cluster. Buyers see the price for the cluster that actually runs their request.
 
 ## Where to edit prices
 
 1. Open **My Clusters** in the dashboard.
-2. Select a cluster (for example **inferoute-cluster1**).
+2. Select a cluster (for example **flockadoo-cluster1**).
 3. Open the **Models** tab.
 4. Edit **Input / 1M** and **Output / 1M**.
 5. Click **Save** on that row.
@@ -28,8 +28,8 @@ Each model has a maximum price. Saving above it returns an error that states the
 
 | What you do | Effect |
 |-------------|--------|
-| Change prices on **inferoute-cluster1** | Only that cluster’s listed prices change |
-| Same model name on **inferoute-cluster2** | Unchanged unless you edit that cluster too |
+| Change prices on **flockadoo-cluster1** | Only that cluster’s listed prices change |
+| Same model name on **flockadoo-cluster2** | Unchanged unless you edit that cluster too |
 | **Models & Prices** (account-wide tab) | Read-only overview across clusters — not where you edit |
 
 Use the cluster **Models** tab when you want different prices per machine, region, or GPU tier. Set the same numbers on each cluster if you want uniform pricing everywhere.
@@ -49,7 +49,7 @@ When you deploy a new cluster, the client starts models at the market-average pr
 
 ## Provider API (automation)
 
-If you automate with a **provider API key**, prices are still **per cluster** (one key per cluster). Call the platform at `https://core.inferoute.com` — not the [local REST API](../provider-client/rest-api.md) on the machine.
+If you automate with a **provider API key**, prices are still **per cluster** (one key per cluster). Call the platform at `https://core.flockadoo.ai` — not the [local REST API](../provider-client/rest-api.md) on the machine.
 
 Authenticate with `Authorization: Bearer <provider API key>`. Prices are $/1M, the same numbers as the dashboard. Get `model_id` from `GET /api/provider/models`.
 
@@ -66,7 +66,7 @@ Both fields are required JSON numbers. `0` is allowed. At most 2 decimal places.
 For example, $0.15 input and $0.60 output:
 
 ```bash
-curl -X PATCH "https://core.inferoute.com/api/provider/models/{model_id}/pricing" \
+curl -X PATCH "https://core.flockadoo.ai/api/provider/models/{model_id}/pricing" \
   -H "Authorization: Bearer YOUR_PROVIDER_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -75,7 +75,7 @@ curl -X PATCH "https://core.inferoute.com/api/provider/models/{model_id}/pricing
   }'
 ```
 
-Changing the price on **inferoute-cluster1** does not change **inferoute-cluster2**.
+Changing the price on **flockadoo-cluster1** does not change **flockadoo-cluster2**.
 
 ## Related
 

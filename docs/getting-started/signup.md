@@ -1,10 +1,10 @@
 # Sign up and create a cluster
 
-Create an Inferoute account, deploy a provider cluster, and copy the **provider API key**. You need that key for [Installation](installation.md).
+Create a Flockadoo account, deploy a provider cluster, and copy the **provider API key**. You need that key for [Installation](installation.md).
 
 ## Sign up
 
-1. Open [www.inferoute.com](https://www.inferoute.com).
+1. Open [www.flockadoo.ai](https://www.flockadoo.ai).
 2. Click **Sign-up**.
 3. Enter your email, or continue with **Google** or **GitHub**.
 4. Open the **Complete your signup** email and choose a password (at least **8** characters). You land in the dashboard.
@@ -49,7 +49,7 @@ Skip any vendor install links. The client [setup wizard](../provider-client/setu
 
 ### 3. Client (cluster name and API key)
 
-1. Set **Cluster name**. For example, `inferoute-cluster1`.
+1. Set **Cluster name**. For example, `flockadoo-cluster1`.
 2. Set **API key label** (defaults to `{cluster name} API key`).
 3. Click **generate API key**.
 4. Pick **Linux**, **macOS**, or **Windows** for the install command.
@@ -64,7 +64,7 @@ You set model prices **after** the client is running, on the cluster **Models** 
 
 If you already have a cluster and need the key again:
 
-1. Open **My Clusters** and select the cluster (for example **inferoute-cluster1**).
+1. Open **My Clusters** and select the cluster (for example **flockadoo-cluster1**).
 2. Open the **Settings** tab.
 
 You can **Create API Key** if the cluster has none, or **Re-Generate Key** for an existing key. Re-generating immediately invalidates the old secret — update the client config before you expect inference to work.
