@@ -1,6 +1,6 @@
 # Approved model builds
 
-Inferoute maintains a platform allowlist of **approved model builds**. The Provider Client uses this list to know which models can be offered on the marketplace and verifies your local weights against platform records.
+Flockadoo maintains a platform allowlist of **approved model builds**. The Provider Client uses this list to know which models can be offered on the marketplace and verifies your local weights against platform records.
 
 Verification secrets (fingerprints and manifests) are **not** published. The client measures your local model and the platform returns **verified** or **failed**.
 
@@ -19,7 +19,7 @@ Optional query:
 ### Example
 
 ```bash
-curl -s https://core.inferoute.com/api/models/approved-builds | jq .
+curl -s https://core.flockadoo.ai/api/models/approved-builds | jq .
 ```
 ### Example response
 
@@ -62,7 +62,7 @@ curl -s https://core.inferoute.com/api/models/approved-builds | jq .
 
 | Field | Meaning |
 |-------|---------|
-| `alias` | Model id to use with Inferoute and your LLM server |
+| `alias` | Model id to use with Flockadoo and your LLM server |
 | `service_type` | `vllm` or `llama_cpp`. vLLM Metal uses `vllm` |
 | `hf_repo` | HuggingFace repo id (`org/name`) for vLLM downloads |
 | `hf_ref` | Branch or tag to download (for example `main`) |
@@ -70,7 +70,7 @@ curl -s https://core.inferoute.com/api/models/approved-builds | jq .
 | `engines` | Client runtimes allowed to serve this build: `vllm`, `vllm-metal`, `llama_cpp` |
 | `gguf_file` | llama.cpp filename, for example `qwen2.5-7b-instruct-q4_k_m.gguf`. Present on `llama_cpp` rows |
 | `tool_call_parser` | (vLLM optional) Parser name for auto tool calling, for example `hermes`. **Omit** (null) when the model does not support tools — setup and auto-start then start the engine **without** `--enable-auto-tool-choice` |
-| `max_model_len` | Set on every row. The minimum context length every provider of this model must serve. Verification fails when the live engine serves less, and Inferoute checks "request is too long" errors against it |
+| `max_model_len` | Set on every row. The minimum context length every provider of this model must serve. Verification fails when the live engine serves less, and Flockadoo checks "request is too long" errors against it |
 | `rope_type` | (vLLM optional) `yarn` when `max_model_len` is longer than the model's own context. Set with `rope_base_context_len` and `rope_theta`, or not at all. For example, Qwen2.5 7B reaches 32768 tokens by itself and uses YaRN for 131072. A model that already reaches `max_model_len`, such as gpt-oss-20b, has no RoPE fields |
 | `rope_base_context_len` | (vLLM optional) The model's own context. The YaRN factor is `max_model_len / rope_base_context_len` |
 | `rope_theta` | (vLLM optional) The model's `rope_theta`, from its `config.json`. vLLM needs it in the YaRN override |
@@ -101,7 +101,7 @@ The [setup wizard](setup.md) fetches this catalog, **drops rows this engine cann
 
 Health checks refresh this catalog to verify weights and live context. They do **not** rewrite `config.yaml` or restart the engine with new flags. If you start the engine yourself, match the catalog row — or re-run setup. See [Setup wizard](setup.md).
 
-Consumers call Inferoute with the catalog **`alias`**. For example, `Qwen/Qwen2.5-7B-Instruct` routes to whichever providers are serving that alias, including Windows llama.cpp providers when `engines` includes `llama_cpp`.
+Consumers call Flockadoo with the catalog **`alias`**. For example, `Qwen/Qwen2.5-7B-Instruct` routes to whichever providers are serving that alias, including Windows llama.cpp providers when `engines` includes `llama_cpp`.
 
 ## How verification works
 
@@ -119,7 +119,7 @@ Consumers call Inferoute with the catalog **`alias`**. For example, `Qwen/Qwen2.
 
 ### Which flags change verification
 
-If you start the engine yourself, keep the settings in this table. Changing them makes verification **failed**, and Inferoute will not route to that model.
+If you start the engine yourself, keep the settings in this table. Changing them makes verification **failed**, and Flockadoo will not route to that model.
 
 | Setting | vLLM and vLLM Metal | llama.cpp |
 |---------|---------------------|-----------|

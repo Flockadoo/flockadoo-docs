@@ -1,6 +1,6 @@
 # Max price limits
 
-You control how much you are willing to pay per request by setting **max input** and **max output** prices. Inferoute only routes your requests to providers whose prices are at or below your limits.
+You control how much you are willing to pay per request by setting **max input** and **max output** prices. Flockadoo only routes your requests to providers whose prices are at or below your limits.
 
 ## Profile default
 
@@ -27,7 +27,7 @@ When you **create** a key, it adopts your profile default. You can optionally se
 
 ## Per Request
 
-You can override an API key's max price for one request by sending Inferoute routing options in the API request. Request overrides cannot exceed your profile default.
+You can override an API key's max price for one request by sending Flockadoo routing options in the API request. Request overrides cannot exceed your profile default.
 
 See [Request routing options](request-routing-options.md).
 
@@ -49,6 +49,6 @@ Dashboard prices are **per 1 million tokens** ($/1M), the same style as provider
 ## Related
 
 - [Using the API](using-the-api.md)
-- [Using your own clusters](own-clusters.md)
+- [Using your own flocks](own-flocks.md)
 - [Request routing options](request-routing-options.md)
 - [Monthly spending caps](monthly-spending-caps.md)

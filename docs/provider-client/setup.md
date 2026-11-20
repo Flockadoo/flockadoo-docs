@@ -1,13 +1,13 @@
 # Setup wizard
 
-The install script places the binary, then runs **`inferoute-client setup`**. That wizard is how you pick an engine, install it if it is missing, choose an [approved model](approved-models.md) that fits this machine, and write `~/.config/inferoute/config.yaml`.
+The install script places the binary, then runs **`flockadoo setup`**. That wizard is how you pick an engine, install it if it is missing, choose an [approved model](approved-models.md) that fits this machine, and write `~/.config/flockadoo/config.yaml`.
 
 You do **not** install vLLM, vLLM Metal, or llama.cpp by hand. The wizard does that, then can start the engine and wait for the first model download.
 
 Re-run anytime you want to change engine, model, or API key:
 
 ```bash
-inferoute-client setup
+flockadoo setup
 ```
 
 Re-running updates those fields and leaves server and logging settings in place.
@@ -16,7 +16,7 @@ If you have not installed the client yet, start with [Installation](../getting-s
 
 ## What the wizard asks
 
-1. **Provider API key or join code** — the prompt label. The key is on **My Clusters** → **Settings**. Required. See [Sign up and create a cluster](../getting-started/signup.md). A **join code** (`join-…`) goes in this same field. Setup then joins that multi-node cluster as a worker and does not ask you to pick an engine or a model. See [Joining a cluster](../provider/joining-a-cluster.md).
+1. **Provider API key or join code** — the prompt label. The key is on **My Flocks** → **Settings**. Required. See [Sign up and create a flock](../getting-started/signup.md). A **join code** (`join-…`) goes in this same field. Setup then joins that Team Flock as a worker and does not ask you to pick an engine or a model. See [Joining a flock](../provider/joining-a-flock.md).
 2. **Inference engine** — vLLM on Linux, vLLM Metal or llama.cpp on Apple Silicon, or llama.cpp on Windows.
 3. **Install if missing** — if the engine is not on the machine, the wizard offers to install it. On Linux, a GPU with compute capability **10.0** or higher (Blackwell, including RTX 50-series) also downloads FlashInfer kernels during the vLLM install. See [Setup: Linux](setup-linux.md).
 4. **Model** — fetches the approved catalog, **keeps only rows tagged for this engine** (`engines`), scores the rest against this GPU or unified memory, and lists rows that should fit (`runs_well`, `fits`, `tight`). Pick a number from the table. Windows only shows builds that include `llama_cpp`. See [Approved model builds](approved-models.md).
@@ -28,9 +28,9 @@ It then writes config (`engine`, `provider_type`, `llm_url`, `model`, `auto_star
 
     **Start the engine the way setup would.** Auto-start only replays what is already in `config.yaml`. The client does **not** re-read catalog serve flags at runtime or restart a process that is already bound.
 
-    - Prefer **`inferoute-client setup`**. It writes the flags and can start the engine.
+    - Prefer **`flockadoo setup`**. It writes the flags and can start the engine.
     - If you start vLLM, vLLM Metal, or llama.cpp yourself, use the command setup printed (same `max_model_len`, YaRN, and tool parser when the catalog has them). llama.cpp uses `-c` for context and `--jinja` when a parser is set.
-    - If the catalog row has **no** `tool_call_parser`, do **not** pass `--enable-auto-tool-choice`. That model does not use Inferoute tool calling.
+    - If the catalog row has **no** `tool_call_parser`, do **not** pass `--enable-auto-tool-choice`. That model does not use Flockadoo tool calling.
     - After you change model or catalog flags, **stop the engine** and re-run setup. A process already listening on `llm_url` is left as-is.
 
 ## Engines by platform
@@ -43,42 +43,42 @@ It then writes config (`engine`, `provider_type`, `llm_url`, `model`, `auto_star
 
 Intel Macs are not supported.
 
-On a multi-node cluster those ports are fixed. vLLM must stay on **8000** and llama.cpp on **8081**. See [Multi-node clusters](../provider/multi-node-clusters.md).
+On a Team Flock those ports are fixed. vLLM must stay on **8000** and llama.cpp on **8081**. See [Team Flocks](../provider/team-flocks.md).
 
 vLLM and vLLM Metal set **provider_type** to `vllm`. llama.cpp sets it to `llama_cpp`. Change engine with the wizard, not by editing YAML.
 
 ## Supported engine versions
 
-vLLM and vLLM Metal need release **0.30.0** or newer. Setup reads the release that is installed. If it is older, setup says **Inferoute needs vLLM 0.30.0 or newer** and asks to reinstall the current release. `--yes` accepts. If you say no, setup turns **auto_start** off and the client does not serve through that release.
+vLLM and vLLM Metal need release **0.30.0** or newer. Setup reads the release that is installed. If it is older, setup says **Flockadoo needs vLLM 0.30.0 or newer** and asks to reinstall the current release. `--yes` accepts. If you say no, setup turns **auto_start** off and the client does not serve through that release.
 
-If you start an older vLLM yourself, the client prints a warning when it starts, offers no models to Inferoute, and refuses requests until you upgrade. Run `inferoute-client setup` to install a supported release. llama.cpp has no minimum.
+If you start an older vLLM yourself, the client prints a warning when it starts, offers no models to Flockadoo, and refuses requests until you upgrade. Run `flockadoo setup` to install a supported release. llama.cpp has no minimum.
 
 First-run model download and load can take a long time. Setup waits up to **2 hours**. If the engine is still fetching weights, check `engine.log` under the [log directory](configuration.md#log-files) and re-run setup or start the client after it is up.
 
-On a multi-node cluster, that **2 hour** wait is the download. It is not the peer wait. The owner starts the master first. Once it is up, workers have **60 minutes** to join. If a worker is late, the engines stop. Start the master again, then the workers. See [Multi-node clusters](../provider/multi-node-clusters.md).
+On a Team Flock, that **2 hour** wait is the download. It is not the peer wait. The owner starts the master first. Once it is up, workers have **60 minutes** to join. If a worker is late, the engines stop. Start the master again, then the workers. See [Team Flocks](../provider/team-flocks.md).
 
-On a multi-node master or worker, setup leaves **auto_start** off. It prints the vLLM command and does not start the engine. A worker with no vLLM binary gets the install without an extra question. If the cluster has a **vLLM version** on **Nodes**, setup installs that release. It must be 0.30.0 or newer; setup stops on an older pin. A machine that already has a different release is asked before it is replaced. The wizard also downloads **inferscale** and may ask for your password (`inferscale needs root to create inferscale0`).
+On a Team Flock master or worker, setup leaves **auto_start** off. It prints the vLLM command and does not start the engine. A worker with no vLLM binary gets the install without an extra question. If the flock has a **vLLM version** on **Nodes**, setup installs that release. It must be 0.30.0 or newer; setup stops on an older pin. A machine that already has a different release is asked before it is replaced. The wizard also downloads **winglink** and may ask for your password (`winglink needs root to create winglink0`).
 
 ## After the wizard
 
-Start the Inferoute client (not just the LLM engine):
+Start the Flockadoo client (not just the LLM engine):
 
 ```bash
-inferoute-client
+flockadoo
 ```
 
-On Windows, use **Start Menu → Inferoute → Inferoute Client**. See [Setup: Windows](setup-windows.md).
+On Windows, use **Start Menu → Flockadoo → Flockadoo Client**. See [Setup: Windows](setup-windows.md).
 
 When `auto_start` is on, later client starts will bring the engine up if `llm_url` is down — they replay the serve flags stored in config and will not spawn a second copy if that port is already in use.
 
-Then set prices on **My Clusters** → **Models**. See [Model pricing](../provider/model-pricing.md).
+Then set prices on **My Flocks** → **Models**. See [Model pricing](../provider/model-pricing.md).
 
 ## Non-interactive setup
 
 For scripts, pass flags instead of answering prompts. `--yes` does **not** install a missing engine unless you also pass `--install`. A worker join installs a missing vLLM even without `--install`.
 
 ```bash
-inferoute-client setup --yes --engine vllm --model Qwen/Qwen2.5-7B-Instruct --api-key "your-provider-api-key"
+flockadoo setup --yes --engine vllm --model Qwen/Qwen2.5-7B-Instruct --api-key "your-provider-api-key"
 ```
 
 | Flag | Purpose |
@@ -91,11 +91,11 @@ inferoute-client setup --yes --engine vllm --model Qwen/Qwen2.5-7B-Instruct --ap
 | `--no-start` | Write config only; do not start the engine |
 | `--llm-url` | URL of an engine you run yourself. Setup does not install or start an engine, and `auto_start` stays off |
 | `--port` | Port for the client's local API (default `8080`) |
-| `--url` | Inferoute API base (catalog + `provider.url`). Wins over `INFEROUTE_URL` |
+| `--url` | Flockadoo API base (catalog + `provider.url`). Wins over `FLOCKADOO_URL` |
 | `--offline-catalog` | Local approved-builds JSON instead of the network catalog |
-| `--config` | Config path (default `~/.config/inferoute/config.yaml`) |
+| `--config` | Config path (default `~/.config/flockadoo/config.yaml`) |
 
-With `INFEROUTE_SKIP_SETUP=1`, the install scripts run this same non-interactive setup for you, with `--llm-url` and the model from `PROVIDER_MODEL` — see [Installation](../getting-started/installation.md#skip-the-wizard-scripts-ci).
+With `FLOCKADOO_SKIP_SETUP=1`, the install scripts run this same non-interactive setup for you, with `--llm-url` and the model from `PROVIDER_MODEL` — see [Installation](../getting-started/installation.md#skip-the-wizard-scripts-ci).
 
 ## Related
 

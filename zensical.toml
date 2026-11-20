@@ -1,41 +1,41 @@
 [project]
-site_name = "Inferoute Docs"
-site_url = "https://docs.inferoute.com/"
-site_description = "Guides for Inferoute providers and API consumers."
+site_name = "Flockadoo Docs"
+site_url = "https://docs.flockadoo.ai/"
+site_description = "Guides for Flockadoo providers and API consumers."
 docs_dir = "docs"
 site_dir = "site"
-repo_url = "https://github.com/Inferoute/inferoute-docs"
-repo_name = "inferoute-docs"
+repo_url = "https://github.com/Flockadoo/flockadoo-docs"
+repo_name = "flockadoo-docs"
 edit_uri = "edit/main/docs/"
-copyright = "&copy; 2026 Inferoute (Pty) Ltd · <a href=\"https://inferoute.com/terms\">Terms</a> · <a href=\"https://inferoute.com/privacy\">Privacy</a>"
-extra_css = ["stylesheets/inferoute.css"]
+copyright = "&copy; 2026 Flockadoo Limited · <a href=\"https://flockadoo.ai/terms\">Terms</a> · <a href=\"https://flockadoo.ai/privacy\">Privacy</a>"
+extra_css = ["stylesheets/flockadoo.css"]
 
 nav = [
   { "Overview" = "index.md" },
   { "Getting started" = [
     { "Software and hardware requirements" = "getting-started/requirements.md" },
-    { "Sign up and create a cluster" = "getting-started/signup.md" },
+    { "Sign up and create a flock" = "getting-started/signup.md" },
     { "Installation" = "getting-started/installation.md" },
   ] },
   { "Consumer" = [
     { "Using the API" = "consumer/using-the-api.md" },
     { "Monthly spending caps" = "consumer/monthly-spending-caps.md" },
     { "Max price limits" = "consumer/max-price-limits.md" },
-    { "Using your own clusters" = "consumer/own-clusters.md" },
+    { "Using your own flocks" = "consumer/own-flocks.md" },
     { "Request routing options" = "consumer/request-routing-options.md" },
     { "Supported parameters" = "consumer/supported-parameters.md" },
     { "Automatic model selection" = "consumer/automatic-model-selection.md" },
   ] },
   { "Provider (dashboard)" = [
-    { "Deleting and managing clusters" = "provider/deleting-clusters.md" },
-    { "Cluster location" = "provider/cluster-location.md" },
+    { "Deleting and managing flocks" = "provider/deleting-flocks.md" },
+    { "Flock location" = "provider/flock-location.md" },
     { "Model pricing" = "provider/model-pricing.md" },
-    { "Multi-node clusters" = "provider/multi-node-clusters.md" },
-    { "Multi-node networking" = "provider/multi-node-networking.md" },
+    { "Team Flocks" = "provider/team-flocks.md" },
+    { "Team Flock networking" = "provider/Team Flock-networking.md" },
     { "Inviting nodes" = "provider/inviting-nodes.md" },
-    { "Joining a cluster" = "provider/joining-a-cluster.md" },
-    { "Cluster earnings" = "provider/cluster-earnings.md" },
-    { "Engine checks" = "provider/cluster-checks.md" },
+    { "Joining a flock" = "provider/joining-a-flock.md" },
+    { "Flock earnings" = "provider/flock-earnings.md" },
+    { "Engine checks" = "provider/flock-checks.md" },
   ] },
   { "Provider client" = [
     { "Introduction" = "provider-client/introduction.md" },
@@ -76,7 +76,7 @@ features = [
 ]
 
 [project.theme.icon]
-logo = "inferoute/mark"
+logo = "flockadoo/mark"
 
 [[project.theme.palette]]
 media = "(prefers-color-scheme: light)"
@@ -96,4 +96,4 @@ toggle.name = "Switch to light mode"
 
 [[project.extra.social]]
 icon = "fontawesome/brands/github"
-link = "https://github.com/Inferoute"
+link = "https://github.com/Flockadoo"

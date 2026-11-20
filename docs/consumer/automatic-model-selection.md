@@ -1,6 +1,6 @@
 # Automatic model selection
 
-You can leave the model choice to Inferoute. Send your price and speed limits, and Inferoute picks the cheapest approved model that can serve the request.
+You can leave the model choice to Flockadoo. Send your price and speed limits, and Flockadoo picks the cheapest approved model that can serve the request.
 
 ## How to ask
 
@@ -14,7 +14,7 @@ Omit `model`, or set it to `auto`. For example:
       "content": "Write a short product summary."
     }
   ],
-  "inferoute": {
+  "flockadoo": {
     "sort": "cost",
     "min_tokens_per_second": 20,
     "max_input_price_per_1m": 0.5,
@@ -29,7 +29,7 @@ The reply includes a `model` field. That is the model that served the request.
 
 ## What counts as able to serve it
 
-Inferoute reads the body:
+Flockadoo reads the body:
 
 | Body | Models considered |
 |------|-------------------|
@@ -39,7 +39,7 @@ Inferoute reads the body:
 
 Only approved models are eligible. A model a provider loaded that is not on the approved list is skipped in this mode. Name that model yourself if you want it.
 
-Your max price (profile, key, and the request) and `min_tokens_per_second` still apply. Max price doesn't apply to [your own clusters](own-clusters.md).
+Your max price (profile, key, and the request) and `min_tokens_per_second` still apply. Max price doesn't apply to [your own flocks](own-flocks.md).
 
 If nothing qualifies, you get **404**.
 
@@ -48,4 +48,4 @@ If nothing qualifies, you get **404**.
 - [Using the API](using-the-api.md)
 - [Request routing options](request-routing-options.md)
 - [Max price limits](max-price-limits.md)
-- [Using your own clusters](own-clusters.md)
+- [Using your own flocks](own-flocks.md)

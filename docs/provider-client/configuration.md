@@ -1,25 +1,25 @@
 # Configuration
 
-The client reads a YAML config file. Default path is platform-specific (for example `~/.config/inferoute/config.yaml`). Override with `--config /path/to/config.yaml`.
+The client reads a YAML config file. Default path is platform-specific (for example `~/.config/flockadoo/config.yaml`). Override with `--config /path/to/config.yaml`.
 
-Prefer **`inferoute-client setup`** to change engine, model, or API key — see the [setup wizard](setup.md). Re-running the wizard updates this file and leaves server/logging settings in place.
+Prefer **`flockadoo setup`** to change engine, model, or API key — see the [setup wizard](setup.md). Re-running the wizard updates this file and leaves server/logging settings in place.
 
 ## Sections
 
 - **server** — HTTP server for the [local REST API](rest-api.md).
   - **port** — Listen port (default **8080**).
-  - **host** — Bind address (default **127.0.0.1**). Leave this unless you need the status dashboard from another machine or from the Docker host. Set `0.0.0.0` only in that case, then publish the port to loopback on the host (for example `-p 127.0.0.1:8080:8080`). The connection to Inferoute does not need a published port.
-  - **max_concurrent_inference** — How many inference requests the client will run at once (default **1**). Further requests return **503** so Inferoute can try another provider. Use **0** for unlimited. Follow-up turns for the same session can wait instead of getting 503 — see `session_queue_wait_seconds`.
+  - **host** — Bind address (default **127.0.0.1**). Leave this unless you need the status dashboard from another machine or from the Docker host. Set `0.0.0.0` only in that case, then publish the port to loopback on the host (for example `-p 127.0.0.1:8080:8080`). The connection to Flockadoo does not need a published port.
+  - **max_concurrent_inference** — How many inference requests the client will run at once (default **1**). Further requests return **503** so Flockadoo can try another provider. Use **0** for unlimited. Follow-up turns for the same session can wait instead of getting 503 — see `session_queue_wait_seconds`.
   - **session_queue_wait_seconds** — How long a same-session follow-up waits for a free slot instead of **503** (default **90**).
   - **request_timeout_seconds** — HTTP read/write timeout. Must cover the session queue wait plus inference (default **240**).
-- **provider** — Connection to the Inferoute platform.
-  - **api_key** — Provider API key for **this cluster** (from **My Clusters** → **Settings**). Required. The client refuses to start if this is empty or still `your_api_key_here`.
-  - **url** — Inferoute platform URL. The install script sets `https://core.inferoute.com`. Do not point this at localhost unless you are developing against a local platform.
+- **provider** — Connection to the Flockadoo platform.
+  - **api_key** — Provider API key for **this flock** (from **My Flocks** → **Settings**). Required. The client refuses to start if this is empty or still `your_api_key_here`.
+  - **url** — Flockadoo platform URL. The install script sets `https://core.flockadoo.ai`. Do not point this at localhost unless you are developing against a local platform.
   - **provider_type** — `vllm` or `llama_cpp`. vLLM Metal uses `vllm`. llama.cpp uses `llama_cpp`.
-  - **engine** — Local program: `vllm`, `vllm-metal`, or `llama_cpp`. Change this with `inferoute-client setup`.
+  - **engine** — Local program: `vllm`, `vllm-metal`, or `llama_cpp`. Change this with `flockadoo setup`.
   - **engine_bin** — Absolute path to the engine binary when it is not on `PATH` (typical for llama.cpp on Windows).
   - **model** — Catalog alias the client auto-starts (for example `Qwen/Qwen2.5-7B-Instruct`).
-  - **auto_start** — When **true**, start the engine if **llm_url** is down, using the serve flags already in this file. Setup turns this on when it can find the binary on a single-node machine. On a multi-node master or worker, setup leaves this off. Existing configs without this field stay off. A process already bound on **llm_url** is not restarted.
+  - **auto_start** — When **true**, start the engine if **llm_url** is down, using the serve flags already in this file. Setup turns this on when it can find the binary on a single-node machine. On a Team Flock master or worker, setup leaves this off. Existing configs without this field stay off. A process already bound on **llm_url** is not restarted.
   - **llm_url** — Local LLM API URL. For example, `http://127.0.0.1:8000` for vLLM and vLLM Metal, or `http://127.0.0.1:8081` for llama.cpp.
   - **gguf_file** — llama.cpp filename from the catalog, for example `qwen2.5-7b-instruct-q4_k_m.gguf`. Setup writes this.
   - **llm_timeout_seconds** — Timeout for requests forwarded to the local engine (default **120**).
@@ -29,35 +29,35 @@ Prefer **`inferoute-client setup`** to change engine, model, or API key — see 
   - **tool_call_parser**, **max_model_len**, **rope_type**, **rope_base_context_len**, **rope_theta** — (optional) Catalog serve flags copied by setup so auto-start can rebuild the same engine command offline. Every catalog row has a `max_model_len`, so setup always writes it. Missing `tool_call_parser` means start **without** tool calling. The three RoPE fields are set together or not at all; a config with `rope_type` and no `rope_theta` does not start the engine and asks you to re-run setup. Changing these by hand does not update a running engine — stop it and re-run setup. See [Approved model builds](approved-models.md).
 - **logging**
   - **level** — `debug`, `info`, `warn`, `error`.
-  - **log_dir** — Directory for log files (default: `~/.local/state/inferoute/log`).
+  - **log_dir** — Directory for log files (default: `~/.local/state/flockadoo/log`).
   - **max_size** — Max log file size in MB before rotation (default: 100).
   - **max_backups** — Number of rotated files to keep (default: 5).
   - **max_age** — Max age of rotated files in days (default: 30).
 
-The connection to Inferoute is **not** a config section. The client opens it at startup from `provider.url`. See [How it works](how-it-works.md).
+The connection to Flockadoo is **not** a config section. The client opens it at startup from `provider.url`. See [How it works](how-it-works.md).
 
 ## Log files
 
-Under `log_dir` (default `~/.local/state/inferoute/log`):
+Under `log_dir` (default `~/.local/state/flockadoo/log`):
 
-- **inferoute.log** — Main application log (all levels).
+- **flockadoo.log** — Main application log (all levels).
 - **error.log** — Error-level entries only.
 - **engine.log** — Stdout/stderr from an auto-started vLLM, vLLM Metal, or llama.cpp process.
-- **inferscaled.log** — inferscale daemon output on a multi-node machine. Read this when setup says `inferscaled did not answer`.
+- **winglinkd.log** — winglink daemon output on a Team Flock machine. Read this when setup says `winglinkd did not answer`.
 
 The terminal and the status page show status and inference requests only. When something fails, read **error.log**.
 
 ## Overriding defaults
 
-Prefer `inferoute-client setup` to change engine, model, and API key.
+Prefer `flockadoo setup` to change engine, model, and API key.
 
-For non-interactive installs, set `INFEROUTE_SKIP_SETUP=1` and pass environment variables. `PROVIDER_MODEL` is required: the approved model your engine serves, under that exact name. See [Installation](../getting-started/installation.md#skip-the-wizard-scripts-ci).
+For non-interactive installs, set `FLOCKADOO_SKIP_SETUP=1` and pass environment variables. `PROVIDER_MODEL` is required: the approved model your engine serves, under that exact name. See [Installation](../getting-started/installation.md#skip-the-wizard-scripts-ci).
 
 **Install script (Linux/macOS):**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/inferoute/inferoute-client/main/scripts/install.sh | \
-  INFEROUTE_SKIP_SETUP=1 \
+curl -fsSL https://raw.githubusercontent.com/flockadoo/flockadoo/main/scripts/install.sh | \
+  FLOCKADOO_SKIP_SETUP=1 \
   PROVIDER_API_KEY="your-key" \
   PROVIDER_TYPE="vllm" \
   PROVIDER_MODEL="Qwen/Qwen2.5-7B-Instruct" \
@@ -69,13 +69,13 @@ curl -fsSL https://raw.githubusercontent.com/inferoute/inferoute-client/main/scr
 **Install script (Windows):**
 
 ```powershell
-$env:INFEROUTE_SKIP_SETUP="1"
+$env:FLOCKADOO_SKIP_SETUP="1"
 $env:PROVIDER_API_KEY="your-key"
 $env:PROVIDER_TYPE="llama_cpp"
 $env:PROVIDER_MODEL="Qwen/Qwen2.5-7B-Instruct"
 $env:LLM_URL="http://127.0.0.1:8081"
 $env:SERVER_PORT="9090"
-irm https://raw.githubusercontent.com/inferoute/inferoute-client/main/scripts/windows-install.ps1 | iex
+irm https://raw.githubusercontent.com/flockadoo/flockadoo/main/scripts/windows-install.ps1 | iex
 ```
 
 Windows uses llama.cpp. See [Setup: Windows](setup-windows.md).
@@ -89,10 +89,10 @@ docker run -e PROVIDER_API_KEY="your-key" \
   -e PROVIDER_TYPE="vllm" \
   -e PROVIDER_MODEL="Qwen/Qwen2.5-7B-Instruct" \
   -e LLM_URL="http://host.docker.internal:8000" \
-  inferoute/inferoute-client:latest
+  flockadoo/flockadoo:latest
 ```
 
-To open the local dashboard from the host, mount a config with `server.host: 0.0.0.0` and publish to loopback (`-p 127.0.0.1:8080:8080`). The connection to Inferoute does not need that port.
+To open the local dashboard from the host, mount a config with `server.host: 0.0.0.0` and publish to loopback (`-p 127.0.0.1:8080:8080`). The connection to Flockadoo does not need that port.
 
 ## Related
 

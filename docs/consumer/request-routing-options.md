@@ -1,6 +1,6 @@
 # Request routing options
 
-You can add optional Inferoute routing preferences to an API request without changing the request sent to providers. Put these fields under `inferoute`; Inferoute uses them to choose a provider, then removes them before forwarding the request.
+You can add optional Flockadoo routing preferences to an API request without changing the request sent to providers. Put these fields under `flockadoo`; Flockadoo uses them to choose a provider, then removes them before forwarding the request.
 
 For example:
 
@@ -13,7 +13,7 @@ For example:
       "content": "Write a short product summary."
     }
   ],
-  "inferoute": {
+  "flockadoo": {
     "sort": "throughput",
     "min_tokens_per_second": 50,
     "max_input_price_per_1m": 0.5,
@@ -31,17 +31,17 @@ For example:
 | `min_tokens_per_second` | Only use providers whose recent average output speed is at least this value. Providers with no history yet are still eligible. |
 | `max_input_price_per_1m` | Override the API key's max input price for this request. |
 | `max_output_price_per_1m` | Override the API key's max output price for this request. |
-| `session_id` | Pin follow-up turns in the same conversation to the same provider when it is still healthy. If you omit it, Inferoute still tries to stick to one provider from the conversation content. |
+| `session_id` | Pin follow-up turns in the same conversation to the same provider when it is still healthy. If you omit it, Flockadoo still tries to stick to one provider from the conversation content. |
 
 Request price overrides can be lower than your API key limits, or higher up to your **profile default**. They cannot exceed your profile default.
 
 ## Your Own Providers
 
-Your own clusters compete with marketplace providers for your requests. They still need to meet `min_tokens_per_second`, but max price (profile, key, and request) only limits marketplace providers. See [Using your own clusters](own-clusters.md).
+Your own flocks compete with marketplace providers for your requests. They still need to meet `min_tokens_per_second`, but max price (profile, key, and request) only limits marketplace providers. See [Using your own flocks](own-flocks.md).
 
 ## Related
 
 - [Using the API](using-the-api.md)
-- [Using your own clusters](own-clusters.md)
+- [Using your own flocks](own-flocks.md)
 - [Max price limits](max-price-limits.md)
 - [Automatic model selection](automatic-model-selection.md)

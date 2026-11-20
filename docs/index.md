@@ -1,6 +1,6 @@
-# What is Inferoute
+# What is Flockadoo
 
-Inferoute is a provider network and orchestration layer for running LLM inference. A central **orchestrator** (API at [core.inferoute.com](https://core.inferoute.com)) routes requests to providers that run the **Inferoute Provider Client** alongside a local LLM engine (vLLM, vLLM Metal, or llama.cpp). The orchestrator exposes an **OpenAI-compatible API**, so you can use the same client libraries and prompts you use with OpenAI while your traffic is routed to your own or third-party providers.
+Flockadoo is a provider network and orchestration layer for running LLM inference. A central **orchestrator** (API at [core.flockadoo.ai](https://core.flockadoo.ai)) routes requests to providers that run the **Flockadoo Provider Client** alongside a local LLM engine (vLLM, vLLM Metal, or llama.cpp). The orchestrator exposes an **OpenAI-compatible API**, so you can use the same client libraries and prompts you use with OpenAI while your traffic is routed to your own or third-party providers.
 
 - **Orchestrator:** Manages consumers, API keys, providers, and model pricing; routes chat/completion requests to healthy providers.
 - **Provider client:** Lightweight service on each provider machine that reports health, registers models and pricing, and handles inference by forwarding them to the local LLM server.
@@ -8,6 +8,6 @@ Inferoute is a provider network and orchestration layer for running LLM inferenc
 
 To call models as a buyer, create a consumer key and send a chat request — see [Using the API](consumer/using-the-api.md).
 
-To offer GPU inference, start with [Software and hardware requirements](getting-started/requirements.md), then [sign up and create a cluster](getting-started/signup.md), then [install the provider client](getting-started/installation.md).
+To offer GPU inference, start with [Software and hardware requirements](getting-started/requirements.md), then [sign up and create a flock](getting-started/signup.md), then [install the provider client](getting-started/installation.md).
 
 Endpoint-level API docs (parameters, payloads) live in the [API reference](api/index.html) (OpenAPI 3). These pages are guides.

@@ -5,12 +5,12 @@
 ### How do I get started as a provider?
 
 1. Check [Software and hardware requirements](../getting-started/requirements.md).
-2. [Sign up and create a cluster](../getting-started/signup.md) to copy a provider API key.
+2. [Sign up and create a flock](../getting-started/signup.md) to copy a provider API key.
 3. [Install the client](../getting-started/installation.md). The [setup wizard](setup.md) installs the LLM engine and an approved model — you do not need the engine already running.
 
-### What is the Inferoute Provider Client?
+### What is the Flockadoo Provider Client?
 
-A lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or llama.cpp). It monitors GPU resources, reports health to Inferoute, and handles inference requests by forwarding them to that engine.
+A lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or llama.cpp). It monitors GPU resources, reports health to Flockadoo, and handles inference requests by forwarding them to that engine.
 
 ### What platforms are supported?
 
@@ -20,11 +20,11 @@ A lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or
 
 ### How do I configure the client?
 
-Prefer **`inferoute-client setup`**. It writes engine, model, and API key into the YAML config. Server and logging stay in that file — see [Configuration](configuration.md). The connection to Inferoute is opened at startup — it is not a config section.
+Prefer **`flockadoo setup`**. It writes engine, model, and API key into the YAML config. Server and logging stay in that file — see [Configuration](configuration.md). The connection to Flockadoo is opened at startup — it is not a config section.
 
 ### How do I update the client?
 
-Stop the client, run `inferoute-client update`, then start it again. The console tells you when a newer release exists. If it says **Update required**, Inferoute is no longer accepting that release. See [Updating the client](updating.md).
+Stop the client, run `flockadoo update`, then start it again. The console tells you when a newer release exists. If it says **Update required**, Flockadoo is no longer accepting that release. See [Updating the client](updating.md).
 
 ### Can I earn while capability checks run?
 
@@ -43,7 +43,7 @@ They run again when the deployment changes: model, engine, engine version, weigh
 Stop the engine if it is already running, then re-run the [setup wizard](setup.md):
 
 ```bash
-inferoute-client setup
+flockadoo setup
 ```
 
 Auto-start only replays `config.yaml`. It does not notice that the catalog row changed, and it will not restart a process that is already listening.
@@ -54,20 +54,20 @@ Yes. Use the same flags the wizard printed. If the catalog row has no `tool_call
 
 ### Setup says this machine's GPU differs from the master
 
-The worker GPU is not the same model as the master's. Setup prints the two names and continues. Inferoute tests clusters where every machine has the same GPU. Mixing can work, and it can also leave vLLM stuck during startup. Use the same GPU when you can. See [GPUs across nodes](../provider/multi-node-clusters.md#gpus-across-nodes).
+The worker GPU is not the same model as the master's. Setup prints the two names and continues. Flockadoo tests flocks where every machine has the same GPU. Mixing can work, and it can also leave vLLM stuck during startup. Use the same GPU when you can. See [GPUs across nodes](../provider/team-flocks.md#gpus-across-nodes).
 
 ### Setup wants to reinstall vLLM
 
 There are two reasons.
 
-- **The release is older than 0.30.0.** Setup prints **Inferoute needs vLLM 0.30.0 or newer**. Say yes and setup installs the current release. Say no and setup leaves the old release in place, turns **auto_start** off, and the client does not serve through it. See [Supported engine versions](setup.md#supported-engine-versions).
-- **The cluster pins another release.** The cluster owner set a **vLLM version** on **Nodes**, and this machine has a different release. Pipeline parallel needs the same vLLM on every machine. Say yes and setup removes `~/.venv-vllm` and installs the pinned release. Say no and setup leaves the old release in place. The cluster may not start.
+- **The release is older than 0.30.0.** Setup prints **Flockadoo needs vLLM 0.30.0 or newer**. Say yes and setup installs the current release. Say no and setup leaves the old release in place, turns **auto_start** off, and the client does not serve through it. See [Supported engine versions](setup.md#supported-engine-versions).
+- **The flock pins another release.** The flock owner set a **vLLM version** on **Nodes**, and this machine has a different release. Pipeline parallel needs the same vLLM on every machine. Say yes and setup removes `~/.venv-vllm` and installs the pinned release. Say no and setup leaves the old release in place. The flock may not start.
 
 A reinstall takes several minutes. A worker install does not ask. `--yes` also accepts the reinstall.
 
-### "older than Inferoute supports (vLLM 0.30.0 or newer)"
+### "older than Flockadoo supports (vLLM 0.30.0 or newer)"
 
-The vLLM or vLLM Metal that is running is older than 0.30.0. Until it is upgraded, the client offers no models to Inferoute and refuses requests that reach it, so you earn nothing from this machine. Stop the engine and run `inferoute-client setup`; it installs the current release. vLLM before 0.30 handles the long-context (YaRN) settings differently and would serve some models past their limit with wrong output.
+The vLLM or vLLM Metal that is running is older than 0.30.0. Until it is upgraded, the client offers no models to Flockadoo and refuses requests that reach it, so you earn nothing from this machine. Stop the engine and run `flockadoo setup`; it installs the current release. vLLM before 0.30 handles the long-context (YaRN) settings differently and would serve some models past their limit with wrong output.
 
 ### vLLM crashes at startup with "Could not find nvcc"
 
@@ -79,7 +79,7 @@ vLLM tried to compile the FlashInfer sampling kernel on first start. The machine
 ~/.venv-vllm/bin/python -m flashinfer download-kernels
 ```
 
-On a machine with no `nvcc`, put this in front of the command setup printed. Set it on every machine in the cluster:
+On a machine with no `nvcc`, put this in front of the command setup printed. Set it on every machine in the flock:
 
 ```bash
 VLLM_USE_FLASHINFER_SAMPLER=0
@@ -89,62 +89,62 @@ For example, `VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve ...`. Sampling is a littl
 
 A machine with the CUDA toolkit installed can compile the sampler instead, so skip the variable there. `nvcc --version` has to succeed for the user that starts vLLM. The first start takes longer. Later starts reuse the compiled sampler. On a GPU with compute capability **10.0** or higher, install CUDA **12.9** or newer. Check the toolkit with `nvcc --version`. The CUDA version printed by `nvidia-smi` is the driver.
 
-On a multi-node cluster, one crashed machine leaves the others waiting. The master often logs `No available shared memory broadcast block found in 60 seconds` while a worker is still compiling, or stuck waiting for that machine. That line is the wait. The worker crash is the failure. Stop vLLM on every machine, then start the master, then the workers. See [Multi-node clusters](../provider/multi-node-clusters.md).
+On a Team Flock, one crashed machine leaves the others waiting. The master often logs `No available shared memory broadcast block found in 60 seconds` while a worker is still compiling, or stuck waiting for that machine. That line is the wait. The worker crash is the failure. Stop vLLM on every machine, then start the master, then the workers. See [Team Flocks](../provider/team-flocks.md).
 
-### Why inferscale and not Tailscale?
+### Why winglink and not Tailscale?
 
-Tailscale gives every machine an address from one fixed range, `100.64.0.0/10`. That range is built into the program. If setup used Tailscale for the cluster network, it would collide with a Tailscale network you already run on the same machine: the same addresses, the same network device, the same routes.
+Tailscale gives every machine an address from one fixed range, `100.64.0.0/10`. That range is built into the program. If setup used Tailscale for the flock network, it would collide with a Tailscale network you already run on the same machine: the same addresses, the same network device, the same routes.
 
-So Inferoute ships **inferscale**, its own version of Tailscale. It uses a different range, `198.18.0.0/15`, and its own network device, `inferscale0`. Your Tailscale keeps working and the two stay out of each other's way. For example, a machine can stay on your own tailnet at `100.x.x.x` and join **inferoute-cluster1** at `198.18.x.x`.
+So Flockadoo ships **winglink**, its own version of Tailscale. It uses a different range, `198.18.0.0/15`, and its own network device, `winglink0`. Your Tailscale keeps working and the two stay out of each other's way. For example, a machine can stay on your own tailnet at `100.x.x.x` and join **flockadoo-flock1** at `198.18.x.x`.
 
-You do not install it yourself. Setup downloads and starts it. See [How the machines connect](../provider/multi-node-clusters.md#how-the-machines-connect).
+You do not install it yourself. Setup downloads and starts it. See [How the machines connect](../provider/team-flocks.md#how-the-machines-connect).
 
-### Setup asks for my password (`inferscale0`)
+### Setup asks for my password (`winglink0`)
 
-Multi-node setup joins a private network. It prints `inferscale needs root to create inferscale0` and runs `sudo`. Enter your password. If the machine has no `sudo`, setup stops with `inferscale needs root to create inferscale0, and sudo is not installed`. This step runs on Linux only. See [How the machines connect](../provider/multi-node-clusters.md#how-the-machines-connect).
+Team Flock setup joins a private network. It prints `winglink needs root to create winglink0` and runs `sudo`. Enter your password. If the machine has no `sudo`, setup stops with `winglink needs root to create winglink0, and sudo is not installed`. This step runs on Linux only. See [How the machines connect](../provider/team-flocks.md#how-the-machines-connect).
 
 ### "one-shot key was rejected" or "one-shot key was already used"
 
 This machine is not on the private network, and the one-shot network key is gone.
 
-On the **master**, run `inferoute-client setup` again. Setup requests a new key.
+On the **master**, run `flockadoo setup` again. Setup requests a new key.
 
 On a **worker**, the join code was spent. Ask the owner for a **New code**. Then run:
 
 ```bash
-inferoute-client setup --api-key "join-…"
+flockadoo setup --api-key "join-…"
 ```
 
-`inferoute-client setup` alone prints `This machine is already in the cluster.` and will not ask for the new code.
+`flockadoo setup` alone prints `This machine is already in the flock.` and will not ask for the new code.
 
-### Can I move a machine to another cluster?
+### Can I move a machine to another flock?
 
-Yes. Run `inferoute-client setup --api-key "…"` with the new cluster's join code or provider API key. Setup logs the machine out of the old private network before it joins the new one. You do not need to clean anything up by hand.
+Yes. Run `flockadoo setup --api-key "…"` with the new flock's join code or provider API key. Setup logs the machine out of the old private network before it joins the new one. You do not need to clean anything up by hand.
 
 If the machine still shows the old address after setup, log out yourself and run setup again:
 
 ```bash
-sudo /usr/local/libexec/inferoute/inferscale logout
-inferoute-client setup --api-key "…"
+sudo /usr/local/libexec/flockadoo/winglink logout
+flockadoo setup --api-key "…"
 ```
 
-### "the owner removed this machine from the cluster"
+### "the owner removed this machine from the flock"
 
-The owner clicked **Remove** on **Nodes**. Run `inferoute-client setup` and paste a new join code. See [Joining a cluster](../provider/joining-a-cluster.md).
+The owner clicked **Remove** on **Nodes**. Run `flockadoo setup` and paste a new join code. See [Joining a flock](../provider/joining-a-flock.md).
 
-### How do I delete a cluster from my account?
+### How do I delete a flock from my account?
 
-Use the dashboard: **My Clusters** → select your cluster → **Settings** → **Delete cluster** (Danger zone). That stops inference and revokes API keys; it does not uninstall the client on your machine. See [Deleting and managing clusters](../provider/deleting-clusters.md).
+Use the dashboard: **My Flocks** → select your flock → **Settings** → **Delete flock** (Danger zone). That stops inference and revokes API keys; it does not uninstall the client on your machine. See [Deleting and managing flocks](../provider/deleting-flocks.md).
 
 ## Model management
 
 ### When I add new models, does the client pick them up?
 
-Yes. New models are detected on each health check (every **3 minutes**). The client advertises at most 5 approved models per cluster. Marketplace routing still requires an [approved model build](approved-models.md). Re-run setup to switch the engine to a different approved model.
+Yes. New models are detected on each health check (every **3 minutes**). The client advertises at most 5 approved models per flock. Marketplace routing still requires an [approved model build](approved-models.md). Re-run setup to switch the engine to a different approved model.
 
 ### How does model pricing work?
 
-Pricing is **per cluster**, not account-wide. A new model starts at the market-average price. You can change it once the model shows **Verified**, whether or not it shows **Serving**. A model that shows **Not verified** keeps the market-average price. For example, **inferoute-cluster1** and **inferoute-cluster2** can charge different prices for the same model name.
+Pricing is **per flock**, not account-wide. A new model starts at the market-average price. You can change it once the model shows **Verified**, whether or not it shows **Serving**. A model that shows **Not verified** keeps the market-average price. For example, **flockadoo-flock1** and **flockadoo-flock2** can charge different prices for the same model name.
 
 The client advertises at most 5 approved models. Each model has a maximum price.
 
@@ -152,9 +152,9 @@ See [Model pricing](../provider/model-pricing.md) for editing prices in the dash
 
 ### Can I change model pricing after registration?
 
-Yes, once the model shows **Verified**. Open **My Clusters** → select a cluster → **Models** tab. You can also call `PATCH /api/provider/models/{model_id}/pricing` on `https://core.inferoute.com` with that cluster’s provider API key. Prices are $/1M with up to 2 decimals. See [Model pricing](../provider/model-pricing.md).
+Yes, once the model shows **Verified**. Open **My Flocks** → select a flock → **Models** tab. You can also call `PATCH /api/provider/models/{model_id}/pricing` on `https://core.flockadoo.ai` with that flock’s provider API key. Prices are $/1M with up to 2 decimals. See [Model pricing](../provider/model-pricing.md).
 
-Changing prices on one cluster does not change another. See [Model pricing](../provider/model-pricing.md).
+Changing prices on one flock does not change another. See [Model pricing](../provider/model-pricing.md).
 
 ### Which models are approved on the marketplace?
 
@@ -164,7 +164,7 @@ See [Approved model builds](approved-models.md). Call **GET** `/api/models/appro
 
 ### Do I set a public URL?
 
-No. On startup the client opens an outbound connection to Inferoute. Inferoute sends inference requests back over that connection. You do not install another program or open inbound ports.
+No. On startup the client opens an outbound connection to Flockadoo. Flockadoo sends inference requests back over that connection. You do not install another program or open inbound ports.
 
 ### What if the connection drops?
 
@@ -172,15 +172,15 @@ The client reconnects on its own. Check the client logs if it stays disconnected
 
 ### Can other providers SSH into my machine?
 
-No, not over the private network a multi-node cluster uses. Port **22** is blocked there. That does not mean the other node is safe. Only share a cluster with people you intend to share GPUs with. See [Multi-node networking](../provider/multi-node-networking.md).
+No, not over the private network a Team Flock uses. Port **22** is blocked there. That does not mean the other node is safe. Only share a flock with people you intend to share GPUs with. See [Team Flock networking](../provider/Team Flock-networking.md).
 
-### What can other nodes in a multi-node cluster reach?
+### What can other nodes in a Team Flock reach?
 
-vLLM on **8000**, llama.cpp on **8081**, the distributed setup port **29501**, ping, and TCP **32768–60999** for GPU-to-GPU traffic. SSH, typical web admin, and database ports stay closed. The high-port window is wide on purpose. A service you bind there on all interfaces is reachable by every node in the cluster. See [Multi-node networking](../provider/multi-node-networking.md).
+vLLM on **8000**, llama.cpp on **8081**, the distributed setup port **29501**, ping, and TCP **32768–60999** for GPU-to-GPU traffic. SSH, typical web admin, and database ports stay closed. The high-port window is wide on purpose. A service you bind there on all interfaces is reachable by every node in the flock. See [Team Flock networking](../provider/Team Flock-networking.md).
 
 ### The client failed to start because of the API key
 
-The provider API key in **config.yaml** (`api_key`) must be the key for **that cluster**, copied from **My Clusters** → select the cluster → **Settings**. A consumer key, an old rotated key, or a typo is rejected at startup with an “Invalid provider API key” message.
+The provider API key in **config.yaml** (`api_key`) must be the key for **that flock**, copied from **My Flocks** → select the flock → **Settings**. A consumer key, an old rotated key, or a typo is rejected at startup with an “Invalid provider API key” message.
 
 For example, after you regenerate the key in **Settings**, update `api_key` (or re-run setup) and restart the client. Do not leave the placeholder `your_api_key_here`.
 
@@ -194,9 +194,9 @@ Every **3 minutes**, and also when the client becomes busy or free. It exposes *
 
 - GPU info (type, driver, CUDA, memory, utilization where available).
 - Available models from the local LLM server.
-- Whether the client is connected to Inferoute.
+- Whether the client is connected to Flockadoo.
 
-Cluster **country** is not part of the health payload. Inferoute resolves it from your connection. See [Cluster location](../provider/cluster-location.md).
+Flock **country** is not part of the health payload. Flockadoo resolves it from your connection. See [Flock location](../provider/flock-location.md).
 
 ### How is “GPU busy” determined?
 
@@ -210,8 +210,8 @@ There are two signals. See [How it works](how-it-works.md).
 
 ### How are inference requests handled?
 
-1. The request signature in `X-Request-Id` is validated with Inferoute; missing or invalid requests get **401**.
-2. If every inference slot is full → **503** `{"error":"GPU is busy"}` (Inferoute can try another provider). Same-session follow-ups can wait for the slot instead. The **20%** utilization flag is on the health report.
+1. The request signature in `X-Request-Id` is validated with Flockadoo; missing or invalid requests get **401**.
+2. If every inference slot is full → **503** `{"error":"GPU is busy"}` (Flockadoo can try another provider). Same-session follow-ups can wait for the slot instead. The **20%** utilization flag is on the health report.
 3. Valid requests are proxied to the local LLM server.
 
 ### What endpoints does the client expose for inference?
@@ -239,6 +239,6 @@ The client still runs. Health reports omit GPU utilization, so that flag stays c
 - [How it works](how-it-works.md)
 - [Approved model builds](approved-models.md)
 - [Model pricing](../provider/model-pricing.md)
-- [Deleting and managing clusters](../provider/deleting-clusters.md)
-- [Multi-node clusters](../provider/multi-node-clusters.md)
-- [Joining a cluster](../provider/joining-a-cluster.md)
+- [Deleting and managing flocks](../provider/deleting-flocks.md)
+- [Team Flocks](../provider/team-flocks.md)
+- [Joining a flock](../provider/joining-a-flock.md)
