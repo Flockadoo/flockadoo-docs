@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "description": "API for Inferoute orchestration and providers",
-        "title": "Inferoute API",
+        "description": "API for Flockadoo orchestration and providers",
+        "title": "Flockadoo API",
         "contact": {},
         "version": "1.0"
     },
@@ -628,10 +628,10 @@
     },
     "servers": [
         {
-            "url": "https://core.inferoute.com"
+            "url": "https://core.flockadoo.ai"
         },
         {
-            "url": "http://core.inferoute.com"
+            "url": "http://core.flockadoo.ai"
         }
     ],
     "components": {
@@ -706,7 +706,7 @@
                     "client_os": {
                         "type": "string"
                     },
-                    "cluster_mode": {
+                    "flock_mode": {
                         "type": "string"
                     },
                     "gpu_count": {
@@ -759,7 +759,7 @@
                     "client_os": {
                         "type": "string"
                     },
-                    "cluster_mode": {
+                    "flock_mode": {
                         "type": "string"
                     },
                     "gpu_count": {
@@ -1055,7 +1055,7 @@
                     }
                 }
             },
-            "orchestrator.InferouteOptions": {
+            "orchestrator.FlockadooOptions": {
                 "type": "object",
                 "properties": {
                     "max_input_price_per_1m": {
@@ -1108,11 +1108,11 @@
                     "model"
                 ],
                 "properties": {
+                    "flockadoo": {
+                        "$ref": "#/components/schemas/orchestrator.FlockadooOptions"
+                    },
                     "frequency_penalty": {
                         "type": "number"
-                    },
-                    "inferoute": {
-                        "$ref": "#/components/schemas/orchestrator.InferouteOptions"
                     },
                     "input": {
                         "type": "array",
