@@ -10,7 +10,7 @@ There are no `/health` or `/busy` aliases — use the `/api/...` paths below.
 
 ## GET /
 
-Browser status page with the same information as the terminal UI. It shows session, models, GPU, and recent inference requests. On a multi-node machine, **CLUSTER STATUS** also shows **Cluster**, **Nodes**, **Tailnet IP**, and **Peers**. The terminal adds an **Engine** line. The page refreshes automatically. See [Read status on the machine](../provider/multi-node-clusters.md#read-status-on-the-machine).
+Browser status page with the same information as the terminal UI. It shows session, models, GPU, and recent inference requests. On a Team Flock machine, **FLOCK STATUS** also shows **Flock**, **Nodes**, **Winglink IP**, and **Peers**. The terminal adds an **Engine** line. The page refreshes automatically. See [Read status on the machine](../provider/team-flocks.md#read-status-on-the-machine).
 
 ## GET /api/status
 
@@ -18,13 +18,13 @@ JSON snapshot of that status page. Includes session status, a masked provider AP
 
 `capabilities` is an array of `{name, state, detail}`. `state` is `waiting`, `testing`, `supported`, `unsupported`, or `unverified`. `capability_line` is the summary, for example `testing - 2/5 checked (still serving requests)`. Session status stays `online` while those checks run.
 
-On a multi-node machine the same object adds:
+On a Team Flock machine the same object adds:
 
 | Field | Example | Meaning |
 | --- | --- | --- |
-| `cluster` | `master` | `master`, `worker`, or `single` |
-| `nodes` | `1/4` | This machine plus online peers, out of the cluster size |
-| `tailnet_ip` | `198.18.0.2` | This machine's address on the private network |
+| `flock` | `master` | `master`, `worker`, or `single` |
+| `nodes` | `1/4` | This machine plus online peers, out of the flock size |
+| `winglink_ip` | `198.18.0.2` | This machine's address on the private network |
 | `peers` | `3 online` | Other machines that are online. Omitted when none are |
 
 ## GET /api/health

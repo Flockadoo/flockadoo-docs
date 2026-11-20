@@ -6,16 +6,16 @@ This repo is the source for the [Flockadoo documentation](README.md), built with
 
 Use generic, fictional names so examples do not look like someone's private account:
 
-- Clusters: **flockadoo-cluster1**, **flockadoo-cluster2**
+- Flocks: **flockadoo-flock1**, **flockadoo-flock2**
 - Models: real public model IDs are fine (e.g. `Qwen/Qwen2.5-7B-Instruct`)
 - Prefix with **“For example,”** when illustrating a scenario
 
-Do not use real cluster names, emails, or API keys in published docs.
+Do not use real flock names, emails, or API keys in published docs.
 
 ## Voice
 
 - Address the reader as **you**
-- Bold dashboard labels: **Clusters**, **Settings**, **Save**
+- Bold dashboard labels: **Flocks**, **Settings**, **Save**
 - Prefer short steps and tables over long prose
 
 ## Scope by folder
@@ -24,7 +24,7 @@ Do not use real cluster names, emails, or API keys in published docs.
 |--------|---------|
 | `getting-started/` | Provider onboarding (requirements, signup, install) |
 | `consumer/` | Calling the API, spending caps, consumer dashboard |
-| `provider/` | Provider dashboard (clusters, pricing, settings) |
+| `provider/` | Provider dashboard (flocks, pricing, settings) |
 | `provider-client/` | Installing and running the provider client |
 
 Keep implementation details (database tables, microservice names) out of these guides. Technical architecture belongs in **flockadoo-server** `documentation/technical.md`.

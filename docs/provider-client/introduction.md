@@ -1,13 +1,13 @@
 # Provider Client Introduction
 
-The **Flockadoo Provider Client** is a lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or llama.cpp). It reports health to Flockadoo, registers models and pricing for **your cluster**, and forwards inference requests to that engine.
+The **Flockadoo Provider Client** is a lightweight service that runs next to a local LLM engine (vLLM, vLLM Metal, or llama.cpp). It reports health to Flockadoo, registers models and pricing for **your flock**, and forwards inference requests to that engine.
 
 The [setup wizard](setup.md) installs the engine if it is missing, picks an approved model that fits this machine, and writes config. You do not install the engine yourself.
 
 Start here if you have not installed yet:
 
 1. [Software and hardware requirements](../getting-started/requirements.md)
-2. [Sign up and create a cluster](../getting-started/signup.md)
+2. [Sign up and create a flock](../getting-started/signup.md)
 3. [Installation](../getting-started/installation.md)
 
 ## What it does
@@ -27,7 +27,7 @@ The client opens an outbound connection to Flockadoo when it starts, and reconne
 
 ## After first run
 
-The client publishes your available models and sets initial costs from platform averages. Log in to the dashboard and adjust model pricing per cluster if needed — see [Model pricing](../provider/model-pricing.md).
+The client publishes your available models and sets initial costs from platform averages. Log in to the dashboard and adjust model pricing per flock if needed — see [Model pricing](../provider/model-pricing.md).
 
 ## Related
 

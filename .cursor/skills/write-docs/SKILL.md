@@ -42,16 +42,16 @@ The docs site is not a three-pane Stripe layout. In API pages: description and p
 - **Language:** 8th-to-10th-grade reading level (ages 14–16). Simple words, short sentences, no unnecessary jargon.
 - **Voice:** Second person (**you**), active voice, imperative mood ("Run this command", not "This command should be run").
 - **Respect:** Assume a competent developer who knows nothing about Flockadoo. Explain Flockadoo-specific concepts thoroughly.
-- **Formatting:** Bold UI labels (**Clusters**, **Save**). Inline code for files, variables, commands. Bullets and tables so readers scan instead of reading walls of text.
+- **Formatting:** Bold UI labels (**Flocks**, **Save**). Inline code for files, variables, commands. Bullets and tables so readers scan instead of reading walls of text.
 
-Match `provider/deleting-clusters.md` and `consumer/monthly-spending-caps.md`.
+Match `provider/deleting-flocks.md` and `consumer/monthly-spending-caps.md`.
 
 ## Quality bar
 
 - Time-to-value: fastest path from the page to a working result.
 - Searchability: an exact error code or parameter lands on the right page.
 - Accuracy: snippets must work. Outdated code is worse than no code. Do not document unreleased features as shipped.
-- Examples: fictional **flockadoo-cluster1** / **flockadoo-cluster2**, public model IDs like `Qwen/Qwen2.5-7B-Instruct`, "For example," in running text. Never real emails, API keys, or customer identifiers.
+- Examples: fictional **flockadoo-flock1** / **flockadoo-flock2**, public model IDs like `Qwen/Qwen2.5-7B-Instruct`, "For example," in running text. Never real emails, API keys, or customer identifiers.
 
 ## Audience by path
 

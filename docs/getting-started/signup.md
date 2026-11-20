@@ -1,6 +1,6 @@
-# Sign up and create a cluster
+# Sign up and create a flock
 
-Create a Flockadoo account, deploy a provider cluster, and copy the **provider API key**. You need that key for [Installation](installation.md).
+Create a Flockadoo account, deploy a provider flock, and copy the **provider API key**. You need that key for [Installation](installation.md).
 
 ## Sign up
 
@@ -19,10 +19,10 @@ On first login you see **Welcome Onboard!** and **Please, choose your role:**
 
 Choose **Provider** (or **I want both**). You can switch between **Provider** and **Consumer** later in the dashboard sidebar.
 
-## Deploy a cluster
+## Deploy a flock
 
-1. Open **My Clusters** under **Inference**.
-2. Click **Deploy a Cluster**.
+1. Open **My Flocks** under **Inference**.
+2. Click **Deploy a Flock**.
 
 The wizard has three steps. The first step is titled **Check Compatibility**.
 
@@ -30,12 +30,12 @@ The wizard has three steps. The first step is titled **Check Compatibility**.
 
 Confirm your machine matches [Software and hardware requirements](requirements.md).
 
-Then set **Cluster type**:
+Then set **Flock type**:
 
-- **Single node** — one machine.
-- **Multi-node** — this key is the master. Share the cluster page so workers can request an invite. When the slots are filled, start the master first. Workers then have 60 minutes to join. See [Multi-node clusters](../provider/multi-node-clusters.md).
+- **Solo Flock** — one machine.
+- **Team Flock** — this key is the master. Share the flock page so workers can request an invite. When the slots are filled, start the master first. Workers then have 60 minutes to join. See [Team Flocks](../provider/team-flocks.md).
 
-If you pick **Multi-node**, those machines share a private network. Only create or join one with people you intend to share GPUs with. Read [Multi-node networking](../provider/multi-node-networking.md) before you generate a key or accept a join.
+If you pick **Team Flock**, those machines share a private network. Only create or join one with people you intend to share GPUs with. Read [Team Flock networking](../provider/Team Flock-networking.md) before you generate a key or accept a join.
 
 ### 2. Software
 
@@ -47,10 +47,10 @@ The engine depends on your operating system. You do not install it in this step.
 
 Skip any vendor install links. The client [setup wizard](../provider-client/setup.md) installs the engine after you run the install command.
 
-### 3. Client (cluster name and API key)
+### 3. Client (flock name and API key)
 
-1. Set **Cluster name**. For example, `flockadoo-cluster1`.
-2. Set **API key label** (defaults to `{cluster name} API key`).
+1. Set **Flock name**. For example, `flockadoo-flock1`.
+2. Set **API key label** (defaults to `{flock name} API key`).
 3. Click **generate API key**.
 4. Pick **Linux**, **macOS**, or **Windows** for the install command.
 
@@ -58,20 +58,20 @@ The full key is shown **once**. Copy it before you leave the page. Store it some
 
 The wizard shows an install command with your key filled in. You can copy that, or follow [Installation](installation.md) and substitute the key yourself.
 
-You set model prices **after** the client is running, on the cluster **Models** tab — see [Model pricing](../provider/model-pricing.md). Native Windows uses **llama.cpp**, not vLLM.
+You set model prices **after** the client is running, on the flock **Models** tab — see [Model pricing](../provider/model-pricing.md). Native Windows uses **llama.cpp**, not vLLM.
 
 ## Copy the key later from Settings
 
-If you already have a cluster and need the key again:
+If you already have a flock and need the key again:
 
-1. Open **My Clusters** and select the cluster (for example **flockadoo-cluster1**).
+1. Open **My Flocks** and select the flock (for example **flockadoo-flock1**).
 2. Open the **Settings** tab.
 
-You can **Create API Key** if the cluster has none, or **Re-Generate Key** for an existing key. Re-generating immediately invalidates the old secret — update the client config before you expect inference to work.
+You can **Create API Key** if the flock has none, or **Re-Generate Key** for an existing key. Re-generating immediately invalidates the old secret — update the client config before you expect inference to work.
 
 The full secret is only shown when you create or re-generate it. Settings otherwise shows a masked suffix.
 
-More on keys, pause, and delete: [Deleting and managing clusters](../provider/deleting-clusters.md). To add workers and split earnings, see [Inviting nodes](../provider/inviting-nodes.md) and [Cluster earnings](../provider/cluster-earnings.md).
+More on keys, pause, and delete: [Deleting and managing flocks](../provider/deleting-flocks.md). To add workers and split earnings, see [Inviting nodes](../provider/inviting-nodes.md) and [Flock earnings](../provider/flock-earnings.md).
 
 ## Next
 

@@ -1,6 +1,6 @@
 # Installation
 
-Install the Flockadoo Provider Client on the machine that will serve models. Confirm it meets [hardware requirements](requirements.md): **32 GB** of system memory and **24 GB** NVIDIA VRAM on Linux; on Windows **32 GB** of RAM plus a **fixed 64 GB page file** (or **64 GB** of RAM) and **24 GB** NVIDIA VRAM; or **48 GB** unified memory on a Mac. If you do not have a provider API key yet, complete [Sign up and create a cluster](signup.md) first.
+Install the Flockadoo Provider Client on the machine that will serve models. Confirm it meets [hardware requirements](requirements.md): **32 GB** of system memory and **24 GB** NVIDIA VRAM on Linux; on Windows **32 GB** of RAM plus a **fixed 64 GB page file** (or **64 GB** of RAM) and **24 GB** NVIDIA VRAM; or **48 GB** unified memory on a Mac. If you do not have a provider API key yet, complete [Sign up and create a flock](signup.md) first.
 
 The install script places the binary, then runs **`flockadoo setup`**. See the [setup wizard](../provider-client/setup.md) for what it asks (engine, model, API key) and for non-interactive flags. Re-run anytime instead of editing YAML by hand:
 
@@ -54,7 +54,7 @@ curl -fsSL https://raw.githubusercontent.com/flockadoo/flockadoo/main/scripts/in
 
 `PROVIDER_MODEL` is required. It must be an [approved model](../provider-client/approved-models.md) for your engine, and your engine must serve it under that exact name. The install stops with an error if it is not. To list the models this machine can serve, run `flockadoo compatibility`.
 
-With a multi-node cluster key or a join code, leave `PROVIDER_MODEL` unset. The cluster's model is used.
+With a Team Flock key or a join code, leave `PROVIDER_MODEL` unset. The flock's model is used.
 
 The client does not install or start the engine in this mode. The script runs the [non-interactive setup](../provider-client/setup.md#non-interactive-setup) for you.
 
@@ -121,7 +121,7 @@ docker run -d \
 
 ## After first run
 
-When the client starts, it publishes your available models with default costs. Open [www.flockadoo.ai](https://www.flockadoo.ai), go to **My Clusters** → your cluster → **Models**, and set prices you actually want — see [Model pricing](../provider/model-pricing.md).
+When the client starts, it publishes your available models with default costs. Open [www.flockadoo.ai](https://www.flockadoo.ai), go to **My Flocks** → your flock → **Models**, and set prices you actually want — see [Model pricing](../provider/model-pricing.md).
 
 ## Related
 

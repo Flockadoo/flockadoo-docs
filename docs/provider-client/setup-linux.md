@@ -1,10 +1,10 @@
 # Setup: Linux (NVIDIA)
 
-Use this guide when you run the provider client natively on Linux with an NVIDIA GPU. For example, **flockadoo-cluster1** on a workstation. You need at least **32 GB** of system memory and **24 GB** of VRAM for approved vLLM models.
+Use this guide when you run the provider client natively on Linux with an NVIDIA GPU. For example, **flockadoo-flock1** on a workstation. You need at least **32 GB** of system memory and **24 GB** of VRAM for approved vLLM models.
 
 ## Quick install (recommended)
 
-1. Get your provider API key — see [Sign up and create a cluster](../getting-started/signup.md).
+1. Get your provider API key — see [Sign up and create a flock](../getting-started/signup.md).
 2. Run the install script:
 
    ```bash
@@ -67,14 +67,14 @@ nvidia-smi --query-gpu=compute_cap --format=csv,noheader
 
 The client opens an outbound connection to Flockadoo. No need to install ngrok or open firewall ports.
 
-## Multi-node clusters
+## Team Flocks
 
-Linux is the only platform for a multi-node cluster. Setup downloads **winglink**, may ask for your password (`winglink needs root to create winglink0`), and prints **Winglink address** when this machine is on the private network. It does not start vLLM. See [Multi-node clusters](../provider/multi-node-clusters.md).
+Linux is the only platform for a Team Flock. Setup downloads **winglink**, may ask for your password (`winglink needs root to create winglink0`), and prints **Winglink address** when this machine is on the private network. It does not start vLLM. See [Team Flocks](../provider/team-flocks.md).
 
 ## Related
 
 - [Setup wizard](setup.md)
-- [Multi-node clusters](../provider/multi-node-clusters.md)
+- [Team Flocks](../provider/team-flocks.md)
 - [Installation](../getting-started/installation.md)
 - [Configuration](configuration.md)
 - [Setup: macOS](setup-mac.md)

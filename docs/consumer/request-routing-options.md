@@ -37,11 +37,11 @@ Request price overrides can be lower than your API key limits, or higher up to y
 
 ## Your Own Providers
 
-Your own clusters compete with marketplace providers for your requests. They still need to meet `min_tokens_per_second`, but max price (profile, key, and request) only limits marketplace providers. See [Using your own clusters](own-clusters.md).
+Your own flocks compete with marketplace providers for your requests. They still need to meet `min_tokens_per_second`, but max price (profile, key, and request) only limits marketplace providers. See [Using your own flocks](own-flocks.md).
 
 ## Related
 
 - [Using the API](using-the-api.md)
-- [Using your own clusters](own-clusters.md)
+- [Using your own flocks](own-flocks.md)
 - [Max price limits](max-price-limits.md)
 - [Automatic model selection](automatic-model-selection.md)

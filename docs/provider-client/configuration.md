@@ -13,13 +13,13 @@ Prefer **`flockadoo setup`** to change engine, model, or API key — see the [se
   - **session_queue_wait_seconds** — How long a same-session follow-up waits for a free slot instead of **503** (default **90**).
   - **request_timeout_seconds** — HTTP read/write timeout. Must cover the session queue wait plus inference (default **240**).
 - **provider** — Connection to the Flockadoo platform.
-  - **api_key** — Provider API key for **this cluster** (from **My Clusters** → **Settings**). Required. The client refuses to start if this is empty or still `your_api_key_here`.
+  - **api_key** — Provider API key for **this flock** (from **My Flocks** → **Settings**). Required. The client refuses to start if this is empty or still `your_api_key_here`.
   - **url** — Flockadoo platform URL. The install script sets `https://core.flockadoo.ai`. Do not point this at localhost unless you are developing against a local platform.
   - **provider_type** — `vllm` or `llama_cpp`. vLLM Metal uses `vllm`. llama.cpp uses `llama_cpp`.
   - **engine** — Local program: `vllm`, `vllm-metal`, or `llama_cpp`. Change this with `flockadoo setup`.
   - **engine_bin** — Absolute path to the engine binary when it is not on `PATH` (typical for llama.cpp on Windows).
   - **model** — Catalog alias the client auto-starts (for example `Qwen/Qwen2.5-7B-Instruct`).
-  - **auto_start** — When **true**, start the engine if **llm_url** is down, using the serve flags already in this file. Setup turns this on when it can find the binary on a single-node machine. On a multi-node master or worker, setup leaves this off. Existing configs without this field stay off. A process already bound on **llm_url** is not restarted.
+  - **auto_start** — When **true**, start the engine if **llm_url** is down, using the serve flags already in this file. Setup turns this on when it can find the binary on a single-node machine. On a Team Flock master or worker, setup leaves this off. Existing configs without this field stay off. A process already bound on **llm_url** is not restarted.
   - **llm_url** — Local LLM API URL. For example, `http://127.0.0.1:8000` for vLLM and vLLM Metal, or `http://127.0.0.1:8081` for llama.cpp.
   - **gguf_file** — llama.cpp filename from the catalog, for example `qwen2.5-7b-instruct-q4_k_m.gguf`. Setup writes this.
   - **llm_timeout_seconds** — Timeout for requests forwarded to the local engine (default **120**).
@@ -43,7 +43,7 @@ Under `log_dir` (default `~/.local/state/flockadoo/log`):
 - **flockadoo.log** — Main application log (all levels).
 - **error.log** — Error-level entries only.
 - **engine.log** — Stdout/stderr from an auto-started vLLM, vLLM Metal, or llama.cpp process.
-- **winglinkd.log** — winglink daemon output on a multi-node machine. Read this when setup says `winglinkd did not answer`.
+- **winglinkd.log** — winglink daemon output on a Team Flock machine. Read this when setup says `winglinkd did not answer`.
 
 The terminal and the status page show status and inference requests only. When something fails, read **error.log**.
 

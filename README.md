@@ -11,7 +11,7 @@ uvx zensical@0.1.1 serve          # live preview at http://localhost:8000
 uvx zensical@0.1.1 build --strict # what CI runs; fails on broken links
 ```
 
-Style: [documentation-style.md](documentation-style.md). Use generic examples (**flockadoo-cluster1**, not real cluster names).
+Style: [documentation-style.md](documentation-style.md). Use generic examples (**flockadoo-flock1**, not real flock names).
 
 Callouts:
 

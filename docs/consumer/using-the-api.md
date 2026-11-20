@@ -1,6 +1,6 @@
 # Using the API
 
-Flockadoo exposes an **OpenAI-compatible API** at `https://core.flockadoo.ai`. Use a **consumer API key** from **Usage** — not a provider cluster key.
+Flockadoo exposes an **OpenAI-compatible API** at `https://core.flockadoo.ai`. Use a **consumer API key** from **Usage** — not a provider flock key.
 
 You need at least **$1.00** available in your wallet. Requests below that return **402**.
 
@@ -84,6 +84,6 @@ Add an `flockadoo` object to choose providers without changing the payload the m
 
 - [Max price limits](max-price-limits.md)
 - [Monthly spending caps](monthly-spending-caps.md)
-- [Using your own clusters](own-clusters.md)
+- [Using your own flocks](own-flocks.md)
 - [Request routing options](request-routing-options.md)
 - [Automatic model selection](automatic-model-selection.md)

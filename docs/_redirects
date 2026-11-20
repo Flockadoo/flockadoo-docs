@@ -4,8 +4,8 @@
 /getting-started/                 /getting-started/requirements/           301
 /consumer                         /consumer/using-the-api/                 301
 /consumer/                        /consumer/using-the-api/                 301
-/provider                         /provider/deleting-clusters/             301
-/provider/                        /provider/deleting-clusters/             301
+/provider                         /provider/deleting-flocks/             301
+/provider/                        /provider/deleting-flocks/             301
 /provider-client                  /provider-client/introduction/           301
 /provider-client/                 /provider-client/introduction/           301
 /provider-client/installation     /getting-started/installation/           301

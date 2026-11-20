@@ -14,7 +14,7 @@ Content in this repo is published at **docs.flockadoo.ai** (Zensical, on Cloudfl
 |------|--------|------|
 | `getting-started/` | New providers | Plain language, onboarding steps |
 | `consumer/` | API consumers | Plain language, dashboard steps |
-| `provider/` | Dashboard providers | Plain language, cluster/settings flows |
+| `provider/` | Dashboard providers | Plain language, flock/settings flows |
 | `provider-client/` | People running the client | Install, config, troubleshooting |
 | `overview.md` | Everyone | Short product context |
 
@@ -55,15 +55,15 @@ High-school reading level for **language complexity**. Do not talk down to the r
 
 - Second person (**you**), **active voice**, **imperative mood** for steps: "Install the package," "Create a new file," "To start the controller, run..." — not "In order to instantiate the primary controller, one must first execute..."
 - Short sentences. Simple vocabulary. No unnecessary jargon.
-- Match `provider/deleting-clusters.md` and `consumer/monthly-spending-caps.md`.
-- Dashboard paths: bold UI labels (**Clusters**, **Models** tab, **Save**).
+- Match `provider/deleting-flocks.md` and `consumer/monthly-spending-caps.md`.
+- Dashboard paths: bold UI labels (**Flocks**, **Models** tab, **Save**).
 - Inline code for file names, variables, commands, and model IDs.
-- Use tables for comparisons (per-cluster vs global, dashboard vs API units).
+- Use tables for comparisons (per-flock vs global, dashboard vs API units).
 - Use bullets, numbered steps, and warning/info callouts so readers can **scan**. Bold only the words that matter.
 
 ## Examples must be generic
 
-- Use fictional cluster names: **flockadoo-cluster1**, **flockadoo-cluster2** — not real cluster names from an account.
+- Use fictional flock names: **flockadoo-flock1**, **flockadoo-flock2** — not real flock names from an account.
 - Use fictional model IDs where needed, e.g. `Qwen/Qwen2.5-7B-Instruct`.
 - Introduce examples with **“For example,”** or **“for example”** in running text.
 - Never use real emails, API keys, or customer identifiers in docs.
@@ -87,6 +87,6 @@ High-school reading level for **language complexity**. Do not talk down to the r
 
 - Don’t document unreleased features as shipped.
 - Don’t paste secrets or live credentials.
-- Don’t use “Home cluster 42”-style real environment names in user-facing examples.
+- Don’t use “Home flock 42”-style real environment names in user-facing examples.
 - Don’t bury API reference inside a guide, or write API pages as tutorials.
 - Don’t write passive or academic prose ("one must", "in order to instantiate").

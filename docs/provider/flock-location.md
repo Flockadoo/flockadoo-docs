@@ -1,12 +1,12 @@
-# Cluster location
+# Flock location
 
-The dashboard shows a **country flag** next to each cluster on **My Clusters** so you can see where your GPU is running at a glance.
+The dashboard shows a **country flag** next to each flock on **My Flocks** so you can see where your GPU is running at a glance.
 
 ## What you see
 
-On **My Clusters**, each row shows:
+On **My Flocks**, each row shows:
 
-- Cluster name
+- Flock name
 - **Country flag** (when location is known)
 - GPU count and other status
 
@@ -20,11 +20,11 @@ Flockadoo detects location automatically from the connection your provider clien
 
 1. Your provider client connects to Flockadoo.
 2. Flockadoo reads the public IP of that connection.
-3. The platform resolves that IP to a **country code** and stores it on your cluster.
+3. The platform resolves that IP to a **country code** and stores it on your flock.
 
 Location updates when:
 
-- The cluster first connects
+- The flock first connects
 - The client reconnects from a different network (for example after you move the machine)
 
 ## What you need to do
@@ -33,6 +33,6 @@ Nothing extra. Keep the provider client running, as described in [How it works](
 
 ## Related
 
-- [Deleting and managing clusters](deleting-clusters.md)
-- [Cluster location](cluster-location.md)
+- [Deleting and managing flocks](deleting-flocks.md)
+- [Flock location](flock-location.md)
 - [Provider client: connection](../provider-client/how-it-works.md#connection-to-flockadoo)

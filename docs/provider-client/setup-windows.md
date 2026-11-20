@@ -1,12 +1,12 @@
 # Setup: Windows
 
-Use this guide when you run the provider client natively on 64-bit Windows. For example, **flockadoo-cluster1** on a Windows PC. The [setup wizard](setup.md) installs **llama.cpp**. Native vLLM is not supported.
+Use this guide when you run the provider client natively on 64-bit Windows. For example, **flockadoo-flock1** on a Windows PC. The [setup wizard](setup.md) installs **llama.cpp**. Native vLLM is not supported.
 
 You need an NVIDIA GPU with at least **24 GB** of VRAM, and **32 GB** of RAM plus a **fixed 64 GB page file** (or **64 GB** of RAM).
 
 ## Quick install (recommended)
 
-1. Get your provider API key — see [Sign up and create a cluster](../getting-started/signup.md).
+1. Get your provider API key — see [Sign up and create a flock](../getting-started/signup.md).
 2. In **PowerShell**:
 
    ```powershell
@@ -43,7 +43,7 @@ flockadoo --console
 
 Default config: `%USERPROFILE%\.config\flockadoo\config.yaml`. Logs: `%USERPROFILE%\.local\state\flockadoo\log`.
 
-If startup fails with **Invalid provider API key**, copy the key from **My Clusters** → **Settings** into `api_key` and restart. See [FAQ](faq.md#the-client-failed-to-start-because-of-the-api-key).
+If startup fails with **Invalid provider API key**, copy the key from **My Flocks** → **Settings** into `api_key` and restart. See [FAQ](faq.md#the-client-failed-to-start-because-of-the-api-key).
 
 If SmartScreen says **Windows protected your PC**, choose **More info** → **Run anyway**. The GitHub binary is not code-signed.
 

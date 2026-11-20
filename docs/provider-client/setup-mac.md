@@ -1,10 +1,10 @@
 # Setup: macOS (Apple GPU)
 
-Use this guide when you run the provider client natively on a Mac with Apple Silicon. For example, **flockadoo-cluster1** on a MacBook. You need **48 GB** of unified memory to run approved vLLM Metal models (BF16 7B-class). Intel Macs are not supported.
+Use this guide when you run the provider client natively on a Mac with Apple Silicon. For example, **flockadoo-flock1** on a MacBook. You need **48 GB** of unified memory to run approved vLLM Metal models (BF16 7B-class). Intel Macs are not supported.
 
 ## Quick install (recommended)
 
-1. Get your provider API key — see [Sign up and create a cluster](../getting-started/signup.md).
+1. Get your provider API key — see [Sign up and create a flock](../getting-started/signup.md).
 2. Run the install script:
 
    ```bash

@@ -8,6 +8,6 @@ Flockadoo is a provider network and orchestration layer for running LLM inferenc
 
 To call models as a buyer, create a consumer key and send a chat request — see [Using the API](consumer/using-the-api.md).
 
-To offer GPU inference, start with [Software and hardware requirements](getting-started/requirements.md), then [sign up and create a cluster](getting-started/signup.md), then [install the provider client](getting-started/installation.md).
+To offer GPU inference, start with [Software and hardware requirements](getting-started/requirements.md), then [sign up and create a flock](getting-started/signup.md), then [install the provider client](getting-started/installation.md).
 
 Endpoint-level API docs (parameters, payloads) live in the [API reference](api/index.html) (OpenAPI 3). These pages are guides.

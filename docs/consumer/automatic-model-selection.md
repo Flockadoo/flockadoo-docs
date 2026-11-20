@@ -39,7 +39,7 @@ Flockadoo reads the body:
 
 Only approved models are eligible. A model a provider loaded that is not on the approved list is skipped in this mode. Name that model yourself if you want it.
 
-Your max price (profile, key, and the request) and `min_tokens_per_second` still apply. Max price doesn't apply to [your own clusters](own-clusters.md).
+Your max price (profile, key, and the request) and `min_tokens_per_second` still apply. Max price doesn't apply to [your own flocks](own-flocks.md).
 
 If nothing qualifies, you get **404**.
 
@@ -48,4 +48,4 @@ If nothing qualifies, you get **404**.
 - [Using the API](using-the-api.md)
 - [Request routing options](request-routing-options.md)
 - [Max price limits](max-price-limits.md)
-- [Using your own clusters](own-clusters.md)
+- [Using your own flocks](own-flocks.md)

@@ -7,11 +7,11 @@ This page explains what the Provider Client does on your machine and how it talk
 The client runs alongside the local LLM engine the wizard installed (vLLM, vLLM Metal, or llama.cpp). It:
 
 1. Reports health (GPU and models) to Flockadoo on a schedule.
-2. Registers models and initial pricing for **your cluster**.
+2. Registers models and initial pricing for **your flock**.
 3. Accepts inference requests from Flockadoo and forwards them to your local LLM server.
 4. Opens an outbound connection so Flockadoo can reach you without open firewall ports. It reconnects if the connection drops.
 
-On a multi-node cluster, setup joins this machine to a private network with **winglink**. The master uses the provider API key. A worker uses a `join-` code. Setup leaves **auto_start** off, prints the vLLM command, and does not start the engine. The master starts first. Workers join within 60 minutes of the master coming up. A worker does not serve HTTP. It joins the master. The cluster stays offline after they join until vLLM finishes loading and the next health report lands. The status page shows **Cluster**, **Nodes**, **Tailnet IP**, and **Peers**. See [Multi-node clusters](../provider/multi-node-clusters.md).
+On a Team Flock, setup joins this machine to a private network with **winglink**. The master uses the provider API key. A worker uses a `join-` code. Setup leaves **auto_start** off, prints the vLLM command, and does not start the engine. The master starts first. Workers join within 60 minutes of the master coming up. A worker does not serve HTTP. It joins the master. The flock stays offline after they join until vLLM finishes loading and the next health report lands. The status page shows **Flock**, **Nodes**, **Winglink IP**, and **Peers**. See [Team Flocks](../provider/team-flocks.md).
 
 If **auto_start** is on (the wizard turns this on when it finds the engine binary on a single-node machine), the client starts that engine when `llm_url` is down. It uses the serve flags already in `config.yaml` (including whether tool calling is on). It will not start a second copy if the port is already in use, and it will not pull fresh catalog flags at runtime. Re-run [setup](setup.md) after you change model or catalog flags.
 
@@ -44,7 +44,7 @@ Each check uses one request slot while it runs, and checks never run at the same
 
     Your provider stays online and can earn from ordinary inference requests while capability checks run. These checks determine whether you can also receive requests requiring additional features.
 
-The results also appear on the cluster page in the dashboard. See [Engine checks](../provider/cluster-checks.md).
+The results also appear on the flock page in the dashboard. See [Engine checks](../provider/flock-checks.md).
 
 ## Health monitoring
 
@@ -55,7 +55,7 @@ Every **3 minutes**, the client sends a health report to Flockadoo. It also send
 - Which engine serves them (vLLM, vLLM Metal, or llama.cpp) and its version, as the running engine reports it.
 - A GPU busy flag. See **When the client is busy** below.
 
-Flockadoo detects **cluster country** from the public IP of your connection. You do not send location from the client. See [Cluster location](../provider/cluster-location.md).
+Flockadoo detects **flock country** from the public IP of your connection. You do not send location from the client. See [Flock location](../provider/flock-location.md).
 
 You can also check status locally anytime (these URLs stay on your machine):
 
@@ -81,11 +81,11 @@ See [Configuration](configuration.md).
 
 ## Model pricing and registration
 
-**At startup**, the client discovers models on your local LLM server, looks up default prices from Flockadoo, and registers each model for **that cluster**.
+**At startup**, the client discovers models on your local LLM server, looks up default prices from Flockadoo, and registers each model for **that flock**.
 
 **Ongoing**, each health cycle checks for new models (for example after you re-run setup with a different approved model). New models are registered automatically — you do not need to restart the client.
 
-Initial prices come from platform averages. You set your own prices **per cluster** in the dashboard — see [Model pricing](../provider/model-pricing.md).
+Initial prices come from platform averages. You set your own prices **per flock** in the dashboard — see [Model pricing](../provider/model-pricing.md).
 
 Approved marketplace models must match a platform [approved model build](approved-models.md). The public catalog’s **`engines`** field lists which client (vLLM, vLLM Metal, llama.cpp) may serve that row. The client verifies the weight fingerprint against platform records before registration, health reporting, and inference.
 
@@ -93,15 +93,15 @@ The client reads the served model id and finds weights in the HuggingFace hub ca
 
 ## Inference requests
 
-When Flockadoo sends a request to your cluster:
+When Flockadoo sends a request to your flock:
 
 1. **Authentication** — Valid requests include a signed header; missing or invalid requests get **401 Unauthorized**.
 2. **Busy** — If every inference slot is full, and this is not a same-session follow-up, the client responds with **503** `{"error":"GPU is busy"}` so Flockadoo can try another provider. Same-session follow-ups can wait for the slot instead.
 3. **Proxy** — Valid requests are forwarded to your local LLM server. The client supports **POST /v1/chat/completions**, **POST /v1/completions**, and **POST /v1/embeddings**.
 
-## Multi-node clusters
+## Team Flocks
 
-Inference still arrives over the outbound connection to Flockadoo. Machines in one multi-node cluster also join a private network so they can run one model together. Other clusters are not on that network. See [Multi-node networking](../provider/multi-node-networking.md).
+Inference still arrives over the outbound connection to Flockadoo. Machines in one Team Flock also join a private network so they can run one model together. Other flocks are not on that network. See [Team Flock networking](../provider/Team Flock-networking.md).
 
 ## Connection to Flockadoo
 
@@ -111,7 +111,7 @@ On shutdown, the client closes the connection.
 
 ## Related
 
-- [Multi-node networking](../provider/multi-node-networking.md)
+- [Team Flock networking](../provider/Team Flock-networking.md)
 - [Setup wizard](setup.md)
 - [Configuration](configuration.md)
 - [FAQ](faq.md)

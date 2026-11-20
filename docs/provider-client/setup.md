@@ -16,7 +16,7 @@ If you have not installed the client yet, start with [Installation](../getting-s
 
 ## What the wizard asks
 
-1. **Provider API key or join code** — the prompt label. The key is on **My Clusters** → **Settings**. Required. See [Sign up and create a cluster](../getting-started/signup.md). A **join code** (`join-…`) goes in this same field. Setup then joins that multi-node cluster as a worker and does not ask you to pick an engine or a model. See [Joining a cluster](../provider/joining-a-cluster.md).
+1. **Provider API key or join code** — the prompt label. The key is on **My Flocks** → **Settings**. Required. See [Sign up and create a flock](../getting-started/signup.md). A **join code** (`join-…`) goes in this same field. Setup then joins that Team Flock as a worker and does not ask you to pick an engine or a model. See [Joining a flock](../provider/joining-a-flock.md).
 2. **Inference engine** — vLLM on Linux, vLLM Metal or llama.cpp on Apple Silicon, or llama.cpp on Windows.
 3. **Install if missing** — if the engine is not on the machine, the wizard offers to install it. On Linux, a GPU with compute capability **10.0** or higher (Blackwell, including RTX 50-series) also downloads FlashInfer kernels during the vLLM install. See [Setup: Linux](setup-linux.md).
 4. **Model** — fetches the approved catalog, **keeps only rows tagged for this engine** (`engines`), scores the rest against this GPU or unified memory, and lists rows that should fit (`runs_well`, `fits`, `tight`). Pick a number from the table. Windows only shows builds that include `llama_cpp`. See [Approved model builds](approved-models.md).
@@ -43,7 +43,7 @@ It then writes config (`engine`, `provider_type`, `llm_url`, `model`, `auto_star
 
 Intel Macs are not supported.
 
-On a multi-node cluster those ports are fixed. vLLM must stay on **8000** and llama.cpp on **8081**. See [Multi-node clusters](../provider/multi-node-clusters.md).
+On a Team Flock those ports are fixed. vLLM must stay on **8000** and llama.cpp on **8081**. See [Team Flocks](../provider/team-flocks.md).
 
 vLLM and vLLM Metal set **provider_type** to `vllm`. llama.cpp sets it to `llama_cpp`. Change engine with the wizard, not by editing YAML.
 
@@ -55,9 +55,9 @@ If you start an older vLLM yourself, the client prints a warning when it starts,
 
 First-run model download and load can take a long time. Setup waits up to **2 hours**. If the engine is still fetching weights, check `engine.log` under the [log directory](configuration.md#log-files) and re-run setup or start the client after it is up.
 
-On a multi-node cluster, that **2 hour** wait is the download. It is not the peer wait. The owner starts the master first. Once it is up, workers have **60 minutes** to join. If a worker is late, the engines stop. Start the master again, then the workers. See [Multi-node clusters](../provider/multi-node-clusters.md).
+On a Team Flock, that **2 hour** wait is the download. It is not the peer wait. The owner starts the master first. Once it is up, workers have **60 minutes** to join. If a worker is late, the engines stop. Start the master again, then the workers. See [Team Flocks](../provider/team-flocks.md).
 
-On a multi-node master or worker, setup leaves **auto_start** off. It prints the vLLM command and does not start the engine. A worker with no vLLM binary gets the install without an extra question. If the cluster has a **vLLM version** on **Nodes**, setup installs that release. It must be 0.30.0 or newer; setup stops on an older pin. A machine that already has a different release is asked before it is replaced. The wizard also downloads **winglink** and may ask for your password (`winglink needs root to create winglink0`).
+On a Team Flock master or worker, setup leaves **auto_start** off. It prints the vLLM command and does not start the engine. A worker with no vLLM binary gets the install without an extra question. If the flock has a **vLLM version** on **Nodes**, setup installs that release. It must be 0.30.0 or newer; setup stops on an older pin. A machine that already has a different release is asked before it is replaced. The wizard also downloads **winglink** and may ask for your password (`winglink needs root to create winglink0`).
 
 ## After the wizard
 
@@ -71,7 +71,7 @@ On Windows, use **Start Menu → Flockadoo → Flockadoo Client**. See [Setup: W
 
 When `auto_start` is on, later client starts will bring the engine up if `llm_url` is down — they replay the serve flags stored in config and will not spawn a second copy if that port is already in use.
 
-Then set prices on **My Clusters** → **Models**. See [Model pricing](../provider/model-pricing.md).
+Then set prices on **My Flocks** → **Models**. See [Model pricing](../provider/model-pricing.md).
 
 ## Non-interactive setup
 
