@@ -1,0 +1,9 @@
+# Where a retired name may stay (scripts/check_names.py): a path glob, a tab,
+# and a regular expression the line must match. An entry that allows nothing
+# fails the check, so this list only shrinks. Additions need review.
+
+# This list, which quotes the lines it allows.
+scripts/names-allow.txt	.
+
+# A provider's own Tailscale, beside Winglink.
+docs/provider-client/faq.md	your own tailnet

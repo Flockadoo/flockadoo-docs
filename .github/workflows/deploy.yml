@@ -26,6 +26,12 @@ jobs:
 
       - uses: astral-sh/setup-uv@v5
 
+      # The names from before Flockadoo (the rebrand plan, stage 6).
+      - name: Old names
+        run: |
+          python3 scripts/check_names.py --self-test
+          python3 scripts/check_names.py
+
       - name: Build
         run: uvx zensical@0.1.1 build --strict
 
