@@ -18,6 +18,16 @@ If you never save a commission, or no worker is **In the flock** yet, you keep t
 
 Machines marked **Waiting to join** are not in the split. Only workers marked **In the flock** are.
 
+## Set the member rate
+
+A Team Flock's **member rate** is what its active workers pay to call it, in percent of the listed price. At **100%** they pay the listed price, like anyone else. At **0%** the flock is free for them. Flockadoo's fee applies to what they pay. You pay nothing on your own flock, whatever the member rate.
+
+1. Open the Team Flock and go to **Settings**.
+2. Under **Member rate**, set a percent from 0 to 100.
+3. Click **Save member rate**.
+
+The member rate is shown on the flock's page and on its join page.
+
 ## Example
 
 For example, a payout of **$100** on **flockadoo-flock1**, with commission **10%** and **two** active workers:
@@ -55,3 +65,5 @@ Prices buyers pay are still the prices on the flock **Models** tab. Commission d
 - [Team Flocks](team-flocks.md)
 - [Inviting nodes](inviting-nodes.md)
 - [Joining a flock](joining-a-flock.md)
+
+If a customer reaches your flock through a [flock address](flock-addresses.md), the fee can be lower; that page has the table.
