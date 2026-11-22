@@ -25,6 +25,7 @@ nav = [
     { "Request routing options" = "consumer/request-routing-options.md" },
     { "Supported parameters" = "consumer/supported-parameters.md" },
     { "Automatic model selection" = "consumer/automatic-model-selection.md" },
+    { "Using a flock address" = "consumer/flock-addresses.md" },
   ] },
   { "Provider (dashboard)" = [
     { "Deleting and managing flocks" = "provider/deleting-flocks.md" },
@@ -35,6 +36,7 @@ nav = [
     { "Inviting nodes" = "provider/inviting-nodes.md" },
     { "Joining a flock" = "provider/joining-a-flock.md" },
     { "Flock earnings" = "provider/flock-earnings.md" },
+    { "Flock addresses" = "provider/flock-addresses.md" },
     { "Engine checks" = "provider/flock-checks.md" },
   ] },
   { "Provider client" = [
