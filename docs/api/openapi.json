@@ -106,6 +106,27 @@
                 }
             }
         },
+        "/api/models/fees": {
+            "get": {
+                "description": "The platform fee, the direct fee for a flock address owner's own flock, the address owner's referral share, and the price of a standard flock address, as set now",
+                "tags": [
+                    "Models"
+                ],
+                "summary": "Platform fees",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ai_applications.Fees"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/models/market": {
             "get": {
                 "description": "Public GPU market. One card per provider that can take traffic. No api_url or usernames.",
@@ -663,6 +684,23 @@
                     }
                 }
             },
+            "ai_applications.Fees": {
+                "type": "object",
+                "properties": {
+                    "address_price": {
+                        "type": "string"
+                    },
+                    "direct_fee_percent": {
+                        "type": "number"
+                    },
+                    "fee_percent": {
+                        "type": "number"
+                    },
+                    "referral_share_percent": {
+                        "type": "number"
+                    }
+                }
+            },
             "ai_applications.MarketBenchmark": {
                 "type": "object",
                 "properties": {
@@ -700,6 +738,13 @@
             "ai_applications.MarketProvider": {
                 "type": "object",
                 "properties": {
+                    "addresses": {
+                        "description": "Addresses are the flock addresses that route to this flock, as full\nhosts (name.flock.flockadoo.ai).",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
                     "benchmark_concurrency": {
                         "type": "integer"
                     },
@@ -723,6 +768,10 @@
                     },
                     "location": {
                         "type": "string"
+                    },
+                    "member_price_percent": {
+                        "description": "MemberPricePercent is what the flock's active workers pay, in percent\nof the listed price (Team Flocks).",
+                        "type": "number"
                     },
                     "models": {
                         "type": "array",
@@ -750,6 +799,13 @@
             "ai_applications.MarketProviderDetail": {
                 "type": "object",
                 "properties": {
+                    "addresses": {
+                        "description": "Addresses are the flock addresses that route to this flock, as full\nhosts (name.flock.flockadoo.ai).",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
                     "benchmark": {
                         "$ref": "#/components/schemas/ai_applications.MarketBenchmark"
                     },
@@ -776,6 +832,10 @@
                     },
                     "location": {
                         "type": "string"
+                    },
+                    "member_price_percent": {
+                        "description": "MemberPricePercent is what the flock's active workers pay, in percent\nof the listed price (Team Flocks).",
+                        "type": "number"
                     },
                     "models": {
                         "type": "array",
