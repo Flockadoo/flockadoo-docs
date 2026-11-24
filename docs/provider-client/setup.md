@@ -2,7 +2,7 @@
 
 The install script places the binary, then runs **`flockadoo setup`**. That wizard is how you pick an engine, install it if it is missing, choose an [approved model](approved-models.md) that fits this machine, and write `~/.config/flockadoo/config.yaml`.
 
-You do **not** install vLLM, vLLM Metal, or llama.cpp by hand. The wizard does that, then can start the engine and wait for the first model download.
+You do **not** install vLLM, vLLM Metal, or llama.cpp by hand. The wizard does that, downloads the model at its approved commit, then can start the engine.
 
 Re-run anytime you want to change engine, model, or API key:
 
@@ -20,7 +20,7 @@ If you have not installed the client yet, start with [Installation](../getting-s
 2. **Inference engine** — vLLM on Linux, vLLM Metal or llama.cpp on Apple Silicon, or llama.cpp on Windows.
 3. **Install if missing** — if the engine is not on the machine, the wizard offers to install it. On Linux, a GPU with compute capability **10.0** or higher (Blackwell, including RTX 50-series) also downloads FlashInfer kernels during the vLLM install. See [Setup: Linux](setup-linux.md).
 4. **Model** — fetches the approved catalog, **keeps only rows tagged for this engine** (`engines`), scores the rest against this GPU or unified memory, and lists rows that should fit (`runs_well`, `fits`, `tight`). Pick a number from the table. Windows only shows builds that include `llama_cpp`. See [Approved model builds](approved-models.md).
-5. **Start now** — can serve the model, then wait until the engine is healthy.
+5. **Start now** — downloads the model at its approved commit, with progress and a disk-space check, then starts the engine on it and waits until it is healthy. If you say no, download it later with `flockadoo model download`. See [Downloading models](downloading-models.md).
 
 It then writes config (`engine`, `provider_type`, `llm_url`, `model`, `auto_start`, `engine_bin`, and any catalog serve flags such as `max_model_len`) and prints how to start the client.
 
@@ -53,11 +53,11 @@ vLLM and vLLM Metal need release **0.30.0** or newer. Setup reads the release th
 
 If you start an older vLLM yourself, the client prints a warning when it starts, offers no models to Flockadoo, and refuses requests until you upgrade. Run `flockadoo setup` to install a supported release. llama.cpp has no minimum.
 
-First-run model download and load can take a long time. Setup waits up to **2 hours**. If the engine is still fetching weights, check `engine.log` under the [log directory](configuration.md#log-files) and re-run setup or start the client after it is up.
+The download runs before the engine starts and shows its progress. A 20 to 60 GB model can take a while. Loading the model can also take a few minutes; setup waits up to **2 hours** for the engine. If it is still not up, check `engine.log` under the [log directory](configuration.md#log-files) and re-run setup or start the client after it is up.
 
-On a Team Flock, that **2 hour** wait is the download. It is not the peer wait. The owner starts the master first. Once it is up, workers have **60 minutes** to join. If a worker is late, the engines stop. Start the master again, then the workers. See [Team Flocks](../provider/team-flocks.md).
+On a Team Flock, that **2 hour** wait is for the engine to load. It is not the peer wait. The owner starts the master first. Once it is up, workers have **60 minutes** to join. If a worker is late, the engines stop. Start the master again, then the workers. See [Team Flocks](../provider/team-flocks.md).
 
-On a Team Flock master or worker, setup leaves **auto_start** off. It prints the vLLM command and does not start the engine. A worker with no vLLM binary gets the install without an extra question. If the flock has a **vLLM version** on **Nodes**, setup installs that release. It must be 0.30.0 or newer; setup stops on an older pin. A machine that already has a different release is asked before it is replaced. The wizard also downloads **winglink** and may ask for your password (`winglink needs root to create winglink0`).
+On a Team Flock master or worker, setup leaves **auto_start** off. It downloads the commit the flock serves, then prints the vLLM command and does not start the engine. Every machine in the flock serves the same commit; see [Downloading models](downloading-models.md#team-flocks). A worker with no vLLM binary gets the install without an extra question. If the flock has a **vLLM version** on **Nodes**, setup installs that release. It must be 0.30.0 or newer; setup stops on an older pin. A machine that already has a different release is asked before it is replaced. The wizard also downloads **winglink** and may ask for your password (`winglink needs root to create winglink0`).
 
 ## After the wizard
 
