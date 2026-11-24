@@ -1081,6 +1081,13 @@
                         "description": "RecommendedConcurrency is how many requests this model should handle\nat once on a typical GPU. NULL means the client uses its engine default.",
                         "type": "integer"
                     },
+                    "revisions": {
+                        "description": "Revisions are the build's live revisions, the current one first (model\nrevisions S3): the commit a provider downloads and the one before it,\nstill accepted. A merged card holds each engine's. Never their hashes.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/modelverify.CatalogRevision"
+                        }
+                    },
                     "rope_base_context_len": {
                         "type": "integer"
                     },
@@ -1112,6 +1119,33 @@
                     },
                     "transaction_count": {
                         "type": "integer"
+                    }
+                }
+            },
+            "modelverify.CatalogRevision": {
+                "type": "object",
+                "properties": {
+                    "gated": {
+                        "type": "boolean"
+                    },
+                    "gguf_file": {
+                        "type": "string"
+                    },
+                    "hf_repo": {
+                        "type": "string"
+                    },
+                    "hf_revision": {
+                        "type": "string"
+                    },
+                    "service_type": {
+                        "type": "string"
+                    },
+                    "size_bytes": {
+                        "description": "SizeBytes is the revision's weights (min_size_bytes): the disk a\ndownload needs, before the client's margin.",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "type": "string"
                     }
                 }
             },
