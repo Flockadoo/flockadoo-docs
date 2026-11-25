@@ -8,7 +8,7 @@ Verification secrets (fingerprints and manifests) are **not** published. The cli
 
 **GET** `/api/models/approved-builds`
 
-No authentication. Returns only **active** builds and **no hashes**. Safe sizing metadata such as `min_size_bytes` may be included so the client can run a local [compatibility check](compatibility.md). Each row also lists **`engines`**: which client runtimes may serve that build. Fingerprints and manifests are never returned.
+No authentication. Returns only **active** builds and **no hashes**. Safe sizing metadata such as `min_size_bytes` may be included so the client can run a local [compatibility check](compatibility.md). Each row also lists **`engines`**: which client runtimes may serve that build, and **`revisions`**: the Hugging Face commits you may serve. Fingerprints and manifests are never returned.
 
 Optional query:
 
@@ -41,7 +41,10 @@ curl -s https://core.flockadoo.ai/api/models/approved-builds | jq .
       "rope_base_context_len": 32768,
       "rope_theta": 1000000,
       "kv_cache_bytes_per_token": 57344,
-      "engines": ["vllm", "vllm-metal"]
+      "engines": ["vllm", "vllm-metal"],
+      "revisions": [
+        {"service_type": "vllm", "hf_repo": "Qwen/Qwen2.5-7B-Instruct", "hf_revision": "a09a35458c702b33eeacc393d103063234e8bc28", "status": "current", "gated": false, "size_bytes": 15242760416}
+      ]
     },
     {
       "id": "c3d9f2a1-2345-6789-abcd-ef1234567890",
@@ -65,7 +68,8 @@ curl -s https://core.flockadoo.ai/api/models/approved-builds | jq .
 | `alias` | Model id to use with Flockadoo and your LLM server |
 | `service_type` | `vllm` or `llama_cpp`. vLLM Metal uses `vllm` |
 | `hf_repo` | HuggingFace repo id (`org/name`) for vLLM downloads |
-| `hf_ref` | Branch or tag to download (for example `main`) |
+| `hf_ref` | Always `main`, for clients from before revisions. Current clients use `revisions` |
+| `revisions` | The commits you may serve: `hf_revision` (the full commit SHA), `hf_repo`, `gguf_file` on `llama_cpp` rows, `status` (`current` for new downloads, or `accepted`, the one before it), `gated` and `size_bytes`. A card that has both engines lists both engines' revisions, each with its `service_type`. See [Downloading models](downloading-models.md) |
 | `min_size_bytes` | Measured minimum model weight size used by the local compatibility check |
 | `engines` | Client runtimes allowed to serve this build: `vllm`, `vllm-metal`, `llama_cpp` |
 | `gguf_file` | llama.cpp filename, for example `qwen2.5-7b-instruct-q4_k_m.gguf`. Present on `llama_cpp` rows |
@@ -97,7 +101,7 @@ Windows clients fetch `?service_type=llama_cpp`. That response includes `gguf_fi
 
 Default product target for extended models is **128k** (`131072`). Ops can set a higher value per alias when VRAM allows.
 
-The [setup wizard](setup.md) fetches this catalog, **drops rows this engine cannot serve**, scores the rest against this machine (including KV for `max_model_len` when set), and downloads the model you pick.
+The [setup wizard](setup.md) fetches this catalog, **drops rows this engine cannot serve**, scores the rest against this machine (including KV for `max_model_len` when set), and downloads the model you pick at its current commit. See [Downloading models](downloading-models.md).
 
 Health checks refresh this catalog to verify weights and live context. They do **not** rewrite `config.yaml` or restart the engine with new flags. If you start the engine yourself, match the catalog row — or re-run setup. See [Setup wizard](setup.md).
 
@@ -105,8 +109,8 @@ Consumers call Flockadoo with the catalog **`alias`**. For example, `Qwen/Qwen2.
 
 ## How verification works
 
-1. Client fetches the **public catalog** (names, HuggingFace location, `engines`, and optional serve flags).
-2. Client measures the local weight fingerprint.
+1. Client fetches the **public catalog** (names, HuggingFace location, `engines`, `revisions`, and optional serve flags).
+2. Client measures the files of the commit it serves.
 3. Client calls **POST** `/api/provider/verify-model` with your **provider API key**.
 4. Platform compares measurements to internal records and returns `verification_status`.
 5. The client also reads the **live** engine context. If it is lower than the catalog `max_model_len` (or unreadable), verification is **failed** and the model is not approved for routing.
@@ -124,7 +128,7 @@ If you start the engine yourself, keep the settings in this table. Changing them
 | Setting | vLLM and vLLM Metal | llama.cpp |
 |---------|---------------------|-----------|
 | Served model id | The id in `GET /v1/models` must be the catalog `alias`. For example, `Qwen/Qwen2.5-7B-Instruct`. | The `--alias` you pass must be the catalog `alias`. |
-| Weights | Serve `hf_repo` at `hf_ref`. A different repo, revision, quant, or finetune fails. | Serve the catalog `gguf_file`. A different file fails. |
+| Weights | Serve `hf_repo` at a commit listed in `revisions` (`--revision`), current or accepted. Any other commit, repo, quant, or finetune fails. | Serve the catalog `gguf_file` from a listed commit. A different file fails. |
 | Context | `--max-model-len` must be **at least** the catalog `max_model_len`. A higher value is fine. A lower value fails. | `-c` must be **at least** the catalog `max_model_len`. A higher value is fine. A lower value fails. |
 | YaRN | When the row sets `rope_type`, keep the `--hf-overrides` from setup exactly as printed. It replaces the model's RoPE settings, so it must carry `rope_theta`. Without it the engine does not reach that context, and verification fails. | RoPE fields are ignored. |
 
@@ -144,6 +148,7 @@ You do not need to call the verify API manually for day-to-day operation.
 ## Related
 
 - [Setup wizard](setup.md)
+- [Downloading models](downloading-models.md)
 - [Model compatibility check](compatibility.md)
 - [How it works](how-it-works.md)
 - [FAQ](faq.md)

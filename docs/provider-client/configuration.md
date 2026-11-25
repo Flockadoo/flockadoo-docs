@@ -23,7 +23,8 @@ Prefer **`flockadoo setup`** to change engine, model, or API key — see the [se
   - **llm_url** — Local LLM API URL. For example, `http://127.0.0.1:8000` for vLLM and vLLM Metal, or `http://127.0.0.1:8081` for llama.cpp.
   - **gguf_file** — llama.cpp filename from the catalog, for example `qwen2.5-7b-instruct-q4_k_m.gguf`. Setup writes this.
   - **llm_timeout_seconds** — Timeout for requests forwarded to the local engine (default **120**).
-  - **hf_hub_cache** — (vLLM, optional) HuggingFace hub cache directory. Default: `~/.cache/huggingface/hub`. The client uses this to find weights for the model vLLM is serving.
+  - **hf_revision** — The Hugging Face commit the client serves. Setup and `flockadoo model download` write it; on a Team Flock the platform sets it. See [Downloading models](downloading-models.md).
+  - **hf_hub_cache** — Going away: it only told the verifier where to look, not `hf` or the engine, and the client warns when it is set. Remove it and set the `HF_HUB_CACHE` environment variable instead. See [Where models go](downloading-models.md#where-models-go).
   - **model_path** — (vLLM, optional) Flat directory override when you use `hf download --local-dir` instead of the hub cache layout.
   - **hf_repo** — (optional) HuggingFace id when it differs from **model**. Setup writes this from the catalog.
   - **tool_call_parser**, **max_model_len**, **rope_type**, **rope_base_context_len**, **rope_theta** — (optional) Catalog serve flags copied by setup so auto-start can rebuild the same engine command offline. Every catalog row has a `max_model_len`, so setup always writes it. Missing `tool_call_parser` means start **without** tool calling. The three RoPE fields are set together or not at all; a config with `rope_type` and no `rope_theta` does not start the engine and asks you to re-run setup. Changing these by hand does not update a running engine — stop it and re-run setup. See [Approved model builds](approved-models.md).
