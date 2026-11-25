@@ -55,7 +55,7 @@ A model you downloaded before installing Flockadoo is reused when it is at an ap
 
 !!! warning
 
-    The `hf_hub_cache` option in `config.yaml` is going away. It only told the verifier where to look, not `hf` or the engine. The client warns when it is set. Remove it and set `HF_HUB_CACHE` instead.
+    The `hf_hub_cache` option in `config.yaml` is gone: it only ever told the verifier where to look, not `hf` or the engine. A line left in your config is ignored, and the client warns about it. Remove it and set `HF_HUB_CACHE` instead.
 
 Run `flockadoo model download` as the same user that runs the client. Run as root without `HF_HUB_CACHE`, it refuses: the model would land in root's home, where the client never looks.
 
