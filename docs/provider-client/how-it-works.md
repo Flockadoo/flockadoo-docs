@@ -89,7 +89,7 @@ Initial prices come from platform averages. You set your own prices **per flock*
 
 Approved marketplace models must match a platform [approved model build](approved-models.md). The public catalog’s **`engines`** field lists which client (vLLM, vLLM Metal, llama.cpp) may serve that row. The client verifies the weight fingerprint against platform records before registration, health reporting, and inference.
 
-The client reads the served model id and finds weights in the HuggingFace hub cache using the approved `hf_ref`. Optional **`hf_hub_cache`** or **`model_path`** only if your layout is non-standard.
+The client reads the served model id and finds the weights of the commit it serves in the Hugging Face cache, the same folder `hf` downloads to and the engine serves from. Set `HF_HUB_CACHE` to move that folder, or **`model_path`** for a flat folder of weights. See [Where models go](downloading-models.md#where-models-go).
 
 ## Inference requests
 
