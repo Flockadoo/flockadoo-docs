@@ -77,7 +77,13 @@ The client checked the model against the memory free right now and did not start
 Qwen/Qwen2.5-14B-Instruct needs about 14.80 GiB to start at a 32,768-token context; 10.00 GiB of GPU memory is free.
 ```
 
-The need is the model's weights plus room for one request at the model's full context. On a machine whose GPU shares memory with the CPU, such as a DGX Spark (GB10), vLLM may use only a share of the memory; see [What is the Memory share line?](#what-is-the-memory-share-line).
+The need is the model's weights plus room for one request at the model's full context. On a machine whose GPU shares memory with the CPU, such as a DGX Spark (GB10), vLLM may use only a share of the memory; see [What is the Memory share line?](#what-is-the-memory-share-line). On a Mac (from client 0.48.3) the model must fit the memory macOS reports as available, the same figure vLLM Metal sizes itself to:
+
+```
+Qwen/Qwen2.5-14B-Instruct needs about 14.80 GiB to start at a 32,768-token context; 6.56 GiB of memory (shared by the CPU and GPU) is free.
+```
+
+The message stays on the status page as **Engine not ready** (from client 0.48.2); see [What is the Engine not ready line?](#what-is-the-engine-not-ready-line).
 
 To start the model, free memory, then start the client again:
 
@@ -87,7 +93,7 @@ To start the model, free memory, then start the client again:
 
 Do not lower the context below the catalog's `max_model_len`. The model would start, but verification fails and Flockadoo does not route to it. See [Which flags change verification](approved-models.md#which-flags-change-verification).
 
-When the client cannot tell, it starts the engine as before. That is the case on a Mac, which does not report free memory yet, with several GPUs, on a Team Flock, or when the model catalog cannot be read.
+When the client cannot tell, it starts the engine as before. That is the case with several GPUs, on a Team Flock, when the model catalog cannot be read, or on a Mac whose free memory cannot be read (before client 0.48.3, Macs were never checked).
 
 ### "vLLM did not start: it asks for … and only … is free"
 
@@ -98,11 +104,21 @@ vLLM did not start: it asks for 112.11 GiB (0.92 of the 121.86 GiB on cuda:0) an
 ```
 
 - **Dedicated GPU:** another program is using GPU memory. Check `nvidia-smi`, and close it.
-- **GB10:** from client 0.48.0, the client gives vLLM a share that fits the free memory. If you still see this, check that `engine_args` in your config does not set its own `--gpu-memory-utilization`. The client keeps a value you set.
+- **GB10:** from client 0.48.0, the client gives vLLM a share that fits the free memory. If you still see this, check that `engine_args` in your config does not set its own `--gpu-memory-utilization`. The client keeps a value you set. (vLLM 0.34 on a GB10 no longer refuses here: it starts and fits its cache into the memory that is free.)
 
 ### "vLLM ran out of memory on this Mac's GPU"
 
 vLLM Metal ran out of memory while it loaded the model. The CPU, macOS and every app share the Mac's memory. Close other apps, stop leftover vLLM engine processes, or choose a smaller model.
+
+### "vLLM did not start: one request at the model's … context needs … of KV cache"
+
+From client 0.48.3. vLLM loaded the model, but the memory left over cannot hold the cache for even one request at the model's full context. For example:
+
+```
+vLLM did not start: one request at the model's 8,192-token context needs 0.88 GiB of KV cache, and only 0.53 GiB is left for it after loading the model.
+```
+
+Close other programs (and any leftover vLLM engine process), or choose a smaller model. vLLM's own log suggests lowering `max_model_len`. Do not: a context below the catalog's fails verification. If you set `--gpu-memory-utilization` in `engine_args` yourself, a value that is too low causes this too.
 
 ### "A vLLM engine process with no API server is holding memory"
 
@@ -122,6 +138,8 @@ ps -o pid,ppid,etime,rss,command -p 41467
 
 If `kill` does not stop it within a few seconds, use `kill -9 41467`. A vLLM that is running normally, however you started it, is never reported.
 
+On a Mac, an orphan that has been idle a long time may show **memory paged out** instead of a size (from client 0.48.3). macOS has moved its memory to the compressor or to swap. It still holds that memory, so stop it all the same.
+
 ### What is the Memory share line?
 
 On a machine whose GPU shares memory with the CPU, such as a DGX Spark (GB10), the status page shows **Memory share**. For example, `0.81 of 121.86 GiB, chosen at start (105.25 GiB was free)`.
@@ -130,7 +148,13 @@ vLLM's default asks for 0.92 of the total memory. With a desktop running, that m
 
 - **The share can change between starts.** A smaller share means room for fewer requests at once. If it drops by more than 0.05, the client lowers its concurrency limit and benchmarks again.
 - **To fix the share yourself,** put `--gpu-memory-utilization` in `engine_args`. The line then says **set in the engine command**.
-- **No line** on a dedicated GPU, a Mac, or llama.cpp: those start as before.
+- **No line** on a dedicated GPU, a Mac, or llama.cpp: those start as before. On a Mac, vLLM Metal already fits its cache into the memory that is free, so the client does not give it a share.
+
+### What is the Engine not ready line?
+
+From client 0.48.2. When the client could not start the engine, the status page shows why in a red **Engine not ready** line, for example a model that does not fit the free memory, or one of vLLM's memory refusals above. The same text is in the client's log (`~/.local/state/flockadoo/log/flockadoo.log`) and in `/api/status` as `engine_not_ready`.
+
+The line goes away once the engine serves a model, for example after you free memory and start it again.
 
 ### vLLM crashes at startup with "Could not find nvcc"
 

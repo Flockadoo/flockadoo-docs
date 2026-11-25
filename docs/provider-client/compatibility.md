@@ -15,7 +15,7 @@ On Windows, `compatibility` lists `llama_cpp` builds. On macOS the default is **
 | **Linux + NVIDIA** | `nvidia-smi` for GPU name, driver, CUDA, VRAM total/free |
 | **Linux + NVIDIA GB10 (DGX Spark)** | `nvidia-smi` for GPU name, driver, CUDA. The GPU shares memory with the CPU and `nvidia-smi` reports it as `[N/A]`, so total and free memory come from the system, as unified memory |
 | **Windows + NVIDIA** | `nvidia-smi` (same as Linux) when the NVIDIA driver is on `PATH` |
-| **macOS (Apple Silicon)** | `system_profiler` for GPU name; unified memory from system RAM |
+| **macOS (Apple Silicon)** | `system_profiler` for GPU name; unified memory from system RAM; free memory from `vm_stat` (from client 0.48.3) |
 | **CPU-only / Windows without NVIDIA** | System RAM with a slow/CPU warning |
 
 Intel Macs are not supported.
