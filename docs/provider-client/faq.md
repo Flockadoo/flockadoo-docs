@@ -69,6 +69,69 @@ A reinstall takes several minutes. A worker install does not ask. `--yes` also a
 
 The vLLM or vLLM Metal that is running is older than 0.30.0. Until it is upgraded, the client offers no models to Flockadoo and refuses requests that reach it, so you earn nothing from this machine. Stop the engine and run `flockadoo setup`; it installs the current release. vLLM before 0.30 handles the long-context (YaRN) settings differently and would serve some models past their limit with wrong output.
 
+### "needs about … to start; … is free"
+
+The client checked the model against the memory free right now and did not start the engine, because the model would not fit. For example:
+
+```
+Qwen/Qwen2.5-14B-Instruct needs about 14.80 GiB to start at a 32,768-token context; 10.00 GiB of GPU memory is free.
+```
+
+The need is the model's weights plus room for one request at the model's full context. On a machine whose GPU shares memory with the CPU, such as a DGX Spark (GB10), vLLM may use only a share of the memory; see [What is the Memory share line?](#what-is-the-memory-share-line).
+
+To start the model, free memory, then start the client again:
+
+- **Close other programs that use the GPU.** On a GB10 or a Mac, that includes desktop apps and browsers, because they use the same memory. On Linux, `nvidia-smi` lists the processes using a dedicated GPU.
+- **Stop leftover vLLM engine processes.** If the client found any, the message names them with the command to stop them. See ["A vLLM engine process with no API server is holding memory"](#a-vllm-engine-process-with-no-api-server-is-holding-memory).
+- **Or choose a smaller model** with `flockadoo setup`. `flockadoo compatibility` shows which models fit this machine.
+
+Do not lower the context below the catalog's `max_model_len`. The model would start, but verification fails and Flockadoo does not route to it. See [Which flags change verification](approved-models.md#which-flags-change-verification).
+
+When the client cannot tell, it starts the engine as before. That is the case on a Mac, which does not report free memory yet, with several GPUs, on a Team Flock, or when the model catalog cannot be read.
+
+### "vLLM did not start: it asks for … and only … is free"
+
+vLLM reserves a share of the GPU's total memory when it starts, 0.92 by default, and refuses to start if that much is not free. The client found vLLM's refusal in the engine log and shows its numbers. For example:
+
+```
+vLLM did not start: it asks for 112.11 GiB (0.92 of the 121.86 GiB on cuda:0) and only 105.25 GiB is free.
+```
+
+- **Dedicated GPU:** another program is using GPU memory. Check `nvidia-smi`, and close it.
+- **GB10:** from client 0.48.0, the client gives vLLM a share that fits the free memory. If you still see this, check that `engine_args` in your config does not set its own `--gpu-memory-utilization`. The client keeps a value you set.
+
+### "vLLM ran out of memory on this Mac's GPU"
+
+vLLM Metal ran out of memory while it loaded the model. The CPU, macOS and every app share the Mac's memory. Close other apps, stop leftover vLLM engine processes, or choose a smaller model.
+
+### "A vLLM engine process with no API server is holding memory"
+
+vLLM runs as two processes: the server that takes requests, and an engine process called `VLLM::EngineCore`. If the server is killed hard (`kill -9`, the system running out of memory, a crash), the engine process can keep running and keep its memory. It cannot serve anything.
+
+Before it starts an engine, the client looks for such processes of your user. It never stops one, because it could be yours to keep. It shows the process with its memory, its age and the command to stop it. For example:
+
+```
+A vLLM engine process with no API server is holding memory (pid 41467, 5.8 GiB, running 7 days 18 hours). It is probably left over from a vLLM that was killed. If it is not yours to keep, stop it with: kill 41467
+```
+
+The same line is on the status page as **Orphaned engines**. To look at the process first:
+
+```bash
+ps -o pid,ppid,etime,rss,command -p 41467
+```
+
+If `kill` does not stop it within a few seconds, use `kill -9 41467`. A vLLM that is running normally, however you started it, is never reported.
+
+### What is the Memory share line?
+
+On a machine whose GPU shares memory with the CPU, such as a DGX Spark (GB10), the status page shows **Memory share**. For example, `0.81 of 121.86 GiB, chosen at start (105.25 GiB was free)`.
+
+vLLM's default asks for 0.92 of the total memory. With a desktop running, that much is rarely free, and vLLM refuses to start. So right before each start, the client gives vLLM the share that fits the free memory, minus a margin for the system (4 GiB or 5%, whichever is larger).
+
+- **The share can change between starts.** A smaller share means room for fewer requests at once. If it drops by more than 0.05, the client lowers its concurrency limit and benchmarks again.
+- **To fix the share yourself,** put `--gpu-memory-utilization` in `engine_args`. The line then says **set in the engine command**.
+- **No line** on a dedicated GPU, a Mac, or llama.cpp: those start as before.
+
 ### vLLM crashes at startup with "Could not find nvcc"
 
 vLLM tried to compile the FlashInfer sampling kernel on first start. The machine has a GPU driver and no CUDA compiler (`nvcc`). Rented GPU boxes often look like this.
