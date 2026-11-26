@@ -132,6 +132,15 @@ vLLM's default asks for 0.92 of the total memory. With a desktop running, that m
 - **To fix the share yourself,** put `--gpu-memory-utilization` in `engine_args`. The line then says **set in the engine command**.
 - **No line** on a dedicated GPU, a Mac, or llama.cpp: those start as before.
 
+### What does unified memory mean on the dashboard?
+
+On a Mac with Apple Silicon or a DGX Spark (NVIDIA GB10), the GPU has no memory of its own. It shares the machine's memory with the CPU. The dashboard labels that machine's GPU memory **unified**, for example `97.5 GB unified`. The figure is the part of the machine's memory the GPU can use, not memory on a graphics card:
+
+- **DGX Spark (GB10):** 0.80 of the machine's memory, the same share the client uses to decide which models fit. In use is what the whole machine is using, up to that figure.
+- **Mac:** Metal's limit, about 2/3 of the RAM up to 36 GiB and 3/4 above that.
+
+A dedicated GPU shows its own memory (VRAM), with no label. The label needs client 0.49.0 or later. Before 0.49.0 a DGX Spark showed no GPU memory, because `nvidia-smi` reports it as N/A.
+
 ### vLLM crashes at startup with "Could not find nvcc"
 
 vLLM tried to compile the FlashInfer sampling kernel on first start. The machine has a GPU driver and no CUDA compiler (`nvcc`). Rented GPU boxes often look like this.

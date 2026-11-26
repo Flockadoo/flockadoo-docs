@@ -29,7 +29,9 @@ Default config: `~/.config/flockadoo/config.yaml`. Logs: `~/.local/state/flockad
 
 ## Apple GPU monitoring
 
-On macOS the client reports basic GPU information (model name and core count). It does **not** report GPU memory or utilization, so load from other processes does not set the health-report busy flag. A request in flight still does (default one at a time). See [How it works](how-it-works.md).
+On macOS the client reports the GPU's model name and core count, its utilization, and its memory. A Mac's memory is **unified memory**: the CPU and GPU share it. The client reports the part the GPU may use, which is Metal's limit: about 2/3 of the RAM up to 36 GiB, and 3/4 above that. It also reports how much of that is in use. From client 0.49.0 the dashboard labels that figure **unified**. See [What does unified memory mean on the dashboard?](faq.md#what-does-unified-memory-mean-on-the-dashboard).
+
+Utilization above **20%** marks the GPU busy in the health report, as on Linux. Routing does not use that flag. A request in flight marks the client busy (default one at a time). See [How it works](how-it-works.md).
 
 On Linux with NVIDIA, the health report also marks the GPU busy when utilization is above **20%**. See [Setup: Linux](setup-linux.md).
 
