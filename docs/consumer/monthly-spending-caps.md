@@ -31,7 +31,7 @@ Because of that, if many requests are sent at the same time right as you approac
 
 **Each key has its own cap.** If you use several API keys, set a cap on each one you want to limit. There is no single account-wide cap in the dashboard today.
 
-**You still need balance in your account.** The monthly cap is an extra limit on top of your wallet. New requests also require at least **$1.00** available; below that you get HTTP **402** `Insufficient funds` even when you are under the cap. You can also turn on a [low balance email](../email-notifications.md) in Account Settings.
+**You still need balance in your account.** The monthly cap is an extra limit on top of your wallet. A new request needs at least **$1.00** available, or the most it could cost if that is more ([what a request holds](using-the-api.md#what-a-request-holds)). Below that you get HTTP **402** `Insufficient funds` even when you are under the cap. You can also turn on a [low balance email](../email-notifications.md) in Account Settings.
 
 **Uncapped keys are unchanged.** Keys with the cap turned off behave as before; only keys with the cap enabled are limited.
 
